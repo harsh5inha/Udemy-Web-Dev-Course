@@ -1,0 +1,165 @@
+VERSION CONTROL & VIM
+Version control is the process of saving checkpoint in your code.
+
+Vim is a text editor that can be used within the terminal. Well actually Vim is
+designed for use both from a command-line interface and as a standalone
+application in a graphical user interface. Vim allows you to be efficient by
+forcing you to only use the keyboard, and then giving you the ability to use
+existing keyboard shortcuts as well as customize and create new ones for
+completing repetitive tasks quickly. It's available on basically every major
+platform: Mac, Windows, Linux. however, there is a high learning curve.
+
+Vim has two modes.
+1. Insert mode (Where you can just type like normal text editor. Press i for insert mode)
+2. Command mode (Where you give commands to the editor to get things done . Press ESC for command mode)
+Most of them below are in command mode
+
+x - to delete the unwanted character
+u - to undo the last the command and U to undo the whole line
+CTRL-R to redo
+A - to append text at the end
+:wq - to save and exit
+:q! - to trash all changes
+dw - move the cursor to the beginning of the word to delete that word
+2w - to move the cursor two words forward.
+3e - to move the cursor to the end of the third word forward.
+0 (zero) to move to the start of the line.
+d2w - which deletes 2 words .. number can be changed for deleting the number of consecutive words like d3w
+dd - to delete the line and 2dd to delete to line .number can be changed for deleting the number of consecutive words
+
+:wq is a (case-sensitive) combination of keystrokes popular among Linux
+programmers that will save the file and then exit the program. Sometimes used
+as a way of say "I'm done" or "Finished" after making a statement. You use it
+in VIM.
+
+GIT
+By default, Git is installed on Linux and macOS computers as a command line
+option. However, Microsoft Windows does not include a Git command.
+
+To initialize a Git repo we write `git init`, and it'll initialize an empty Git
+repository. You won't be able to see it because it's saved in your directory
+(whatever your working directory is) as `.git`, so it's a hidden directory.
+
+Your "staging area" is a place where you can add files so that you can
+track changes to them. It's basically an intermediate location where you can
+pick and choose which files in your working directory that you want to
+eventually commit.
+
+You can use `git status` to see what's currently inside your staging area.
+Untracked or modified files will be shown in red. These are files that are inside your
+working directory that are not yet in the staging area. To add it to the staging
+area, we use the command `git add *filename*`. Files that are green, are those
+that have been newly added and are ready to be committed. To add all files in
+the directory just do `git add .`
+
+You commit by using the command `git commit -m "Complete Chapter 1"`. The -m is
+a flag that allows you to commit a message. These messages are really important.
+They help you keep track of the changes you make in each commit, so you want to
+be as specific as possible. It's general practice to write your messages in the
+present, imperative tense. As if you are giving orders to the codebase to change
+its behavior. It's for consistency and so that in a truly distributed and
+collaborative project, people will know what applying the commit WILL DO. Not
+what WAS DONE. There's some debate about this though, some people prefer past
+tense.
+
+You can use `git log` to see what commits have been made, when, and the commit
+message.
+
+You can use `git diff *filename*` to see what differences there are between the
+current file you're editing and the last committed version of the file. It'll
+show you parts that were deleted in red, and parts that were added in green. To
+revert back to a previous version of a file you can use `git checkout *filename*`.
+
+So you can create a Git local repository and have a bunch of files that we add
+to the staging area and then commit them all at once when we're ready with a
+version message about what we actually did. We can continue the process over and
+over. If we ever mess up a file or files, we can revert back to previous versions
+and start from there.
+
+The `git rebase` command allows you to easily change a series of commits,
+modifying the history of your repository. You can reorder, edit, or squash
+commits together. Typically, you would use git rebase to edit previous commit
+messages, combine multiple commits into one,  or delete or revert commits that
+are no longer necessary. But it's considered bad practice to rebase commits when
+you've already pushed to a repository.
+
+So:
+`git init`:                             Initializes a local Git repository in your working directory
+`git status`:                           Examine untracked or modified files not in your staging area, or new files which were just added
+`git add *filename*`:                   Add files to your staging area
+`git add .`:                            Add all files in directory to staging area
+`git rm --cached -r .`:                 Remove all files from the staging area
+`git commit -m "message"`:              Commit files to repository with commit version message
+`git log`:                              Examine what commits have been made
+`git diff *filename*`:                  Examine differences between file and most recently committed version
+`git checkout *filename*`:              Revert file to previously most recently committed version
+`git rebase`:                           This allows you to edit the commit message/info
+`git remote add origin *URL of repo*`:  Adds remote repository named origin
+`git push -u origin master`:            This pushes your repo to Github
+
+GITHUB
+This is a remote repository, stored on the cloud. You have public and private
+repositories. You used to have to pay for the private ones. GitHub believes that
+you should have (almost) everything in a public repo. They say to only keep
+business critical files in the private repo (files that make money).This is
+because they believe that public repos foster collaboration. And you'll be able
+to speed up interview processes because you'll already know if someone is good
+at a particular skill. Also individuals get to show off how good they are, vs.
+a company mandating that code repositories made for work stay private. And
+it makes information more accessible etc.
+
+It's interesting because anything client side is pretty much already compromised.
+Like you can always just view the HTML, CSS, and JS on a site. Similar thing
+with android apps etc. So there isn't a ton of benefit from putting these files
+in a private repo to begin with. I'm not 100% sure about this stuff though, so
+I'll have to learn more about it later.
+
+To push your repository from your local computer to Github, you can do
+`git remote add origin *URL of repo*`. You don't have to specify "origin" as the
+name of the remote repo but it's standard practice. Then to actually push our
+repo, we can do `git push -u origin master`. the `-u` flag links up your repos,
+the origin is the name of your remote repo, and master is the name of the branch.
+The master branch is simply the main or default branch of all of your commits.
+People actually do a lot of story writing on Github, because it's so convenient
+for saving your different versions, etc. Github has some visualizations that
+show branches, and the series of commits you've pushed. You can also look at the
+commit messages and the changes made at each time point.
+
+We don't want to upload all files to GitHub. Secret files with passwords, API
+keys, user settings, etc. need to be included in a .gitignore file so they aren't
+pushed to the repo. .DS_Store files (typically hidden files) are settings files
+that save things like how you like your files to be displayed in your folder
+like order of the files etc. We'd usually not want to upload those to the repo
+either because they kind of just clutter everything. So we can create a
+`.gitignore` file in our directory (case sensitive). Within that file we can use
+the `#` symbol to write comments, and we just write out the full names of the
+files we'd rather not have pushed to the repo. We can also make use of the `*`
+wildcard to specify files of a certain pattern. All `*.txt` files, for instance.
+
+
+
+
+Commit those 4 files in the new file (project?) after completing the .gitignore
+file.
+
+https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MIT Lisence?
+
+https://blog.devmountain.com/git-vs-github-whats-the-difference/
+Git vs. Mercurial

@@ -1,0 +1,4 @@
+Full Stack = Front End + Back End
+
+Front End is stuff like HTML, CSS, Javascript, Bootstrap, JQuery.
+Back end is stuff like servers, databses, applications

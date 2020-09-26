@@ -1,0 +1,28 @@
+Section 1: Front End Web Development
+
+Watch the videos without taking notes, and then repeat what you learned on your own. That's how you actually
+learn. Makes sense.
+
+"You must understand that task-switching is very difficult. It requires a lot of motivation. If as soon as
+you get home, you slump on the sofa and switch on the TV, you’ve already lost that evening. This is because
+the amount of motivation required to task-switch and do something not driven by evolution like eating or
+sleeping is a Herculean task. This is why the moment you enter the door and change to a new environment is
+the most crucial moment. If at this moment, you tell yourself that you are just going to do 20 minutes of
+coding practice, you will most likely succeed and use your own inertia to end up learning for an hour or
+more. No brain will perceive a 20-minute task as a lot of effort and you end up tricking your brain to take
+advantage of your evening."
+
+Goal: complete one freelance web dev assignment on upwork by year end.
+
+"The skill that most employers look for when recruiting is the ability to think. Knowledge is valued in a
+world where information is hard to come by. In the 1800s, only the rich had access to good books and good
+teachers. Now, everyone has all the information they had and more at the tap of a mouse. Information is
+losing value, the ability to think is the stock to buy.""
+
+"The next thing I’m going to tell you will be controversial. We believe that people don’t value things that
+don’t have a value. This is the reason why Coursera is taking down a large number of their free courses.
+They saw that millions of people were signing up for it but no one was taking any of the classes let alone
+complete any of the projects. It was actually detrimental to students’ learning to offer a free course."
+
+Browsers allow you to look up the IP address that you're interested in, and then render the received
+information on your screen.

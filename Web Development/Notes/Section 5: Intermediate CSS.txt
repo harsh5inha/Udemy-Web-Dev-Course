@@ -1,0 +1,160 @@
+Favicons are "favorite icons". You can use favicon.cc to create your own.
+
+You can change your HTML/CSS code via Chrome developer tools just to experiment
+on your site without having the changes be permanent.
+
+<div> tags are really useful for creating sections of your website. But they
+don't do anything unless they're acted upon by CSS. They have no inherent
+height.
+
+You can remove margins by selecting for the margin attribute of tags. Most tags
+have default margins that you can override.
+
+The Box Model
+- Every element on our web page is essentially a box.
+- Width is the width of your element
+- Height is the height of your element
+- Border is the border around your element.
+    - If your element is 300px wide and 300px high, and the border is 3px, then
+      the box now visibly becomes 306px by 306px. The border doesn't encroach
+      on the size of the main element, it expands it.
+- Padding is the space between content and the border.
+    - When you add padding, it only pads the content, not the background image
+      or background color.
+- Margin is the buffer zone between the border and all other borders.
+
+You can change the display type of elements using the Display property, which
+has 4 different values:
+1. Block
+  - These elements take up the whole width of the page, blocking out all other
+    elements from being on the same line on the page. Unless you specify the
+    width to be something other than 100%. Height is determined by the size
+    of the content.
+  - Common types: <p>, <h1> - <h6>, <div>, <ol>, <ul>, <li>, <form>
+  - So all formatting on these elements applies to the entire block, Unless,
+    again, you specify the width to be less than 100% fo the page
+  - To format specific parts of that like, use the <span> element. Similar to
+    <div> elements, they don't do anything unless acted upon by CSS.
+
+2. Inline
+  - The <span> element is an inline display element. You cannot adjust the width
+    of the <span> element, it only takes up as much space as is necessary. Block
+    elements' width can be adjusted, however.
+  - Also <img> and <a> elements are inline display.
+
+Now, you can toggle between the display options above for any HTML element, but
+they will have to obey the restrictions for the respective option. In either
+option, you won't be able to both adjust the width of an element AND have
+multiple of those elements on the same line.
+
+3. Inline-Block
+  - The best of both worlds
+  - You can adjust the width of elements, AND have them be on the same line on
+    your page.
+  - <img> elements are kind of like this: https://stackoverflow.com/questions/2402761/is-img-element-block-level-or-inline-level
+
+4. None
+  - Using this display value in CSS will remove the element from your page as
+    if it no longer exists.
+  - Alternatively, if you just want to hide but not remove an element on your
+    site, you can use visibility:hidden
+
+HTML content is ordered in the order in which you write it out. It is also
+stacked in the sense that wrapped content is displayed ON TOP of the wrapping
+content (children are displayed ON TOP of parents).
+
+The CSS Position property has 4 different values:
+
+1. Static
+  - All HTML elements are static by default
+
+2. Relative
+  - You can set the position to `position:relative` so that any adjustments to
+    an element's position will be relative to where it would have been under a
+    static state. Also, it moves the element without affecting the position of
+    anything else on the page. It just overlays it (hides what's underneath) if
+    there's a conflict. It's pretty much like adding in a margin relative to the
+    original position.
+
+3. Absolute
+  - Here we are positioning the element relative to its parent. (If it's in a
+    <div> then relative to the boundaries of the <div> etc.)
+  - But typically the "parent" is just the entire body of the web page (when it
+    isn't wrapped in a <div>)
+  - However, when you use absolute positioning, we are taking the element out
+    of the flow of the document. That is, unlike in relative positioning, moving
+    something through absolute positioning does affect the positions of other
+    elements on the page. Your moved elements will still be on top of other
+    elements, but the act of moving them will also cause the earlier elements
+    to shift up in the default display order.
+
+4. Fixed
+  - This value ensures that the element retains its position on the page
+    regardless of scrolling up or down.
+
+So you alter `Position` to adjust the position of elements on a page, and you
+use `display` to determine what type of element you're going to use in the
+first place.
+
+One thing to remember, though, is that if you have content in a div or other
+type of box that isn't big enough to hold the content's dimensions, you'll
+run into problems. Margins creep outside the div and images don't align as
+expected etc.
+
+Centering
+Using text-align: center will center everything inside the container that
+doesn't have a width setting. If there is a width value, then you can center
+by doing margin: 0 auto;
+
+Fonts
+You can specify different fonts for different elements, as you'd expect.
+
+So `Serif` fonts have the little legs and `sans-serif` don't. You can specify
+which of the two styles you'd like. Each browser has a default style, and each
+has a default font within each style. But no font is 100% safe in terms of being
+guaranteed that the font will be able to load correctly on every browser, so
+you can list out a "stack" of fonts to try. If the first font doesn't exist
+then move on to the next, etc. CSS fontstacks is a good resource for this.
+
+If you want to ensure that everyone sees exactly the font you choose, then you
+can go to onts.google.com and "embed" a font into your site by copy/pasting
+the api code as a link for the font-family in your HTML. That way, when the
+client browser renders the site, it'll request the specified font from the
+Google API that you specified when embedding the font.
+
+100% fontsize corresponds to 16pt (or 16px font size). To change size you can
+either hardcode a font size or use a percentage. This is so you have dynamic
+font size to suit the settings of the client. So `font-size: 500%` would
+indicate a font that is 5 times as large as normal.
+
+Another way to have dynamic text is to write the number of multiples you want
+in size increase/decrease followed by `em`. The `em` is supposed to stand for
+the amount of space it takes to write the capital letter M. So,
+`font-size: 5em` similarly leads to a font size that is 5 times the size of
+normal.
+
+The problem with the above two approaches is that they are cumulative. That is,
+if you specify 200% or 2em for the body tag, then indicating 500% or 5em for a
+header tag will lead to a 1000% or 10em change in the header tag, opposed to
+just a 5-fold increase. That's because they increases multiply upon themselves.
+
+The solution is using `rem` for "root em". This multiplies the font size
+relative to the "root" size of 100%.
+
+You can also take this approach with margins, borders, and padding etc. But
+it's fine to just use pixels as well if you'd like. Just a stylistic choice.
+
+Float
+The float property is used for positioning and formatting content e.g. let an
+image float left to the text in a container.The float property can have one of
+the following values:
+1. left - The element floats to the left of its container
+2. right - The element floats to the right of its container
+3. none - The element does not float (will be displayed just where it occurs
+          in the text). This is default.
+4. inherit - The element inherits the float value of its parent
+
+In its simplest use, the float property is used to wrap text around images. Try
+not to use it for anything other than that, it's commonly abused. It's
+associated with the `clear` function, which prevents certain sections of text
+from being wrapped.

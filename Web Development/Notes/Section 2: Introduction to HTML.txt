@@ -1,0 +1,68 @@
+HTML: 	Hyper Text Markup Language
+XML:	Extensible Markup Language
+GML: 	Generalised Markup Language
+
+Useful resources to understand HTML Documentation:
+	- mdn: 		Mozilla developer Network, has info on HTML etc.
+	- W3 schools:	Has info on HTML etc.
+	- devdocs.io:	Has info on HTML etc.
+
+HTML elements sometimes require an opening and closing tag. Some, like <br> and
+<hr>, are self closing.
+
+HTML tags have elements and attributes. Documentation of the list of elements
+and attributes can be found at devdocs.io.
+
+
+"utf-8" includes all the characters we'd need from Unicode. Even emojis now have
+a mapping to a unicode value. The character set is coded in the meta tab in the
+heading of your HTML doc. If you use a different set, then the character to
+numbermapping will be different and the web page will render in a non-sensical
+way.Everything that is unicode, can be encoded correctly using UTF-8. Using
+UTF-8gives you the maximum chance that your browser will be rendered correctly
+on browsers that are from international visitors.
+
+<meta> tags are useful for meta data about the page. You can include your
+keywords, a description that shows just below your site on google, etc.
+
+There's a difference between using <strong> and using <b> even though visually
+they might output the same thing (bold). There's also a difference between
+using <em> and <i> for emphasis v italics even though visually they might do
+the same thing.
+
+The <em> element represents stress emphasis of its contents, while the <i>
+element represents text that is set off from the normal prose, such a foreign
+word, fictional character thoughts, or when the text refers to the definition
+of a word instead of representing its semantic meaning.
+
+The <strong> element is for content that is of greater importance, while the
+<b> element is used to draw attention to text without indicating that it's more
+important.
+
+In general, we want to use <em> and <strong> for italics and
+bold, but adding tags is about the meaning of the content. If you want to bold,
+italicizem etc. text simply for decoration, you should instead actually use the
+CSS property.
+
+September 18, 2020
+
+<ul> is unordered lists
+<li> is list item
+<ol> is ordered list
+
+You cna start at a custom number or use roman numerals etc.
+
+<img src "URL/local directory file" alt = "angela profile picture">
+
+It's better to have all your images etc. locally so that you have fewer
+dependencies on external sites. If they go down or change URLs then you won't
+have to update the directory addresses for your linked images etc.
+
+<a href = "URL">Name</a> anchor tag for links etc.
+
+You can also create multiple HTML pages for your website and then have them
+link to each other by including links.
+
+
+
+ 

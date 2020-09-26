@@ -1,0 +1,262 @@
+
+<LINK href="style.css" rel="stylesheet" type="text/css">
+
+<body>
+<center>
+<h1>~ Play notes for practice ~</h1>
+</center>
+<!-- ^ Always check Tag Omission in documentation-->
+
+<center>
+<hr size="5" noshade>
+<!-- ^ Always check the attributes section of the documentation-->
+<h1>THE ADVENTURES OF <br>SHERLOCK HOLMES</h1>
+<br>
+<h3>by</h3>
+<br>
+<h2>SIR ARTHUR CONAN DOYLE</h2>
+<hr>
+</center>
+
+
+
+<h1> This is a way to display the most important heading using h1</h1>
+<hr>
+<h1>Heading level 1</h1>
+<h2>Heading level 2</h2>
+<h3>Heading level 3</h3>
+<h4>Heading level 4</h4>
+<h5>Heading level 5</h5>
+<h6>Heading level 6</h6>
+<hr>
+
+
+<!-- Self-closing tags-->
+<br> <!-- breaking rule-->
+<hr> <!-- horizontal rule-->
+
+
+
+
+  <h3>Skills</h3>
+    <table>  <!-- Nested table within a table, pure HTML structure-->
+      <tr>
+         <td>
+           <table>
+             <tr>
+                 <td> Drawing/Painting</td>
+                 <td>⭐⭐⭐⭐⭐</td>
+            </tr>
+            <tr>
+                 <td> Design</td>
+                 <td>⭐</td>
+            </tr>
+            <tr>
+                 <td>Web Development</td>
+                 <td>⭐⭐⭐</td>
+            </tr>
+                 <td>Photography</td>
+                 <td>⭐</td>
+            </tr>
+           </table>
+         </td>
+         <td>
+           <table>
+             <tr>
+                 <td> Drawing/Painting</td>
+                 <td>⭐⭐⭐⭐⭐</td>
+            </tr>
+            <tr>
+                 <td> Design</td>
+                 <td>⭐⭐⭐</td>
+            </tr>
+            <tr>
+                 <td>Web Development</td>
+                 <td>⭐⭐⭐</td>
+            </tr>
+                 <td>Photography</td>
+                 <td>⭐⭐⭐⭐</td>
+            </tr>
+           </table>
+         </td>
+      </tr>
+    </table>
+
+<br>
+<br>
+<hr>
+
+
+<h1>Contact Information</h1>
+    <br>
+    <p>
+      <h2>Mobile: </h2>
+    </p>
+   <p>
+      <h3>Email: <a href="#"></a></h3>
+   </p>
+    <form class="" action="index.html" method="post">
+      <label>Your name:</label>
+      <input type="text" name="" value="">
+      <input type="color" name="" value=""><br>
+
+      <label>Do you want to subscribe to the email list?</label>
+      <input type="checkbox" name="" value="">
+      <input type="submit" name="">
+    </form>
+
+<hr>
+<br>
+
+<!--Input types in HTML-->
+
+<label>Brew button</label>
+<input type="button" value="BEERPONG"><br><br>
+
+<label>Have you read our policy and terms?</label>
+<input type="checkbox"><br><br>
+
+<label>Please chose your favourite color:</label>
+<input type="color"><br><br>
+
+<label>Date today:</label>
+<input type="date"><br><br>
+
+<label>Local Date and Time:</label>
+<input type="datetime-local"><br><br>
+
+<label>Please write down your email:</label>
+<input type="email"><br><br>
+
+<label>File:</label>
+<input type="file"><br><br>
+
+<label>Hidden:</label>
+<input type="hidden"><br><br>
+
+<label>Image</label>
+<input type="image"><br><br>
+
+<label>Month:</label>
+<input type="month"><br><br>
+
+<label>Number:</label>
+<input type="number"><br><br>
+
+<label>Password:</label>
+<input type="password"><br><br>
+
+<label>Radio Button:</label>
+<input type="radio"><br><br>
+
+<label>Select Range:</label>
+<input type="range"><br><br>
+
+<label>Reset:</label>
+<input type="reset"><br><br>
+
+<label>Search:</label>
+<input type="search"><br><br>
+
+<label>Submit</label>
+<input type="submit"><br><br>
+
+<label>Phone:</label>
+<input type="tel"><br><br>
+
+<label>Anything:</label>
+<input type="text"><br><br>
+
+<label>Time Now:</label>
+<input type="time"><br><br>
+
+<label>URL:</label>
+<input type="url"><br><br>
+
+<label>Week:</label>
+<input type="week"><br><br>
+<br>
+
+<form>
+    <label for="range">Range</label>
+		<input type="range" name="amountRange" min="0" max="20" value="0" oninput="this.form.amountInput.value=this.value" />
+  <label for="amount">Number of days</label>
+  <input type="number" name="amountInput" min="0" max="20" value="0" oninput="this.form.amountRange.value=this.value" />
+</form>
+
+<br>
+<br>
+
+<form name="quiz" ng-submit="quiz.answer(selected)">
+         <label>
+    <input type="radio" name="quizOption" ng-model="selected" ng-value="true">
+    Red
+  </label><br/>
+  <label>
+    <input type="radio" name="quizOption" ng-model="selected" ng-value="false">
+    Green
+  </label><br/>
+  <label>
+    <input type="radio" name="quizOption" ng-model="selected" ng-value="false">
+    Blue
+  </label><br/>
+  <label>
+    <input type="radio" name="quizOption" ng-model="selected" ng-value="false">
+    Yellow
+  </label><br/>
+  <input type="submit" id="submit" value="Submit" />
+</form>
+<br>
+<br>
+
+<p>Select a maintenance drone:</p>
+
+
+  <input type="radio" id="huey" name="drone" value="huey"
+         checked>
+  <label for="huey">Huey</label>
+
+
+
+  <input type="radio" id="dewey" name="drone" value="dewey">
+  <label for="dewey">Dewey</label>
+
+
+
+  <input type="radio" id="louie" name="drone" value="louie">
+  <label for="louie">Louie</label>
+</>
+<br>
+<br>
+
+<hr>
+
+<h1>Contact Information</h1>
+    <br>
+    <p>
+      <h2>Mobile:</h2>
+    </p>
+   <p>
+      <h3>Email: </h3>
+   </p>
+    <form class="" action="index.html" method="post">
+      <label>Your name:</label>
+      <input type="text" name="" value="">
+      <input type="color" name="" value=""><br>
+      <label>Your E-mail:</label>
+      <input type="email" name="" value=""><br>
+      <label>Your Message:</label>
+      <textarea name="Message" rows="10" cols="30"></textarea><br>
+      <input type="submit" name="">
+    </form>
+
+<br />
+<br />
+<br />
+<hr>
+
+<div class="red"></div>
+<div class="blue"></div>
+<div class="yellow"></div>
+
+</body>

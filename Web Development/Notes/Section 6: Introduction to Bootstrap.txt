@@ -1,0 +1,80 @@
+Bootstrap is a front end library, initially developed by Twitter. It is the
+most popular front end framework library. It is the seventh most starred repo
+on Github. Bootstrap is a collection of HTML/CSS/JS design templates and
+elements that you can easily just drop into your code. Free and open source. You
+just download the source code and you have all these extensive templates laid
+out for you. You just need to label your elements with the appropriate classes
+to get the styling you want. Bootstrap also makes it easy for your design and
+layout to be adaptable to mobile.
+
+Website is getbootstrap.com.
+
+There are different versions of Bootstrap that come out as it progresses.
+Currently we're on Bootstrap 4.5.2, but the class is on 4.0.0. Actually the beta
+for Bootstrap 5.0.0 is already released so there might be a bit of a transitional
+cost to learning 4.0.0 now but I'm going to go ahead since it's what the material
+is currently based off. Actually there is already a mismatch since I'm using
+4.5.2 so we'll see. At any rate, later on I'll learn the major shifts from version
+4 to version 5. I think the biggest difference is that 5 drops support for jQuery,
+so we'll see about that.
+
+Bootstrap also has all these examples templates that are really useful. It has
+all the pages from the Apple website (checkout, home, etc.) and all the HTML/CSS
+code needed to create them. It's all stored in the source files when you
+download bootstrap.
+
+Codeply is kind of like codepen.io in that it's an online code editor that gives
+you live renditions of what your code will look like.
+
+INSTALLING BOOTSTRAP
+
+1. Simplest Way: Copy the Bootstrap CSS CDN, and paste it into your HTML as the
+stylesheet. Because Bootstrap is one of the most commonly used frameworks, a lot
+of commonly used websites use it. So clients are likely to already have the file
+cached on their browser. So most of the time, the request won't even have to go
+to the CDN server, it'll just pull up the cached information from the browser.
+- CDN:    Content Delivery Network. Network of geographically dispersed servers
+          which delivers cached content from websites to to end users based on
+          geographic location of the user, origin of static content, and content
+          delivery edge server. Instead of having all requests for your website
+          routed through your main server, when you use a CDN, your static
+          content is cached and stored on all of these other servers. Static
+          content includes images, stylesheets (css files), javascripts, Flash,
+          etc. Now when a user visits your site (original server), the CDN
+          technology redirects them to the closest server to their location.
+          This improves latency. It's a form of load balancing. It takes more
+          time to load a content from the other side of the world than it does
+          if the server is in the same country etc. Using a CDN improves site
+          load time, improves crash resistance by distributing requests to
+          multiple servers, improves User Experience (bounce rates etc.), and
+          leads to higher SEO ranking.
+- Maxcdn: one of the largest Content Delivery Network providers. They accelerate
+          your site and decrease the server load. They help accelerate popular
+          sites including The Next Web, Disqus, Stackoverflow, BuySellAds, and
+          others.
+
+2. Copy and paste their starter template. It's on their main site. This is
+   pretty much the same thing as above, it's just that the starter template
+   includes CDN links for Javascript in addition to the CSS one.
+
+3. Download the source code and store it in a local folder. Then use it as a
+   local stylesheet. The downside of this approach is that it negates any
+   browser caching on the client side.
+
+WIREFRAMING
+These are very low fidelity drafts of what you're planning to build.
+- Can use sneekpeekit.com or balsamiq.com to wireframe out some sketches
+Mock ups are way higher quality visualizations of design plans.
+
+dribble.com is a place where designers put up their portfolios.
+
+NAVBAR
+- You know what navbars are. When designing your page, check the bootstrap
+  documentation for whatever type of element you're working on. In this case
+  it'd be https://getbootstrap.com/docs/4.5/components/navbar/
+- It's sort of like you're writing HTML classes and IDs to select for particular
+  types of CSS styles, opposed to writing CSS selectors for particular HTML tags.
+  I like it better this way I think.
+
+Reminder that bootstrap is really useful for creating responsive websites. That
+is, it is adaptable to desktop, ipad, mobile, etc.

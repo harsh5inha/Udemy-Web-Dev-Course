@@ -1,0 +1,182 @@
+THE COMMAND LINE
+Installing the hyper terminal to stay consistent across Windows and Mac users.
+Also, it's super customizable, tons of themes and plug-ins etc.
+
+When you're installing on Windows, you also need to download Git bash so you
+can use Bash via the command line.
+
+Think about your Operating System like a pistachio nut, with a shell and the
+actual nut.
+
+The nut is the kernel. This is the actual program that interfaces with the
+hardware. It's the core of your OS. The shell, is, well, the shell. It's the
+user interface that allows you to interact with the kernel and in turn the
+hardware.
+
+There are two types of Shells.
+- GUI Shells, like "Finder"
+- Command Line Shells, like "terminal"
+
+Bash = "Bourne again Shell" (named after some dude)
+- It's a Command Line Shell for the UNIX system
+- Linux systems are based on Unix, Mac runs on a UNIX-like OS these are different
+  from Windows based Operating Systems
+
+So why use the Command Lin when you can just use the GUI?
+1. It's faster and more scalable
+2. The GUI hides a lot of the configuration files and more technical docs from
+    the user. But through the command line, you have way more control and are
+    able to see everything. For example, using `ls -a` you can see all files,
+    even hidden files in your directories.
+
+http://hackertyper.com/ is a website that just makes it seem like you're writing
+out some intense, obscure program lol.
+
+To go to a different part of the text in the command line you can hold down
+`options` and just click. That's great. Should've looked that up earlier.
+- `CRTL + A` goes to the beginning of the line
+- `CTRL + E` goes to the end of the line
+- `CTRL + U` clears the whole line
+
+`ls`:                           List of folders in directory
+`ls *.txt`:                     Lists every file in directory that ends in ".txt"
+`ls -l`:                        Lists folders and files along with size of file in bytes and timestamp of last modification
+`ls -rtl`:                      Lists files in order of reverse modification time
+`ls -a`:                        Lists all folders and files, even hidden ones
+`cd *filepath*`:                Change to filepath Directory
+`touch *filename*`:             Creates a new file in your directory. Initially it was a way to change the modification time on files or directories but now it's used often for creating empty files.
+`open -a *editor* *filename*`:  Opens the file in the editor of your choice
+`rm *filename*`:                Deletes file from directory
+`pwd`:                          Print Working Directory
+`rm *`:                         Deletes all files from directory
+`rm -r *filepath*`:             Delete directory and all folders/files within
+`rm -rf *filepath*`:            Same as above but doesn't confirm permission to delete
+`rm *.txt`:                     Deletes all files that end in ".txt". Ad a -f flag to "force" the delete if there are many files to be deleted (no confirmations)
+`sudo`:                         Stands for "superuser do", adds priviliges to commands. Allows users to run commands with the authority of the superuser (the account in charge of system administration, the root account).
+`man echo`:                     Stands for "Manual echo", it'll give you the definition of the echo command from the Manual
+`cat *filename*`:               Technically not how it's supposed to be used but this dumps the content of a file to your terminal.
+`echo $SHELL`:                  Prints out the shell environment you're in
+`chsh -s /bin/bash`:            Command to switch to a bash shell (MacOS might be in a different shell called zsh)
+`mv *filename* *filename2*`     Renames filename to filename2. This is actually a command to move files but when the origin and destination are the same, it functions as a renaming command.
+`mkdir **`:                     Makes a new directory
+`grep *pattern* *filename*`:    Searches the input files for lines containing a match to a given pattern list (regex). When it finds a match in a line, it copies the line to standard output (by default), or whatever other sort of output you have requested with options.
+
+You can't remove or rename all files on a mac, some of them, particularly those
+close to the root of the machine are permanent. They contain the OS code and
+fonts and stuff like that.
+
+HIDDEN FILES
+There are hidden files on your Mac. Apple just doesn't show them to us on Finder
+to keep us from getting confused. They also don't want us messing around and
+breaking things we don't understand. You can see some of the hidden files through
+the command line. But you still can't see all. To show all the files in a
+directory, type `ls -a`. Hidden files are pre-fixed with a dot (.).
+
+On Unix-like operating systems, every directory contains, as a minimum, an object
+represented by a single dot (.) and another represented by two successive dots (..).
+The former refers to the directory itself and the latter refers to its parent
+directory (i.e., the directory that contains it). These items are automatically
+created in every directory, as can be seen by using the ls command with its -a
+option (which instructs it to show all of its contents, including hidden items).
+
+PYTHON
+When you download Python, you are essentially downloading a compilation of C
+libraries that comprise the Python language. To be able to compile your Python
+code, you must have access to the Python interpreter and language libraries.
+Python is open source, so if you'd like to see what goes into Python,
+you can look at the github repo. The Python language is managed by a 501c(3).
+Python is an interpreted language, opposed to a compiled language.
+
+COMPILED VS INTERPRETED LANGUAGES
+Basically, there are two ways of translating source code to machine code:
+
+1. Using a compiler
+The compiler is nothing more than a program that takes a high level language —
+the language that we write our code in — and converts it into machine code. The
+compiler has many moving parts to it (or rather, within it), including,
+potentially, a scanner, a lexer/tokenizer, and a parser. But at the end of the
+day, even with its complexity, it’s just a program that turns our code into
+machine-readable code. It takes our source code and converts it into a single
+file that is written in machine code. This file is called an executable and often
+ends in `.exe`. The most important thing to note about a compiler is that
+it translates a source code file into machine code binary in one shot.
+It returns a translated, compiled file. The executable file returned by the
+compiler can be run again and again once it has been translated. This is how you
+ran your programs in C in CS50. You compiled a file, and then ran the compiled
+file as many times as you needed. If you changed the source code, you had to
+re-compile the code before you could run it again. Grace Hopper played a large
+part in the development of the compiler. Compiled code is faster than interpreted
+code.
+
+2. Using an interpreter
+An interpreter is a program that takes a source code file, converts it into
+machine code, and then actually executes the code immediately. An interpreter
+does its job piece by piece. It will translate one section of our source text
+at a time and execute it, rather than translating it all at once and outputting
+a compiled file. This may or may not be a good thing, depending on what we’re
+trying to do. For example, imagine we want to run our program with 10 different
+inputs. Our interpreter would have to run our program 10 times, interpreting it
+line by line, for each of our inputs. However, it's much easier to debug
+because you'll be able to discern where exactly you made your mistake.
+Interpreted code is far more flexible, since the interpreter stays around for
+the course of the translation “process” to read and process our code. But in
+C you can't run individual snippets, you have to run the whole program at a time.
+The plus side of that, though, is that compiled code is faster than interpreted
+code.
+
+So developers can send out their compiled code as executable files to people
+for them to run locally. The client would never have to see the source code. But
+you'd have to create separate versions for the different operating systems of the
+clients. If, however, you wanted to send someone code of an interpreted language
+we can just send the source doe without worrying about the operating system. We
+just need to make sure we also send over the compiler, but those usually come
+with the language distribution.
+
+PACKAGE MANAGEMENT
+Python is considered a batteries included language. This means that the Python
+standard library includes an extensive set of packages and modules to help
+developers with their scripts and applications. At the same time, Python has a
+very active community that contributes an even bigger set of packages that
+can help you with your development needs. These packages are published to the
+Python Package Index, also known as PyPI (pronounced Pie Pea Eye). PyPI hosts
+an extensive collection of packages that include development frameworks, tools,
+and libraries.
+
+Pip is the standard package manager for Python. It allows you to install and
+manage additional packages that are not part of the Python standard library. pip
+is a really important part of Python. It comes as part of the Python distribution
+when you download the language. JavaScript uses npm for package management,
+Ruby uses gem, and .NET use NuGet. you use `pip install *package*`. pip looks
+for the package in PyPI, calculates its dependencies, and installs them to
+ensure requests will work. Sometimes you may see a file called requirements.txt
+in someone’s folder of Python scripts. Typically, that file outlines all the pip
+packages that that project uses, and you can install everything in that file by
+using `pip install -r requirements.txt`.
+
+There are currently two popular options for taking care of managing your
+different pip packages: virtualenv and anaconda.
+
+Virtualenv is a package that allows you to create named “virtual environments”,
+where you can install pip packages in an isolated manner. This tool is great if
+you want to have detailed control over which packages you install for each
+environment you create. For example, you could create an environment for web
+development with one set of libraries, and a different environment for data
+science. This way, you won’t need to have unrelated libraries interacting with
+each other, and it allows you to create environments dedicated to specific
+purposes.
+
+If you are primarily doing data science work, Anaconda is also a great option.
+Anaconda is created by Continuum Analytics, and it is a Python distribution that
+comes preinstalled with lots of useful python libraries for data science.
+Anaconda is popular because it brings many of the tools used in data science and
+machine learning with just one install, so it’s great for having short and simple
+setup. Like Virtualenv, Anaconda also uses the concept of creating environments
+so as to isolate different libraries and versions. Anaconda also introduces its
+own package manager, called conda, from where you can install libraries.
+Additionally, Anaconda still has the useful interaction with pip that allows you
+to install any additional libraries which are not available in the Anaconda
+package manager.
+
+An environment is a defined set of packages and dependencies that you are using
+for a file. Basically, you need to specify the exact versions of packages to
+avoid the packages clashing with one another etc.

@@ -1,0 +1,15 @@
+<table> is beginning a table
+<thead> is table head
+<tbody> is the main body
+<tr>    is table row
+<td>    is table data
+<tfoot> is table footer
+
+Using tables can be useful because it indents everything really well.
+
+There are a bunch of different ways you can style and add padding to tables
+through html but it's recommended to use CSS.
+
+Even the table thing, try to only format your web pages using CSS
+
+You can use form to collect data etc.

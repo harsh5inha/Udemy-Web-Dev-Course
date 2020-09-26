@@ -1,0 +1,114 @@
+COLOR THEORY
+The art and science of creating the right color palette for your website.
+
+Red     - Car advertisements. Conveys intensity, passion, love.
+Yellow  - Bikini ads. Very attention grabbing. Don't use it on anything that
+          will have to be looked at for a long time.
+Green   - Groceries ads. Freshness. Food. etc.
+Blue    - Financial companies. Conveys trust, stability.
+Purple  - Pay-day loans. Conveys royalty, wealth, femininity.
+
+Combining colors is the more sciency part.
+- You can take two colors right next to each other on the color wheel to design
+  a logo vs background or text vs navigation bar. These are called analogous
+  colors and go well together for these types of scenarios. But it's not good
+  for standing out.
+- If you want your colors to pop, then you select two colors from opposite ends
+  of the color palette. These are called complementary colors, or clashing
+  colors. You see this often in grocery stores when they put green barriers
+  between different types of meat to make the red color of the meat pop out more
+  to seem more fresh and contrasted vs the green.
+- But don't do this for text. Keep it for things like logos or icons, things
+  that you want to stand out.
+- You can also create palettes by "triangulating" or using a perfect square to
+  link colors on the wheel. colorhunt.io is a resource for a bunch of different
+  color palettes.
+
+
+TYPOGRAPHY
+Fonts matter.
+
+Serif typefaces show little feet at the bases of letters. It derives from marble
+sculpting. You used to not be able to exit a carving with your chisel at a 90
+degree angle, so you'd have to put flat feet at the base of letters. It also
+might be derived from sculptors needing to even out flares at the ends of brush
+strokes of the tracings they were sculpting over So Serif fonts look more
+authoritative and older.
+
+There are different types of serif typefaces: Old-Style, Transitional, Modern.
+
+You can tell how old a typeface is by examining the difference between the
+thickest part of a letter vs the thinnest part of a letter. The more modern a
+typeface is, the larger the discrepancy. So if you want authoritative but
+modern, go with serif fonts that are in the modern family (large discrepancy).
+VOGUE is modern-Serif Typeface. If you want authoritative but are running a
+rustic winery, maybe serif-Old Style is better.
+
+Different fonts signal different moods.
+
+Sans-serif fonts have right angles. They're more friendly, more approachable.
+Generally used for body text. Start-ups tend to use these fonts to seem
+approachable, humanist.
+
+Try to stick to only 2 fonts of a similar mood and a similar time period. You
+don't want too many, which could appear cluttered, and you don't want to confuse
+people. To contrast those two fonts you can choose a serif for the title and
+sans-serif for the body (or vice versa) or you could do some type of variation
+of font weights (bolding etc.).
+
+Don't use any of the silly fonts, like comic sans. That one in particular seems
+to be the archetype of amateur fonts.
+
+
+UI DESIGN
+Establish hierarchy
+- What's important? Draw attention to those aspects.
+- If you need the client email, then make that the immediate focus.
+
+Layout
+- It's kind of hard for users to maintain tracking on text if the line is too
+long. Similarly, if it's too short, it'll look choppy. You want to aim for
+about 40-60 characters per line.
+
+Alignment
+- Maintain consistent alignment if you can
+- Also reduce the number of alignment points as much as you can
+
+White Space
+- If you space out handbags in a store, they seem a lot more expensive.
+- Same with copy advertising. If you remove all the excess, suddenly it seems
+like Apple designed it.
+- Simplicity and functionality in design is beauty.
+
+Design for your audience
+- Don't design for kids the same way you would for adults
+
+
+UX DESIGN
+Design is us imposing on the user. User experience is the user imposing on us.
+If there's alignment, the user experience ought to be seamless. Reed college
+case study of not paving walking paths through the quad until a year after
+students carved their own paths by just walking on the routes that were most
+important to them.
+
+Simplicity:           opt for simplicity
+Consistency:          maintain design throughout website
+Reading Patterns:     keep the "F pattern" in mind. Keep important stuff on the
+                      left and guide the eyes from left to right.
+                      Also the "Z pattern" across a page (self-explanatory)
+All platform design:  Design for desktop AND mobile. Also wide screen desktops,
+                      etc.
+Avoid excess banners: Don't have so many warning or cookie banners on mobile That
+                      it squashes content.
+Don't be an asshole:  Don't put a thin line that looks like a scratch or hair to
+                      get users to try to brush it away and accidentally click
+                      on it.
+
+There is a website called Daily UI, which gives you a task to design everyday
+for 100 days. It'll help you get better at web design. There's an associated
+website called collect UI which is a collection of attempts to solve some of
+those tasks by users.
+
+canva.com is a website that helps you quickly design and visualize website ideas.
+It's an online graphics editing program. You can mock something up for feedback
+and then proceed through HTML/CSS accordingly.

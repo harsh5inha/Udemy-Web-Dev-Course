@@ -1,0 +1,58 @@
+HTML tags all have default CSS style attributes already applied by the browser.
+You can check via w3 schools etc.
+
+You can add internal CSS in your HTML pages by enclosing it in <style> tags.
+Then you just type the name of the tag you want to style and put the style code
+in curly brackets.
+
+But you don't really wanna do this because then you'll have to copy paste
+across all your different html pages of your website. So you're going to want to
+use external CSS, and create a separate CSS doc.
+
+It's key to realize that a web page is essentially just a bunch of boxes. And
+you can apply style rules to these boxes to affect how they appear.
+
+You can use a chrome extension called pesticide to visualize those boxes.
+But I'm not bc it isn't loading for some reason.
+
+If you have multiple pieces of CSS that are trying to style the same element
+on the web page, only one will be applied. Their is a hierarchical order to
+which style designation is applied to HTML elements. You can inspect the
+elements using chrome developer tools to see which lines of code from which
+documents are and are not being applied to which elements. You can toggle
+between the elements being applied which will comment out the relevant section
+of code and thus alter the appearance of the site accordingly but won't actually
+change the code if you refresh.
+
+The developer tools on Chrome seem pretty powerful.
+
+You should remember though that the hierarchy is inline then internal then
+external. That is, CSS written inline will override internally written CSS,
+which will in turn override an external CSS document. So you can write out
+a huge external CSS doc but then override it for one-off changes internally
+or in-line. But best practice is to put all styling changes within your larger
+external CSS doc.
+
+It's good practice to order your CSS selectors by alphabetical order to help
+with debugging, etc.
+
+We use the class attribute within HTML tags to differentiate tags of the same
+type which we want to style independently of each other.
+
+Now you can also have IDs in addition to classes. IDs ought to be used only
+once. There can't be multiple tags with the same ID, however there can be of
+course multiple tags of the same class.
+
+Similar to internal vs external CSS, there is a hierarchy in tag-based, classes,
+and IDs. ID based CSS styling is applied first, if it doesn't exist then it
+class specifications are used, and finally tag based CSS styling is used.
+
+Also, a single HTML element can have more than one class, but as mentioned only
+one ID.
+
+Try not to use IDs for selecting tags for CSS styling if you can avoid it.
+
+There are also Pseudo selectors. They have a colon in front of their names, and
+can be used to take advantage of html tags when they are in different forms. For
+example, you can use the :hover pseudo-selector to apply a particular style when
+an element on the page is being hovered over by the cursor.
