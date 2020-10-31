@@ -1,0 +1,219 @@
+Netscape navigator was the web browser that dominated the 90s. Marc Andreesson
+of Andreesson Horowitz was the main inventor of it. He started by creating the
+Mosaic browser, but Illinois Urbana-Champagne didn't approve of the name (he
+began working on it when he was in college) so he changed it to Netscape.
+Slowly, Internet Explorer from Microsoft beat it out. Once IE6 controlled the
+market, there was little pressure to continue to innovate. So it fell in
+marketshare throughout the 2000's. Eventually, much of the Netscape technology
+was shifted over to the modern day Mozilla browser. But now Chrome is the most
+popular browser.
+
+It used to be that websites that were viewable on one browser were not viewable
+on the other. More importantly, it used to be that if a website needed some
+functionality like retrieving a piece of data that you searched for or
+calculating something or converting between units, the website had to send that
+request to the data server, and all the computation and business logic was done
+there. And then the server would return the webpage that contained the new data.
+
+The team at Netscape wanted a more dynamic web, they wanted it to have
+animations, and real time user interaction. So they  needed to take away the
+server and have the code run on the browser. So they needed to create a small
+scripting language that was simple and easy for non-programmers to use to add
+functionality to websites. So Brendan Eich invented JavaScript in 10 days.
+
+JS is super important to the current iteration of the internet. It enables a ton
+of functionality across many websites. Actually if you turn it off via Chrome,
+you can remove adds from the New York Times' site etc. Because they rely on JS
+to show you ads. But you also won't be able to use Youtube or Netflix etc. And
+on Twitter you lose the function of seeing how many characters you have left
+out of 140, etc.
+
+Anyways, then MSFT tried to reverse engineer JavaScript and ended up with
+something called JScript. But then there were multiple standards for everything
+so the Europeans decided to create a standard: ECMA (European Computer
+Manufacturers Association) script. This is why you get new versions of
+JavaScript labeled as "ES5" or "ES6". We're learning ES6 here, which was the
+last major update and was launched in 2015. There are now annual updates, but
+nothing super major has yet been changed or updated.
+
+You can think of JavaScript itself like a movie script where instead of actors
+you have HTML elements. This is how scripting languages work. Also as a
+side-note, JavaScript and Java are not alike whatsoever. It's called JavaScript
+simply because the word "Java" was really popular back in the 90s. JavaScript is
+an interpreted programming language like Python, whereas Java is a compiled
+language like C. JavaScript started out just to add functionality to the front
+end. Animations, stuff like that. But now it's found all over the place. The
+back-end, different frameworks, libraries, etc. It has support from all major
+browsers. You can use other languages for web functionality, but JS is
+definitely the best option. The most popular language on GitHub & StackOverflow
+is still JavaScript, closely followed by Java and Python.
+
+JAVASCRIPT ALERTS
+So there is a JavaScript console that you can access and write some quick JS
+functions. You go to `view -> developer -> JavaScript Console`. To go to the
+next line in the console without deploying the previous code written in the
+console, you need to use `SHIFT + ENTER`.
+
+You could alternatively go to `Sources -> Snippets` and create a new .js file
+to write out a whole script and avoid having to work from within a command line
+environment. As with HTML and CSS, there's a ton of documentation surrounding
+JS in the MDN docs.
+
+To create a basic alert, you'd type in `alert("Hello");`. Alert is actually a
+method of the window object. Because window is the global object, you can call
+an alert either by its shorthand: `alert("Hello!");`` or by referencing the
+global object specifically: `window.alert("Hello!");` They are the same thing.
+"Alert" is a type of keyword, or function. Another useful function is called
+`typeof()`. It returns the data type of the enclosed data.
+
+Here we are using the double quotes "" to enclose "Hello". That's a stylistic
+choice, but generally the standard for enclosing pieces of text to be printed.
+There's this Github called rwaldron/idiomatic.js that is pretty much a guidebook
+for how to write proper JS.
+
+JS VARIABLES
+`prompt` is pretty similar to `alert`, it just allows for user input.
+
+`var myName = "Harsh";`
+
+`var myName = "Harsh";
+var yourName = prompt("What is your name?");
+alert("My name is: " + myName + ". Welcome to me website, " + yourName + "!")`
+
+CACHE
+A cache is a hardware or software component that stores data so that future
+requests for that data can be served faster; the data stored in a cache might
+be the result of an earlier computation or a copy of data stored elsewhere. A
+cache hit occurs when the requested data can be found in a cache, while a cache
+miss occurs when it cannot. Pulling from a cache is faster than recomputing or
+reading from a slower data source.
+
+Modern web applications routinely cache frontend resources such as javascript,
+images, and CSS elements in order to increase website performance. When browsing
+the web, and perhaps especially when developing or testing web-based
+applications, it is sometimes necessary to perform a Empty Cache & Hard Reload.
+
+A webmaster has the option to specify the expiration date of the data in your
+local cache so that your browser will load the latest version. The web browser
+cache is a useful function that allows the user and server to save bandwidth
+and time. It also makes the user experience better.
+
+However, this causes problems when some bad results are cached. It doesn’t
+allow your computer to convey the communication to the host directly. In such
+cases, we try to reload the web page or clear the cache.
+
+In web browsers, Google Chrome, for instance, you have the option to clear
+cookies, Adobe Flash cache, and temporary internet files. In Chrome’s developer
+tools option, you have a hidden feature to clear the cache, perform a
+soft/normal reload, hard reload, and empty cache with hard reload.
+
+Normal Reload
+  - Reloads the page and serves the cached content
+
+Hard Reload
+  - Reloads the page and forces the browser to download items. Cache data might
+    appear if the webpage loads additional resources from the cache.
+
+Empty Cache & Hard Reload
+  - Page’s cache is cleared completely. Everything is downloaded from scratch.
+
+VARIABLE NAMING
+- Give your variables meaningful names. Like how you name your file structure.
+- You can't call your variables `var` for obvious reasons
+- But you can have a name like `myVar`
+- Your variables can't begin with a number
+- But can contain a number
+- Can't contain a space
+- Can only contain letters, numbers, `$`, or `_`. No other symbols
+- So `abc_123$` is a valid variable name but `abc-123$` is not
+- Camel casing is a popular way of naming your variables: `myVar` etc.
+
+STRINGS
+Adding two strings together, puts them together into one thing. It concatenates
+them, e.g. "a" + "b" = "ab".
+
+We can do `word.length` in JS to get the length of a particular string:
+    `var tweet = prompt();
+    var len = tweet.length;
+
+    alert("You have written " + len + " characters, you have " + (140 - len) + " characters left.")`
+
+We can also "slice" our strings as we can in Python, that is, select particular
+lengths of our strings. `word.slice(0,1)` selects from the beginning up to but
+not including the 1 index (so just the 0 index in this case). Using the Tweet
+example from above, we can cut off the length of a Tweet to 140 characters as
+below:
+
+`var tweet = promt();
+alert(tweet.slice(0,140));`
+
+We can also use functions like word.toUpperCase() to make every character in a
+string to upper case. We can also use toLowerCase(), etc:
+
+`var name = "Harsh;"
+name = name.toUpperCase();`
+
+To capitalize only the first letter of a name and ensure lower case for all
+other characters:
+
+`var name = prompt("What is your name?");
+alert("Hello, " + name.slice(0,1).toUpperCase() + name.slice(1,name.length).toLowerCase())`
+
+NUMBERS
+All the normal operations apply in JS.
+X++ -> X = X + 1
+X-- -> X = X - 1
+X +=2 -> X = X + 2
+X +=Y -> X = X + Y
+x /=2 -> X = X/2
+etc.
+
+FUNCTIONS
+
+function getSomething(inputs){
+  //instructions
+}
+
+Instead of using `alert` to test our code, we can also use `console.log`. This
+way, our output will be displayed in our console, but not to the user as an
+alert.
+
+An example of a function that tells you how long you have left to live:
+
+`function lifeInWeeks(age){
+    var days = (90-age)*365;
+    var weeks = (90-age)*52;
+    var months = (90-age)*12;
+    console.log("You have " + days + " days, " + weeks + " weeks, and " + months + " months left.");
+}
+
+lifeInWeeks(23);`
+
+You can use functions inside of functions, obviously.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--

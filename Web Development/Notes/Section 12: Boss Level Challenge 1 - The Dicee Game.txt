@@ -1,0 +1,1 @@
+Made a basic website that integrated a bit of rudimentary JavaScript.

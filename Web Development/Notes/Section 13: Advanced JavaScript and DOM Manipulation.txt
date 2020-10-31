@@ -1,0 +1,91 @@
+EVENT LISTENERS
+These are functions you can use which execute only after a particular event
+occurs to the target of the function. Like you want something to happen only
+after a user clicks on a button, etc.
+
+If you type in the name of a function with the parentheses `()`, then you are
+calling the function. That is, you're executing the function. But with event
+handlers you may only want to call the function after a particular event occurs.
+So you would just type the name of the function without the parentheses. For
+example:
+
+`document.querySelector("button").addEventListener("click", handleClick)
+
+function handleClick() {
+  alert("I got clicked");
+}`
+
+That would execute your function only after the target button was clicked by the
+user.
+
+You can also have anonymous functions, i.e. functions without an explicit name.
+Taking the above example:
+
+`document.querySelector("button").addEventListener("click", function () {
+  alert("I got clicked");
+})`
+
+
+HIGHER ORDER FUNCTIONS
+Functions that take other functions as inputs. For example:
+
+`function add(num1, num2) {
+return num1 + num2;
+}
+
+function subtract(num1, num2) {
+return num1 - num2;
+}
+
+function multiply(num1, num2) {
+return num1 * num2;
+}
+
+function divide(num1, num2) {
+return num1 / num2;
+}
+
+function calculator(num1, num2, operator) {
+return operator(num1, num2);
+}`
+
+You can go to the next line in your console by holding down SHIFT before you
+click enter.
+
+There's a debugger built into the browser that you can use in the console. Just
+type in `debugger` and then on the next line the function you want to step through
+and it'll walk you through each line of your code.
+
+You can also examine elements on a web page and see the JS shortcut name for
+each element. For example, $0 is the name given to the title on wikipedia pages.
+So now, instead of having to start with `document` and then using Query selector
+to select your element, you can just use the nickname and use methods straight
+from there. For example:
+
+`$0.addEventListener("click", function(){
+console.log("I got clicked!");
+})`
+
+
+PLAYING SOUNDS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---

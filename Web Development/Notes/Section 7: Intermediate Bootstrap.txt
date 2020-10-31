@@ -1,0 +1,216 @@
+Carousel
+There's a package you installed called Sublime-Style-Column-Selector. You can
+use it to type on multiple, aligned rows of text at the same time. The shortcut
+is `option + click & drag`. Pretty great tool.
+
+The Bootstrap Carousel is a tool that allows you to show multiple elements one
+at a time on an automatically rotating display. You can adjust the speed of
+switching the elements manually if you want and all that stuff. The default I
+believe is 5 seconds (5,000 milliseconds). You can also have the carousel react
+to keyboard actions, or a hover state, etc.
+
+One of the elements in your carousel has to be marked with a class of "active"
+to ensure a default display element of the carousel.
+
+Accessibility for the Visually Impaired
+When visually impaired people go to your website, they'll usually have a screen
+reader that reads out everything on the page. Now you wouldn't really want the
+reader to read out "left-button" or "right button" so you can specify for the
+reader to skip over the tag by using: `aria-hidden = "true"`. An accessibility
+thing. you can also create new spans etc. that have the class `sr-only`. That
+will specify to the screen reader what to read as a replacement. So here you
+could just specify "Previous" or "Next". That'll be a lot more intuitive for
+the user than "left carousel button" or whatever archaic thing it's normally
+coded as for the reader software.
+
+BOOTSTRAP CARDS
+Bootstrap and bootsnipp.com have all these different templates of payment
+options or email submit boxes or whatever that you can copy and paste (using the
+appropriate licensing etc.).
+
+Cards are just a bootstrap template that was created to fill a very common
+layout on websites. It's just a div with the class "card". It has sub-divs of
+"card-header", "card-body", and "card-footer". You can wrap multiple card into a
+"card-deck" to get them spaced out on the same row. But the card-deck system
+isn't as responsive as the bootstrap grid system, so you can place your card
+deck within the normal grid system.
+
+Z-Index
+All positions on the screen have an X and Y position. But they also have a Z
+position. Generally what is written first in HTML will be placed "behind"
+elements that appear later in the file. To change this we need to use the
+Z-index. The default Z-index for all elements is 0. You can change the Z-index
+of elements to alter their order of "stacking". But using the Z-index only works
+when you specify the position property. If you leave it at the default of static
+then it won't work. You can see a flowchart for stacking order in the `Resources`
+folder. You'll see that you don't necessarily have to specify the Z-index to get
+things to stack. You can just as easily just specify the position attribute and
+then rely on the HTML order to get things to stack naturally. Just follow the
+flowchart.
+
+MEDIA QUERY BREAKPOINTS
+The number of people who use the internet on mobile surpassed desktop in 2018.
+Google actually punishes your website in its rankings if your website isn't
+mobile friendly. You can use the google mobile tool to check how it ranks your
+website on mobile. Facebook actually has an entirely separate website for
+mobile: m.facebook.com.
+
+Media Queries follow the format of: `@media <type> <feature>`. For example this
+will apply the CSS code only if the screen size is large, like desktop size:
+
+`@media screen (min-width: 900px){
+//Change Something
+}`
+
+A desktop is usually:  1200 X 264 pixels
+A tablet is usually:   880 X 264 pixels
+A mobile is usually:   ?
+
+This is purely a CSS feature, it has nothing to do with bootstrap. You can use
+these queries to create "breakpoints" that affect the format of our webpages
+for different key breakpoints: screen size or resolution, whether the document
+is being printed, etc.
+
+So when you're designing a website, there are two ways you can do it. You can
+either try to create it as mobile-first, and then try to make it responsive to
+desktop. Or you can do it the traditional way and go in reverse. In today's
+world mobile first would be a better approach on the whole, but it depends a lot
+on the user base you're expecting.
+
+You can also link buttons to specific IDs on your page. So on your nav bar, you
+can have the "Pricing" button link to the pricing section lower down on your
+website. Also, when you type the name of a website in, followed by a `/` and
+then type the name of an ID, it should link to that section of the website.
+These are all things to keep in mind when using IDs. In general only use IDs
+when the elements truly need unique labelling. Otherwise use classes.
+
+CODE REFACTORING
+In computer programming and software design, code refactoring is the process of
+restructuring existing computer code—changing the factoring—without changing its
+external behavior. Refactoring is intended to improve the design, structure,
+and/or implementation of the software (its non-functional attributes), while
+preserving its functionality.
+
+WET code: We Enjoy Typing. This is code that isn't dry. It's code that is very
+copy/pastey or code that has multiple of the same lines typed out at different
+points in the file. For instance, it's easy to apply padding individually to
+multiple elements in our CSS docs. But that's inefficient.
+
+Order of importance of refactoring code:
+
+1. Readability
+Make sure it's easy for you to understand everything in your code if you return
+to it one year from now.
+
+2. Modularity
+How easy is it to narrow down which section of the website/HTML doc a specific
+piece of code is referencing to? If a section of your website breakdown, will
+you be able to figure out where to go in which file to fix it?
+
+3. Efficiency
+How fast does it run? Lower level languages like C run faster.
+
+4. Length
+How much can you reduce length to improve readability. But don't just do it for
+the sake of doing it.
+
+Whenever you want to apply a specific style, you probably want to ask yourself
+if you can use a class.
+
+You can specify a particular class within a particular ID by using:
+
+`#ID.class{
+  padding-top: 3px;
+}`
+
+
+COMBINING SELECTORS
+
+1. Multiple Selectors:
+
+`h1, h2, h3, h4, h5, h6 {
+  font-family: "Montserrat";
+}`
+
+or even
+
+`h1, p {
+  color: red;
+}`
+
+
+2. Hierarchical Selectors: You have two selectors, with one space in between.
+First selector is the parent and the second is the child. They have to be a
+parent-child relationship or it won't work. You read these from right to left
+in terms of specificity.
+
+seletor1 selector2{
+
+}
+
+So you could do something like:
+
+div h1 {
+  color: red;
+}
+
+which would make all h1 elements inside divs, red. You could also do something
+like:
+
+.container-fluid #title{
+  color: red;
+}
+
+This would make the element with the ID `title` within any element of the class
+`container-fluid`, red. This is way more specific. It's also kind of redundant
+because any ID has to be unique so you could just select for the ID by itself
+and get the same result. A more realistic example would be:
+
+.container-fluid h1{
+  color: red;
+}
+
+This makes every h1 in a div of class `container-fluid` red, which is a
+reasonable way to use hierarchical selectors.
+
+3. Combining Selectors: Here you have multiple selectors but no space between
+them. You read these from left to right. But here, the combination of selectors
+has to be in the same element. So these would work:
+
+div.container-fluid{
+  color: red;
+}
+
+h1#title{
+  color: red;
+}
+
+But this wouldn't:
+
+div#title{
+  color: red;
+}
+
+because the `#title ID` isn't in the div element. It's in an h1 element which
+is a child of the div.
+
+
+So in summary, multiple selectors is straightforward. You have multiple
+selectors all on one line specified to have a particular format.
+
+Combining selectors makes sense intuitively as a way of selecting two
+specifications. Like `div.price-option`, this allows me to style all divs with
+the class `price-option` in a particular way.
+
+Hierarchical selectors are about parent-child relationships. I can do
+`div .price-option` to style any element that has the class `price-option` and
+is the child of a div.
+
+
+SELECTOR PRIORITY
+Basically, anything selected by an ID will override anything selected by a class
+which in turn overrides anything selected by an element tag. This is similar to
+how in-line CSS overrides internal CSS which in turn overrides external CSS.
+Always try to use classes instead of IDs. Also try to apply only a single,
+custom class to each of your elements. And never use in-line or internal CSS
+style lol.

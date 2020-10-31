@@ -78,3 +78,36 @@ NAVBAR
 
 Reminder that bootstrap is really useful for creating responsive websites. That
 is, it is adaptable to desktop, ipad, mobile, etc.
+
+GRID LAYOUT
+One of the most annoying parts of using websites is layout: positioning things
+on the screen etc. CSS also has a grid system that makes things a little bit
+easier.
+
+You can set up a grid framework using a structure of multiple divs with classes
+that are either "row" or "col". It's a dynamic setup so the grid will equally
+space out your columns depending on how many you specify. The max number of
+columns in a given row is 12. There are many setups here. You can leave it to
+dynamically space out, you can specify the exact number of spots out of 12 you
+want your column to take, you can add furthur dynamism by allowing for different
+layouts depending on your monitor size (desktop, tablet, mobile, etc.).
+
+If you give a particular column the class of `col-3`, it will take up "three
+out of the twelve spaces available", that is, it won't be dynamic. If you specify
+`col-md-3` then your column will take up 3 spots for any screen size from tablet
+and larger (so 1/4th of the width of the screen). I've included an example at the
+bottom of index.html of the Tin-Dog exercise. Also always check the documentation
+if you're confused about anything.
+
+CONTAINERS
+Actually, the grid systems we were using earlier are defined within containers.
+You can specify a container to be fluid, that way, it is not constrained to be
+one of "small, medium, or large" (sm, md, lg), rather it will always take up
+100% of the screen regardless of the width.
+
+Icons
+There's a website called fontawesome.com which has all these free icons that can
+be used for commercial purposes, like the apple icon or the Google Play Store,
+etc. You just need to add the fontawesome CDN to your website, similar to Google
+fonts, and you can start using their icons. You can add hover states, colors,
+etc. For larger icons, just specify fa-2x etc. as the class of the icon. :)

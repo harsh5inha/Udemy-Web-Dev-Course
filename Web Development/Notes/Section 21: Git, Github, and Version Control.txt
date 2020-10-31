@@ -7,7 +7,7 @@ application in a graphical user interface. Vim allows you to be efficient by
 forcing you to only use the keyboard, and then giving you the ability to use
 existing keyboard shortcuts as well as customize and create new ones for
 completing repetitive tasks quickly. It's available on basically every major
-platform: Mac, Windows, Linux. however, there is a high learning curve.
+platform: Mac, Windows, Linux. However, there is a high learning curve.
 
 Vim has two modes.
 1. Insert mode (Where you can just type like normal text editor. Press i for insert mode)
@@ -114,33 +114,57 @@ with android apps etc. So there isn't a ton of benefit from putting these files
 in a private repo to begin with. I'm not 100% sure about this stuff though, so
 I'll have to learn more about it later.
 
-To push your repository from your local computer to Github, you can do
-`git remote add origin *URL of repo*`. You don't have to specify "origin" as the
-name of the remote repo but it's standard practice. Then to actually push our
-repo, we can do `git push -u origin master`. the `-u` flag links up your repos,
-the origin is the name of your remote repo, and master is the name of the branch.
-The master branch is simply the main or default branch of all of your commits.
-People actually do a lot of story writing on Github, because it's so convenient
-for saving your different versions, etc. Github has some visualizations that
-show branches, and the series of commits you've pushed. You can also look at the
-commit messages and the changes made at each time point.
+To push your repository from your local computer to Github, you create a repo on
+Git hub, and then you can do `git remote add origin *URL of repo*`.
+You don't have to specify "origin" as the name of the remote repo but it's
+standard practice. Then to actually push our repo, we can do `git push -u origin
+master`. the `-u` flag links up your repos, the origin is the name of your
+remote repo, and master is the name of the branch. The master branch is simply
+the main or default branch of all of your commits. People actually do a lot of
+story writing on Github, because it's so convenient for saving your different
+versions, etc. Github has some visualizations that show branches, and the series
+of commits you've pushed. You can also look at the commit messages and the
+changes made at each time point.
 
-We don't want to upload all files to GitHub. Secret files with passwords, API
-keys, user settings, etc. need to be included in a .gitignore file so they aren't
-pushed to the repo. .DS_Store files (typically hidden files) are settings files
-that save things like how you like your files to be displayed in your folder
-like order of the files etc. We'd usually not want to upload those to the repo
-either because they kind of just clutter everything. So we can create a
-`.gitignore` file in our directory (case sensitive). Within that file we can use
-the `#` symbol to write comments, and we just write out the full names of the
-files we'd rather not have pushed to the repo. We can also make use of the `*`
-wildcard to specify files of a certain pattern. All `*.txt` files, for instance.
+We don't want to upload all files to GitHub. The names of secret files with
+passwords, API keys, user settings, etc. need to be included in a .gitignore
+file so they aren't pushed to the repo. The .DS_Store file (typically a hidden file)
+is a settings file that saves things like how you like to order your files to be
+displayed in your folder. We'd usually not want to upload those to the repo
+either because they create clutter. So we can create a `.gitignore` file in our
+directory (case sensitive). Within that file we write out the full names of the
+files we'd rather not have pushed to the repo. We can use the `#` symbol to write
+comments within the file. We can also make use of the `*` wildcard to specify
+files of a certain pattern. All `*.txt` files, for instance.
 
+A README file contains information about other files in a directory or archive
+of computer software. A form of documentation, it is usually a simple plain text
+file called Read Me, READ.ME, README.TXT, README.md (for a text file using
+markdown markup), README.1ST  – or simply README.
 
+So there are 3 files to take care of in each directory you create:
+- .gitignore
+- .DS_Store
+- README.md
 
+CLONING
+Cloning a repository is taking a repository from Github, and creating a local
+version on your machine. On GitHub there's a repository called "open source ios
+apps" which is where a bunch of people have put code for open source ios apps.
+The command is `git clone *Repository URL*`.
 
-Commit those 4 files in the new file (project?) after completing the .gitignore
-file.
+BRANCHING & MERGING
+
+`git branch`:                   Check what branch you're currently on
+`git branch *new branch name*`: Create new branch
+`git checkout *branch name*`:   Change to different branch
+`git merge *branch to merge*`:  Merge a branch. Include a merge message via Vim.
+
+When you type out `git log`, you'll be able to see the latest push that you've
+made to your local repository as "(HEAD -> Master)" in addition to the latest
+push you've made to your remote repository in red as "(origin/master)". (They
+will be the same push if you're all up to date.)
+
 
 https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit
 

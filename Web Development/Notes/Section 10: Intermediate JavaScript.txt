@@ -1,0 +1,192 @@
+You can use `Math.random()` to generate a random number from 0 up to but not
+including 1. We can then multiply by some scalar to get that randomness to
+scale.
+
+PSEUDORANDOM NUMBERS
+We can get truly random numbers by sampling noise. Like from static or a geiger
+counter, etc. Well, if you believe the world isn't 100% deterministic.
+
+Anyways, you can't really do that on computers so there is this whole field
+dedicated to understanding pseudorandom numbers.
+
+In 1946 John von Neuman was working on the hydrogen bomb. He needed long lists
+of random numbers that could be repeated if needed. So he came up with the idea
+of a "seed". This is the same concept that you use in R or NumPy when you're
+trying to come up with a random number but want it to be consistent across
+multiple iterations or multiple computers, etc.
+
+It's an algorithm.
+- Select a truly random number as the seed (current time in milliseconds, etc.)
+- Square the seed
+- Isolate the middle digits of the result
+- Repeat
+
+This is the middle squares method. The randomness of the sequence is dependent
+on the randomness of the seed only. Same seed, same sequence.
+
+However, eventually a pseudorandom sequence will repeat itself once the
+algorithm reaches a seed it has previously used. It's a deterministic cycle,
+remember. The length of time before a sequence repeats itself is called the
+period. The period is limited by the length of the initial seed.
+
+If we use a 2 digit seed, then the algorithm can produce at most 100 numbers
+before repeating itself. 3 digits? 1,000 numbers. 4 digits? 10,000 numbers.
+
+So really, there are only 10,000 different sequences that can be drawn using
+a 4 digit seed, whereas there are an infinite number of sequences that can be
+drawn using true randomness.
+
+So we have to select a seed that's large enough to reasonably mimic a truly
+random sequence. The longer the seed, the more secure the randomness. The
+faster computers get, the longer our seeds will have to become. Same idea with
+a bike lock. Theoretically, someone could unlock our lock if they just tried all
+the possible combinations, but we're counting on it taking too long for it to be
+worth it. Same deal here.
+
+IF-ELSE STATEMENTS
+You have IF_ELSE statements, while loops, and for loops, just like other languages.
+
+In JS using three equal signs means that you're checking for equality but also
+datatype. With just two equal signs, you're checking for equality but not
+necessarily matching datatypes. So 1 and "1" would be equal with two signs but
+not three.
+
+&& -> AND
+|| -> OR
+
+Example:
+`function bmiCalculator (weight, height) {
+    var bmi = weight/(height*height)
+    if (bmi<18.5){
+        var interpretation = ("Your BMI is " + bmi + ", so you are underweight.");
+    } else if (bmi>24.9) {
+        var interpretation = ("Your BMI is " + bmi + ", so you are overweight.")
+    } else {
+        var interpretation = ("Your BMI is " + bmi + ", so you have a normal weight.")
+    }
+    return interpretation;
+}``
+
+
+JAVA SCRIPT ARRAYS
+var guestList = ["Eric", "Rana", "Noah", "Harsh", "Dhaivat", "John", "Andrew"]
+var myGuest = guestList[0]
+
+guestList.includes("Harsh") -> returns a boolean
+
+You can add and remove elements on the end of an array using `push` and `pop`:
+guestList.push("Shashwat")
+guestList.pop
+
+Here's the FIZZBUZZ function:
+`var output = [];
+var i = 1;
+
+function fizzbuzz(){
+
+    if (i%3 === 0 && i%5 !== 0){
+        output.push("fizz");
+    } else if (i%3 !== 0 && i%5 === 0) {
+        output.push("buzz")
+    } else if (i%3 === 0 && i%5 === 0) {
+        output.push("fizzbuzz")
+    } else {
+        output.push(i)
+    }
+    i++;
+
+    console.log(output);
+}`
+
+Or you could do
+
+`var output = [];
+var i = 1;
+
+function fizzbuzz(){
+
+    if (i%3 === 0 && i%5 === 0){
+        output.push("fizzbuzz");
+    } else if (i%3 === 0) {
+        output.push("fizz")
+    } else if (i%5 === 0) {
+        output.push("buzz")
+    } else {
+        output.push(i)
+    }
+    i++;
+
+    console.log(output);
+}`
+
+This function randomly selects an element from an array:
+
+function whosPaying(names) {
+    var n = (Math.floor(names.length*Math.random()));
+    return(names[n] + " is going to buy lunch today!");
+}
+
+Here's one about using a while loop:
+var i = 99
+
+while (i>1){
+    console.log(i + " Bottles of beer on the wall, " + i +
+    " bottles of beer. Take one down, pass it around, " + (i-1) +
+    " bottles of beer on the wall!");
+    i--;
+}
+
+You could also use a `for` loop. They're syntactically like `for` loops in C.
+
+In general you'll use a while loop when you're doing something while a particular
+state is being observed, whereas you'd use a for loop when you'd like to iterate.
+
+Here's the fibonacci function:
+
+`function fibonacciGenerator (n) {
+
+    var output = [];
+
+    if (n === 1){
+        output = [0];
+
+    } else if (n  === 2) {
+        output = [0,1];
+
+    } else {
+        var a = 0
+        var b = 1
+        output = [a,b];
+
+        for (var i = 0; i < n-2; i++){
+            var c = a + b
+            a = b
+            b = c
+            output.push(c)
+            }
+    }
+    return output;
+}
+fibonacciGenerator(5)`
+
+OR
+
+`function fibonacciGenerator (n) {
+
+    var output = [];
+
+    if (n === 1){
+        output = [0];
+
+    } else if (n  === 2) {
+        output = [0,1];
+
+    } else {
+        output = [0,1];
+        for (var i = 0; i < n-2; i++){
+            output.push(output[output.length - 2] + output[output.length -1])
+            }
+    }
+    return output;
+}
+fibonacciGenerator(5)`

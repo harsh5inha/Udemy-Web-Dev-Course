@@ -1,0 +1,106 @@
+ADDING JS TO WEBSITES
+
+Similar to CSS, we can use inline JS. For example:
+- `<body onload="alert('hello');"></body>`
+- Here we have to use single quotes inside of the double quotes to let the browser
+  know how to distinguish. Using `onload` will activate the JS code as soon as the
+  page is loaded on the browser.
+- But inline JS, like with CSS isn't great practice.
+
+We can also use internal JS
+- `<script type = "text/javascript">
+    alert("Hello");
+    </script>`
+
+Or, as is best practice, we can link to an external script file
+- <script src="index.js" charset="utf-8"></script>
+
+You wanna put your link to your JS file at the bottom of the page. This is so
+that the HTML and CSS can render properly, before any JS is applied. Otherwise,
+the browser will try and execute some JavaScript on an HTMl tag that might not
+yet exist and it could return an error.
+
+DOCUMENT OBJECT MODEL (DOM)
+The DOM is an API for HTML. It turns a web page into a tree of objects, or nodes.
+Web browsers use DOM specifications to determine how to display web pages. When
+a browser gets HTML code from a server, it actually converts it into a DOM. Then
+any JavaScript we write will interact with the DOM as a API for the HTML. The
+DOM is language agnostic, so we can use other programming languages to interact
+with it, not just JavaScript. The DOM is object oriented, which means that each
+node has its own properties and methods.
+- Properties describe the elements. They're things like `.firstElementChild`.
+- Methods are the things they can do. i.e. functions that are specific to
+  particular objects. Just like in Python. They're things like `.setAttribute()`
+
+You can test out selecting different elements via the DOM on the console by
+trying commands like `document.firstElementChild` etc.
+
+You could also do `document.querySelector("element")` to search the document for
+the first HTML tag named "element". To select all such tags in the doc, you can
+use `document.querySelectorAll("element")`. You could also search for a
+particular class or ID using that function. It's dynamic to different selectors.
+Whereas with a command like `document.getElementsByTagName` as below you can
+only specify a tag name, etc.
+
+SELECTING HTML ELEMENTS USING JS
+We can also use something like `document.getElementsByTagName("element")` to
+return an array of all elements named "element". We can manipulate these results
+by indexing into the returned array, etc. Even if there is only one item
+returned, it'll be returned as an array of size 1.
+
+You can also do `document.getElementsByClassName(".class")` to return all elements
+with a particular class. Or `document.getElementById("#ID")` to return the
+element with the specified ID. Since IDs are unique, this last command will
+return and object, not an array, so you can manipulate it directly.
+
+- You can do hierarchical selectors: `document.getElementsByClassName("li a")`
+- You can combine selectors: `document.getElementsByClassName("li.item")`
+
+You'll generally see querySelector more often than things like getElementsByClassName
+etc. because querySelector is a more dynamic and powerful command.
+
+CHANGING CSS STYLING USING JS
+As always, you can check the DOM documentation in W3Schools to see the list of
+all the properties you can manipulate using JS and how exactly they are spelled
+etc.
+
+One thing that is different is that you have to write out all values as strings,
+even numbers like padding, line-height, etc.
+
+SEPARATION OF CONCERNS
+We want to make sure that the HTML is providing content, CSS is providing style,
+and the JS is providing functionality. Ideally, we wouldn't want to try to use
+any of these languages for cross functional purposes. However, sometimes, we'll
+want to change styles etc. dynamically based on user action. So we'd need to use
+JavaScript. But not really.
+
+What we really want to do is to have all the dynamic formatting already set up,
+dormant in our CSS style sheet. Then, based on user action, we can add, remove,
+or toggle those classes using JS, triggering the desired styles, thus making our
+page dynamic without violating the separation of concerns. So if there's
+something wrong with the style of a page, we check the CSS. For functionality,
+we check JS, and there isn't any confusion about which file is providing which
+functionality to our site. Every DOM object has a .classList attribute. You can
+use it to see which classes are tied to a particular object, and also to
+add/remove/toggle classes to achieve this. For example:
+
+`document.querySelector("h1").classList.add("huge")`
+
+TEXT MANIPULATION
+
+So thus far we've been changing the actual text in our HTML by using:
+`document.getElementById("title").innerHTML = "Good Bye`
+
+But what that actually does is change the HTML content, not strictly the text
+content. That means you can use that command to change/add new HTML tags, not
+just the text. To change just the text you can use:
+
+`document.getElementById("title").textContent = "Good Bye"`
+
+ATTRIBUTE MANIPULATION
+So remember attributes are all the things that go inside the HTML tag that aren't
+the name of the tag itself. So things like href, img, class, etc. (This is
+different from properties, which are things that describe the tags, and were
+mentioned earlier.) To change an attribute of a tag, you can do as below:
+
+`document.querySelector("a").setAttribute("href", "https://bing.com")`
