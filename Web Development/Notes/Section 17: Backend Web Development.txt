@@ -1,4 +1,31 @@
+Woop, excited for this stuff.
+
 Full Stack = Front End + Back End
 
-Front End is stuff like HTML, CSS, Javascript, Bootstrap, JQuery.
-Back end is stuff like servers, databses, applications
+Front End is stuff like HTML, CSS, Javascript, JQuery, and Bootstrap.
+Back end is stuff like servers, databases, applications. Like node.js, etc.
+
+To use an analogy of a restaurant:
+- the dining room is the front End
+- the kitchen is the server
+- the pantries are the databases
+
+Now the front end of your website is "compromised". Your HTML, CSS, and JS can all
+be accessed and manipulated by the client. You could also send over all your
+back end files to the client to be loaded up locally on the browser, but that
+would be inefficient. You'd have more files to deliver, and it'd be inefficient
+to customize the logic to individual clients. Much better to have a centralized
+back end that can serve all clients. Sort of like how it wouldn't make sense to
+bring the ingredients out to the table of the customer and make their food in front
+of them. Just doesn't really make sense.
+
+Also you'd want to make sure you keep anything confidential or proprietary, or
+the business logic of your applications, or your API keys hidden from the client,
+on the back end. I.e. not served to the client browser.
+
+php, ruby, node.js, Java are all used on the backend. You also have frameworks
+like CakePHP, Ruby on Rails, Express, or Spring respectively. These speed up
+the coding process for developers and reduce the repetitive stuff, grunt work,
+boiler plate stuff.
+
+Node.js is super popular

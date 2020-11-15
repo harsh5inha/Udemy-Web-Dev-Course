@@ -1,0 +1,162 @@
+EXPRESS
+Express is a Node Framework. Sort of like how jQuery is a framework for vanilla
+JavaScript. Express.js helps us use Node.js by helping us not have to write
+excessive amounts of code. There are alternatives, but Express is the most
+popular.
+
+BUILDING OUR OWN SERVER
+To install express we do: `npm install express`. It's a package, just like normal.
+And as mentioned, it'll bring along its own dependencies, which in the case of
+express, is many.
+
+People often use the moniker "app" to refer to the express module. This is
+common procedure, and can be seen in the server.js file -> Practice Site 9 (Server.js)
+
+A "port" is basically a channel that we tune our server to. Kind of similar to
+how we tune in to certain radio channels, etc. So if we set up a server to listen
+on port 3000, and then type in "localhost:3000" into the search bar, we should
+arrive at the server we set up. So our browser is going to try and send a get request
+for the website, but obviously there's no functionality, we haven't set that up yet.
+
+Typing in "localhost:3000" in this case brings us to the root, or home page of
+our website. Just like Google.com or any other website. It's just that our website's
+server is our local computer, make sense?
+
+Okay so, you could set up a basic server to console log the request data from the
+request that the browser made and to return to the browser simply the word
+"Hello" as follows (the full code is in server.js):
+
+`app.get("/", function(request, response){
+  console.log(request);
+  response.send("Hello");
+})`
+
+Now you could also return HTML:
+
+`app.get("/", function(request, response){
+  console.log(request);
+  response.send("<h1>Hello, world!</h1>");
+})`
+
+or even an entire HTML page:
+
+`app.get("/", function(request, response){
+  console.log(request);
+  response.sendFile("/Users/hsinha/Desktop/Udemy-Web-Dev-Course/Web Development/Practice Site 10 (Calculator via your own Server)/index.html");
+})`
+
+as explained later, this can be simplified to:
+
+`app.get("/", function(request, response){
+  console.log(request);
+  response.sendFile(__dirname + "/index.html");
+})`
+
+Usually you'll see "req" instead of "request" and "res" instead of "response",
+as shown in server.js (Site 9) and calculator.js (Site 10).
+
+
+ROUTES
+So we can also specify what should happen upon browser requests to different
+routes other than our root page (home page). To test those other routes we can
+go to `localhost:3000/route_name`. For example `localhost:3000/about`.
+
+
+NODEMON
+Nodemon is an npm package that makes it easier for us to auto start our servers.
+It will monitor for changes in the code, and will automatically restart the
+server so we don't have to manually shut it down and start it over again each
+time we want to see the updated code on our website. It doesn't matter where you
+install it. Just download it in your local root directory and you should be able
+to use it in all your projects. To install: `npm install -g nodemon`. Now whenever
+you launch your server type `nodemon server.js`, instead of just `node`.
+
+Okay well you can't do that here, because the `-g` flag stands for global, and
+we don't have permission to do that on this computer because it's company owned.
+So in this case we can download the module locally in our directory without the
+`-g` flag, and when we want to launch our server we do: `npx nodemon server.js`.
+
+
+CALCULATOR WEBSITE SERVER - (Practice Site 10)
+We're going to try and build a web server that acts as a calculator.
+
+STEPS TO INITIALIZE A WEB SERVER
+1. Make a new directory                                             `mkdir directory`
+2. Index into this directory                                        `cd directory_name`
+3. Create a new file called server.js                               `touch server.js`
+4. Set up a new NPM package by following the commands following:    `npm init`
+5. Open the project folder in Atom:                                 `atom directory_name`
+6. Using NPM install the express module:                            `npm install express`
+7. Require express in your server.js:                               `const express = require('express')`
+8. Setup express:                                                   `const app = express();`
+9. Create a root route get method with app.get():                   `app.get("/", function(req, res){ res.send("Hello, world!"); })`
+10. Spin up our server on port 3000 with app.listen:                `app.listen(3000, function() { console.log("Server started on port 3000"); })`
+11. Run server with nodemon                                         `npx nodemon server.js` OR `nodemon server.js` if it's globally installed
+
+JavaScript:       A scripting language that enables functionality on websites.
+jQuery:           A JS framework that makes JS easier
+Node.js:          Enables JS outside the browser
+Express.js:       A framework for Node, makes node easier
+npm:              Node Package Manager
+nodemon:          A module that dynamically restarts web servers so that we don't have to manually do it every time we update our source code.
+bodyparser:       A module that allows us to parse the information we get from post requests
+
+Now as you'd expect, you can also send entire HTML pages when browsers request
+particular routes on your website, you aren't limited to only "Hello, world!".
+That's what makes it a website after all.
+
+Now, because any real website is going to be hosted on a remote server, instead of
+writing out the filepath (of the HTML page you're going to send) relative to your
+local machine, you start with `__dirname`. That gives you the file path of the
+current file, regardless of where the file is hosted (your local copmuter or on
+the cloud). For example, if you wanted to use "index.html" as your root route,
+you'd use:
+
+`app.get("/", function(req, res){
+  res.sendFile(__dirname + '/index.html');
+})`
+
+
+POST REQUESTS
+If your form has a "post" method, then it's sending some data somewhere. That
+somewhere is defined by the "action" attribute. Generally you'll want to send
+this data to your server, which in this case is at the home route location, so
+just the forward slash `/`. You can see this in the form in the index.html file.
+If you don't specify the action attribute location, it sends it to the page that the form
+is on. Which in this case is the same thing, but we wrote out `/` for clarity.
+
+We need to specify what happens when we get a post request (form submission) on
+our website. We do that using the `app.post` function as shown in calculator.js.
+But to tap into the data that is sent to our server, we have to use body-parser.
+It's an npm module that allows us to parse the information we get from
+post requests. To install we do: `npm install body-parser`. To use, we require
+it and use it as specified in the calculator.js file.
+
+body-parser has a few modes: "text", "json", "urlencoded". This is the output that it
+parses the requests into. For example, if it's set to text, then it'll parse all
+the requests into text. When we are trying to parse data that comes from an HTML
+form, we use urlencoded. When we use the urlencoded output, we also have to
+specify the `extended: true` option. This is so that we can parse nested requests.
+We aren't doing that here, but body-parser requires that we specify it. All this
+can bee seen in calculator.js.
+
+Using body-parser allows us to use things like `req.body` which is the parsed
+version of our HTTP request. We can console.log() this to see what it actually
+returns. Remember, when we console.log() something it'll appear on terminal
+running the server, not on our browser's console anymore.
+
+Further, to tap into the actual data, we specify the name of the submitted
+data field. Again, this can all be seen in calculator.js and index.html. In this
+case we'd do: `req.body.num1`.
+
+We'll learn more about all this with repetition, but for now, the important thing
+to recognize is that the browser no longer gets to see our JavaScript code. Our
+code is stored and delivered via the server, where the code can't be seen by the
+client, and the calculations and actual programs are run and re-served outside
+of the browser. The browser only gets to see the HTML & CSS that's rendered.
+Actually it might also get some JS? Not sure, will have to learn more.
+
+
+We also created another route: `/bmicalculator` that performs its own calculation
+so that's another example to look at to understand routes and receiving post
+data etc.

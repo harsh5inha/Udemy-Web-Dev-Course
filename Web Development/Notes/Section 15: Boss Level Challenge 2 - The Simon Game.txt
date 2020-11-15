@@ -1,0 +1,3 @@
+Made a web game based on remembering a pattern that involved a lot of JavaScript
+etc. Details in game.js (Practice Site 7 (Simon Game)). Human readable logic
+in the comments of that file.

@@ -1,0 +1,47 @@
+APIs
+
+You know what these are. Ways for companies/websites to allow developers to
+interact with their data/use their service in a particular way/link up their
+data to an independent service/program that they're building. APIs generally have terms
+and conditions on what is allowed and what isn't. You generally can't scrape
+websites for their data, you'll have to use their API, with some exceptions.
+They're sort of like contracts on what types of data is available and what
+methods and protocols can be used to access them.
+
+Official definition: Set of commands, functions, protocols, and objects that
+programmers can use to create software or interact with an external system.
+
+jQuery is an API.
+
+We're mostly focused on reading data through an API from someone else's SERVER
+to our server. That's the most powerful application of APIs.
+
+ENDPOINTS, PATHS, PARAMETERS, AUTHENTICATION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--

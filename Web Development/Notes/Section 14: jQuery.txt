@@ -1,0 +1,128 @@
+jQuery aims to provide simplify DOM manipulation and event handling in addition
+to animations and Ajax. Not sure what Ajax is yet though.
+
+"Vanilla JavaScript" is just JavaSCript without any additional frameworks or
+libraries.
+
+jQuery is the most downloaded JavaScript library that exists. There is controversy
+around it though. There's a growing movement that says that jQuery is outdated
+and that much of its functionality can be accomplished through native JavaScript.
+Still though, much of the existing web uses it, so still useful to know about it.
+It's used by over 70% of the 10 million most popular websites. For example:
+
+`document.querySelector("h1")`
+EQUALS
+`jQuery("h1")`
+EQUALS
+`$("h1")`
+
+You can download jQuery from their website. You can also use a CDN. Remember
+this is recommended. If you use a popular CDN, like Google's, then users may
+already have the files loaded on their computer, thus your web page's load time
+ought to be faster.
+
+It's important that you put the CDN request for jQuery before your request
+for your local JavaSCript file. Otherwise, the browser won't know how to
+interpret the jQuery in your local JS file. However, be mindful of putting both
+the CDN request and the link to your local file in the header of your HTML,
+because the browser might try to implement your local JS file before it loads
+the rest of the page. There's a method you can use in your JS file to ensure that
+the browser waits until after loading to use your JS, but it's better to just
+include both the link to the jQuery CDN and the link to your local JS file in
+the main body of your HTML.
+
+MINIFICATION
+So if you actually go to the URL of the Bootstrap or jQuery CDNs, you can see
+the code for the entire respective library. But the code is all smushed together
+because there are no spaces. This is to conserve file size. The computers don't
+need format or spacing to read code, that's just us lol. Anyways, there's this
+site, minifier.org, that will "minify" your CSS or JS code if you input it into
+there. It'll show you the number of bytes you've saved, etc. Smaller files mean
+faster load times, etc. If you download jQuery, locally, it'll come with one JS
+file that's human readable, and one that's minified just for the browser. There
+are also "unminify" sites that can do the opposite to minified code.
+
+It's important to remember that jQuery is a library that is written in JavaScript.
+So to really understand how it works, if you decide to go into the code, you're
+going to have to understand vanilla JavaScript.
+
+The technical difference between a framework and library lies in a term called
+inversion of control. When you use a library, you are in charge of the flow of
+the application. You are choosing when and where to call the library. When you
+use a framework, the framework is in charge of the flow. It provides some places
+for you to plug in your code, but it calls the code you plugged in as needed.
+
+
+HOW TO USE jQuery
+
+SELECT:                         $("h1")
+SELECT ALL:                     $("button")
+
+So jQuery selects for all matching elements, not just one. It only selects
+one if there is only one to select on the page.
+
+Set CSS Style:                  $("h1").css("color", "green")
+Get CSS Style:                  $("h1").css("color")
+Add class:                      $("h1").addClass("big-title")
+Remove class:                   $("h1").removeClass("big-title")
+Add multiple classes:           $("h1").addClass("big-title margin-50")
+Boolean for class:              $("h1").hasClass("margin-50")
+Set text:                       $(h1").text("Bye")
+Set HTML:                       $("button").html("<em>Hey</>")
+Get Attribute:                  $("a").attr("href")
+Set Attribute:                  $("a").attr("href", "htpps://www.yahoo.com")
+
+Add eventListener:              $("h1").click(function () {
+                                  $("h1").css("color", "purple")
+                                })
+Add eventListener to multiple:  $("button").click(function () {
+                                  $("h1").css("color", "purple")
+                                })
+Add keyboard eventListener:     $(document).keypress(function () {
+                                  $("h1").css("color", "purple");
+                                })
+Change text through jQuery:     $(document).keypress(function (event) {
+                                  $("h1").text(event.key)
+                                })
+
+Also we can add eventListeners in a more general way using the `on` syntax shown below.
+
+General click listener:         $("h1").on("click", function() {
+                                  $("h1").css("color", "purple")
+                                })
+General mouseover listener:     $("h1").on("mouseover", function() {
+                                  $("h1").css("color", "purple")
+                                })
+Add HTML before some element:   $("h1").before("<button>New</button>")
+
+Can also do after(), prepend(), and append(). Prepend and append will put your
+HTML inside of the selected element. Before and after will put your HTML outside
+of your selected element.
+
+Remove elements:                $("button").remove();
+
+You can also, hide, show, toggle, fade in, fade out, toggle, slide up, slide
+down, toggle, and add custom CSS animations using the following methods:
+
+.hide()
+.show()
+.toggle()
+.fadeOut()
+.fadeIn()
+.fadeToggle()
+.slideUp()
+.slideDown()
+.slideToggle()
+.animate({opacity: 0.5}) -> you can input custom CSS attributes you want to animate for so long as they are numeric values
+
+An example:
+
+$("button").on("click", function() {
+  $("h1").slideUp();
+})
+
+Or we can do multiple of these at once:
+
+$("button").on("click", function() {
+  $("h1").slideUp().slideDown().animate({opacity: 0.5});
+})

@@ -126,6 +126,7 @@ versions, etc. Github has some visualizations that show branches, and the series
 of commits you've pushed. You can also look at the commit messages and the
 changes made at each time point.
 
+GITIGNORE
 We don't want to upload all files to GitHub. The names of secret files with
 passwords, API keys, user settings, etc. need to be included in a .gitignore
 file so they aren't pushed to the repo. The .DS_Store file (typically a hidden file)
@@ -136,6 +137,14 @@ directory (case sensitive). Within that file we write out the full names of the
 files we'd rather not have pushed to the repo. We can use the `#` symbol to write
 comments within the file. We can also make use of the `*` wildcard to specify
 files of a certain pattern. All `*.txt` files, for instance.
+
+The github repository on GitHub, that is, the repository that the company GitHub
+manages, includes a repository called gitignore. In there you'll find a bunch
+of different .gitignore templates. So if you're making something on Swift, you
+can search for the Swift Template and copy/paste the contents into your own
+gitignore. The templates are just a bunch of different file names and file
+extensions for things you wouldn't want uploaded to a public repository. Things
+like API keys, user defaults or user settings like `*.pbxuser` etc.
 
 A README file contains information about other files in a directory or archive
 of computer software. A form of documentation, it is usually a simple plain text
@@ -154,36 +163,61 @@ apps" which is where a bunch of people have put code for open source ios apps.
 The command is `git clone *Repository URL*`.
 
 BRANCHING & MERGING
+Pretty self-explanatory, we can create branches within version control that we
+can manipulate and iterate on, and then eventually we can merge those changes
+back into our master branch of the code.
 
-`git branch`:                   Check what branch you're currently on
+`git branch`:                   Check what branch you're currently on (designated by asterisk *)
 `git branch *new branch name*`: Create new branch
 `git checkout *branch name*`:   Change to different branch
-`git merge *branch to merge*`:  Merge a branch. Include a merge message via Vim.
+`git merge *branch to merge*`:  Merge a branch. Include a merge message via Vim (optional) and then type `:q!` to exit.
 
-When you type out `git log`, you'll be able to see the latest push that you've
-made to your local repository as "(HEAD -> Master)" in addition to the latest
-push you've made to your remote repository in red as "(origin/master)". (They
-will be the same push if you're all up to date.)
+So if you create and then switch to a different branch, you can edit your files,
+and then commit them. Now those changed files will only be visible on the
+separate branch, because you haven't merged them yet to your master branch. If
+you switch back to your master branch, then your local files will switch back
+to display only those which are saved on your master branch.
+
+Side note: w It's important to remember that you have two repositories: your local repo and
+your remote repo on GitHub. You can branch and merge and commit etc. on your local,
+but those changes won't be stored on the cloud until you push to GitHub. When
+you type `git log`, you'll be able to see the latest push that you've made to
+your local repository as "(HEAD -> *branch_name*)". This is the latest commit
+you've made to your computer's git repo. The latest push you've made to your
+remote repository will be in red as "(origin/master)". If you've pushed all the
+updates in your local repo to your remote GitHub repo, then both these
+statements will be on the same line. (All your work will be saved on the cloud.)
+
+To merge a branch to your master, you have to navigate to your master branch
+and then do `git merge *branch_name*`. That'll bring in the other branch. Well
+it'll take you to Vim, where you can create an optional commit message if you
+want and then type `:q!` to exit. Now the changed files in your other branch will be
+brought over and become the files of your master branch.
+
+You can see a graphical representation of all these branches on GitHub once you
+push. You can actually do all this branching and editing and merging and all
+that on GitHub using the GUI.
+
+A pull request is a request to merge your branches. A push request is to commit
+your code onto your repo on GitHub.
 
 
-https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit
+FORKING & PULL REQUESTS
+There are read and write permissions for your remote repositories. Everyone on
+your team will probably have both, so they can clone and then push commits to
+the repo etc. That's the point of GitHub, collaborative repositories.
 
+But strangers won't have access. They'll be able to fork your repository. Which
+is like cloning except they're not downloading a repo to their local, they're
+cloning the repo into their own GitHub account. After forking, they'll be able
+to clone it to their local to make changes. Then they can commit their changes
+and push it to their GitHub repo. But they won't be able to add their changes
+to YOUR repository that they originally forked from. To do that, they have to
+file a pull request, asking you to approve their changes and to pull their changes
+over to your repo. You can approve or decline their pull requests. Your pull
+requests show up under the "pull requests" tab on GitHub. You'll be able to review
+the request message and the changes submitted and then provide feedback and
+deny or confirm the merge with a merge message.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-MIT Lisence?
-
-https://blog.devmountain.com/git-vs-github-whats-the-difference/
-Git vs. Mercurial
+You can go through other repositories and see the history and current status
+of pull requests and contributors etc.

@@ -68,24 +68,166 @@ console.log("I got clicked!");
 
 
 PLAYING SOUNDS
+We can play new sounds by doing something like the following:
+
+` var audio = new Audio("sounds/tom-1.mp3");
+  audio.play();`
+
+This will play out the mp3 stored at that address.
+
+One important functionality within JS is the `this` identity. We can use it to
+signal out the actual HTML code of the object in question. For example:
+
+` document.querySelectorAll(".drum").addEventListener("click", function () {
+    console.log(this);
+    })`
+
+Every time you click on the button in question, it'll return "<button class="drum">text</button>" to the console.
+If we wanted just the text contained, we'd do `this.innerHTML`.
+
+We can use this functionality to change styling by doing something like:
+` document.querySelectorAll(".drum").addEventListener("click", function () {
+    this.style.color = "white";
+    })`
+
+That would change the color of the element in question when clicked on.
 
 
+JS OBJECTS
+These are objects, as in objets in object oriented programming. You can create
+new objects, which are data structures that can be used to maintain consistent attributes
+across multiple instances of the object. You can create an object in JS by
+creating a variable that has multiple attributes within a dictionary. Sort of
+like creating a dataframe through a dictionary in Pandas. Objects can even have
+internal functions as attributes:
+
+`var houseKeeper1 = {
+  age:19,
+  name:"Melanie",
+  expertise:"['kitchens','bathrooms']",
+  moveSuitcase: function(){
+    alert("May I clean your room?");
+    cleanRoom();
+    leaveRoom();
+  }
+}`
+
+You can also use these things called Constructor Functions which enable you to
+create new objects without having to specify every individual field using the
+dictionary format. So a constructor function is a function which creates an
+object of its specified type.
+
+`function HouseKeeper (age, name, expertise){
+this.name = name;
+this.age = age;
+this.expertise = expertise;
+this.moveSuitcase = function(){
+  alert("May I clean your room?");
+  cleanRoom();
+  leaveRoom();
+  }
+}`
+
+We can use this function to create a new object as follows:
+
+`var houseKeeper1 = new HouseKeeper(19, "Melanie",["kitchens','bathrooms'])`
+
+One thing to note about these constructor functions is that the name of the
+function HAS to be capitalized for it to work.
 
 
+SWITCH STATEMENTS
+These will effectively "take the code down a different track depending on the
+value of a variable", like a railroad track. The skeleton is below. There's an
+example in the index.js file.
+
+` switch (expresion){
+    case expression:
+
+      break;
+    default:
+}`
+
+It's like a multi-level if-else statement. See the index.js file. The  `default`
+is there for a case outside of those specified. Like a final `else` statement.
+
+So we'd use var `xyz` when we want to create a new variable. And we'd use
+var `xyz` = new `abc` to create a new instance of an abc object named `xyz`.
+For example, `Audio` is another type of Constructor Function. We've used it in
+index.js. We know this because every time we use this function, we use `new`
+before calling the function, which is the syntax for Constructor Functions.
+
+KEYBOARD PRESSES
+To add functionality based on keys being pressed, opposed to mouse clicks,
+we add eventListeners to listen to `keydown` instead of `click`. We add the
+listener to the entire `document`, so the entire web page is listening for a key
+to be pressed. For example:
+
+` document.addEventListener("keydown", function(event) {
+  console.log(event);
+})`
+
+Here we also passed in `event` into the function. This allows us to tap into the event
+that triggered the event listener. That way, we can determine which key in
+particular was pressed, etc.
+
+PROBLEM
+Create a function that takes a character, and checks it against the switch statement,
+in order to play the correct sound. And then we're going to use it inside the
+eventListener for our key presses, as well as the eventListener for our mouse clicks.
+
+SOLUTION
+check index.js
 
 
+CALL BACKS
+As discussed earlier, functions that take other functions as input are called
+higher order functions. The functions which are used as the input are called
+`callback` functions, because they are called back once the triggering event
+is fired.
+
+Okay so below we see how `EventListener` is defined. Basically, it starts by
+logging the details of the event. Not sure how it does this. Probably pretty
+complicated and super low level.  Anyways, it logs all that data and stores it
+into the object called `eventThatHappened`, as seen below.
+
+Now, it checks to see if the event logged is the event we specified that we were
+interested in logging. If so, then it passes the function we specified. And it
+uses `eventThatHappened` as input. That's why it doesn't matter what we
+put into the input of the callback function when we create the eventListener.
+Because it's a dummy name. It's only useful so that we can manipulate the event
+within the function. So when we do `event.key` within our callback function in our
+eventListener, we're actually indexing into the `eventThatHappened` variable
+stated below. Typically, you'll see event or evt or just 'e' written in as the
+input for the callback function.
+
+` function anotherAddEventListener(typeOfEvent, callback) {
+
+    //Detect Event Code...
+    yada-yada logging and storing below
+
+  var eventThatHappened = {
+      eventType: "keypress",
+      key: 'p',
+      durationOfKeypress: 2,
+      etc.
+  }
+
+if (eventThatHappened.eventType === typeOfEvent) {
+    callback(eventThatHappened);
+  }
+
+}`
+
+Remember that using `this` gives you functionality over the HTML code that your eventListener
+is attached to. When we use `event` we're targeting the event. We are getting functionality
+over the act of clicking on the screen or using your keyboard.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
----
+ANIMATION
+You can use the `setTimeout` function to execute JS code after waiting for some
+small bit of time to effectively make it seem like you have animations on your site.
+setTimeout helps you add and remove classes to objects & elements. It's a similar
+concept as before, we use JS to switch between CSS elements, instead of trying
+to apply functionality through CSS directly. See buttonAnimation function in
+index.js file for example.
