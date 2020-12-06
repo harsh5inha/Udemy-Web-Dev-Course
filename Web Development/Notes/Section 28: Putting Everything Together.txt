@@ -1,0 +1,42 @@
+We re-made our To-do list website (Practice Site 13) to store the data
+that users input into their todo lists as (Practice Site 17).
+
+Same format as before: a root page that has some default items already listed
+with the title of "Home". Users can add new items and remove existing items. Last
+time, there was a hardcoded "/Work" URL route that had a separate todo list that
+users could add to. Now, users can type in any custom route into the URL and a
+new todo list will be created, with respective title. Users are able to add and
+delete from these custom routes without being redirected away from that page.
+Last time, every time you refreshed the server, the todo list was erased, because
+there was no storage. Now, all data is stored in a MongoDB database called
+`todolistDB`. Both the todo list items inputted and the titles of those lists
+(routes) are stored in the database.
+
+The DB is set up with two collections: `items` and `lists`. In our `items` collection
+we have one document for every item added on to the default todo list. In our
+`lists` collection, we have one document for every custom todo list created. Each
+document here has a 'name' and an array of 'items'. The items in the array follow
+the same itemSchema that we specified earlier in our `items` collection.
+
+So basically, the data on the home todo list is stored in `items` but
+data on other todo lists are stored in `lists`. The data in `items` is one document
+for each todo list item on the Home todo list. The data in `lists` is one document
+for each custom todo list created (each document has a name and an array which
+contains all the actual todo list items for that respective list.)
+
+So, as you'll see in the app.js file, whenever we are manipulating list titles
+or items in the `lists` collection, we have to index into arrays etc. in ways
+that we don't have to when dealing with data in our simpler `items` collection.
+
+User-wise, it's a fully functional, intuitive website. Just not live.
+
+Sidenote: All operators preceded by a `$` are MongoDB operators. We used one in
+app.js.
+
+
+NOTE: that Practice Site 17 was changed in Section 29 to be hosted live via Heroku
+and interacts with MongoDB Atlas to store all data on the cloud. Only a few lines
+of code were changed to achieve this functionality. Details in section 29 notes.
+
+Web address: https://guarded-bastion-92872.herokuapp.com/
+DB GUI address: https://cloud.mongodb.com/v2/5fcbf876719bf07442d54a19#metrics/replicaSet/5fcbfe38abdb7d4ebca59d17/explorer/todolistDB/items/find

@@ -1,0 +1,19 @@
+<%- include("partials/header") -%>
+
+<!-- Load this at the top of the home page no matter how many inidividual blog posts are posted below -->
+<h1>Home</h1>
+<p> <%= startingContent %> </p>
+
+
+<!-- If there are items in the list of journal entries, then print them on the home page. But truncate them -->
+<% postInput.forEach(function(ele){ %>
+<%   console.log(ele.title) %>            <%# Console.log() just for example's sake %>
+<%   console.log(ele.content) %>
+<h1> <%= ele.title %> </h1>               <%# Add new journal entry %>
+<p class = "truncate">  <%= ele.content.substring(0,100) + "..." %>  <a href="/posts/ <%= ele.title %> ">Read More</a>
+</p>
+<% }) %>
+
+
+
+<%- include("partials/footer") -%>

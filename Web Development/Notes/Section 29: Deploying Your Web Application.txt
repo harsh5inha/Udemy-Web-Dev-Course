@@ -1,0 +1,103 @@
+How to deploy our Web Apps that have a database element.
+
+We're going to change the code slightly or comment out some from our Practice Site
+17 to get it live and remotely storing data.
+
+Currently, we are accessing the todo list site we built as Parctice Site 17 on
+https://localhost:3000 and our MongoDB database thorough mongodb://localhost:27017,
+which makes it easy when testing our web app, but it means you can only access
+the website from our own computer.
+
+We used Heroku to land our website live in Practice Site 12, the Newsletter
+sign-up page that was linked to MailChimp's API. However, we didn't have a database
+attached then.
+
+Sidenote: if you wanted to set up your own server from your home internet connection
+you'd have to make sure that your ISP allow that in their terms of service. Many
+do not. Or have regulations around it. I wonder why? Real question though, why.
+
+So we're going to use mongoDB Atlas to remotely host all our data and then serve
+it up when needed. MongoDB Atlas is Mongo's own cloud service. We'll still use
+Heroku to host our actual web application, using Atlas just to hold and serve
+our data. We'll link the two together in our app.js code, just like an API.
+
+
+SETTING UP MongoDB ATLAS AND SUCCESSFULLY CONNECTING IT TO YOUR APPLICATION
+1. Sign up for an account
+2. Decide where to store your cluster: Amazon Web Services, Microsoft Azure, Google Cloud
+3. Create a cluster - in this case we went with AWS, N. Virginia cluster, M0 Sandbox with Shared RAM and 512 MB of storage
+4. Decide on a cluster name - we went with the default of cluster0 (this can't be changed after the fact)
+5. It'll take a few minutes for them to get everything set up on the backend with AWS. It's great because we don't have to go in and set up our own server on AWS, Mongo does it for us.
+6. Go to 'Database Access' and add a new user
+7. Select Password as the Authentication method, and then create a new user and password. We went with admin-harsh and test123
+8. Change the Database User Privileges to Atlas Admin, to make the account an admin, and then add the user
+9. Now we can see this account in the list of users who have access to our MongoDB database
+10. Now go to Network Access and Add your IP address to whitelist your IP address. Click on "Allow access from anywhere" and then click confirm.
+11. Now go back to overview, our cluster should be now set up and ready to go.
+12. Connect to the cluster using the mongo shell.
+13. Then it gives you a command to put into your command line which will connect you to a database in that cluster. It asks you to name that database, here we chose the name "test": mongo "mongodb+srv://cluster0.ldyey.mongodb.net/test" --username admin-harsh
+14. After running the command in your CLI, you'll type in the password you created for your account above "test123"
+15. Now our command line will be inside an active session of the mongo shell running inside of the Atlas cluster0 we created.
+16. Your mongo shell version and your mongo server version may not match, but that isn't a huge deal
+17. Previously we used to have to have a `mongod` instance running to be able to interact with our database using the mongo shell. Now we don't need to do that. Now we can interact with our database on the cloud without having to start a local cluster.
+18. Now we can do `show dbs` to see the databases in our cluster.
+19. We can also manually add documents to our cluster by creating a database and then specifying the name of the database and cluster that we want to input into. We do this using the GUI.
+20. We can show collections from inside this database to confirm that we are indeed connected to the correct cluster and database and collection etc.
+21. Now we need to connect to Atlas from our application (the above is connecting via the mongo shell)
+22. So we go to Connect and then select "Connect your application".
+23. It'll give us a new snippet that we can now use in our app.js file: mongodb+srv://admin-harsh:<password>@cluster0.ldyey.mongodb.net/<dbname>?retryWrites=true&w=majority
+24. From here, all we have to do is write in our password and the database name we want to connect to:
+      When using a local DB, we did:      mongoose.connect("mongodb://localhost:27017/todolistDB")
+      Now we're doing:                    mongoose.connect("mongodb+srv://admin-harsh:test123@cluster0.ldyey.mongodb.net/todolistDB")
+25. Making that above change ^ in the code of our app.js file is all that is needed to change our application from using a local DB to using a cloud DB.
+26. Now if we run our website from localhost:3000 (our website still isn't live yet, just our DB) and we add and remove items from our todo lists, or create new custom todo lists, we can see these documents and collections being added to our cluster using the GUI on Mongo's website. And ofc we can see it using the mongo shell.
+
+
+DEPLOYING AN APP WITH A DATABASE TO HEROKU
+1. Sign into your Heroku account
+2. Go to Documentation -> Node.js -> Get started with Node.js -> follow the instructions
+3. We've already installed and deployed an app via heroku so we can skip some of the initial steps that we had to do back when we launched Practice Site 12.
+4. Go to your directory via terminal and do `git init`
+5. Then do `git add .`
+6. Then do `git commit -m "Initial Commit"` or whatever your message is
+7. Then do `heroku login`
+8. login
+9. Do `heroku create` which will create our new app on heroku
+10. Create a Procfile: `touch Procfile`
+11. Insert "web: node app.js" into our Procfile
+12. Change your app.listen code in your app.js file to:
+    `let port = process.env.PORT;
+    if (port == null || port == "") {
+      port = 3000;
+    }
+    app.listen(port, function() {
+      console.log("Server started successfully.");
+    })`
+13. This tells your server to listen on Heroku's port, but when you're running it locally, it'll still listen on port 3000 like normal
+14. Copy/paste the below into your package.json file, just below the "license" specification.
+    `"engines": {
+      "node": "14.15.1"  (or whatever your version is)
+    },`
+15. Create a .gitignore file that includes out .DS_Store, nom-debug.log, /*env, /node_modules files etc.
+16. Now we can do `git add .` and `git commit -m "Add gitignore, Procfile, and update ports"` to get our Git repo up to date
+17. Now, because we've already created our heroku remote repo in Practice Site 12, we can just do `git push heroku master`
+18. And after a second, it gives us our web app!: https://guarded-bastion-92872.herokuapp.com/
+
+So to summarize, there were 3 things we needed to do, code-wise, to get our application
+from being locally hosted and our database being locally stored to getting our
+app live and data stored on the cloud:
+1. `mongoose.connect("mongodb+srv://admin-harsh:test123@cluster0.ldyey.mongodb.net/todolistDB")`
+2. `let port = process.env.PORT;
+    if (port == null || port == "") {
+      port = 3000;
+    }
+    app.listen(port, function() {
+      console.log("Server started successfully.");
+    })`
+3. `"engines": {
+  "node": "14.15.1"  (or whatever your version is)
+},`
+
+
+To change it back to a local only DB, you'd just need to change the mongoose connection
+back to a local DB server. Everything else should still work on a local connection.

@@ -18,30 +18,269 @@ to our server. That's the most powerful application of APIs.
 
 ENDPOINTS, PATHS, PARAMETERS, AUTHENTICATION
 
+REST API stands for Representational State Transfer API.
+
+Endpoints: in this case, it's a URL that you can put in your browser. And when
+you do, it'll give you the data that the API is supposed to return. Submitting
+the URL in the browser is the GET request. An endpoint is pretty much just the
+starting URL. You can use paths and parameters to narrow in on the exact data
+requested depending on how complex the API is.
+
+Paths & Parameters: you can use these to narrow down on a particular piece of
+data or information from the server.  In terms of the URL, paths are the part that
+comes after the '/', for example '/programming', if you're using a random joke
+generator API and want to get only programming related jokes.
+
+Parameters are like paths, except they're more dynamic. Parameters exist for complex
+APIs in the case that the developer couldn't make a path for every possible use
+case. You can use custom words/queries, that is, queeries that weren't explicitly
+specified by the API creator as a path. Parameters are the part that come at the
+end of the URL, after the question mark, as a key:value pair. For example:
+`?contains=debugging` if for some reason you were searching for jokes that are
+related to debugging. If you have multiple parameters, they are separated by an
+ampersand "&".
+
+As a whole example: https://sv443.net/jokeapi/v2/joke/programming?blacklistFlags=nsfw&type=single&contains=debugging
+
+Here we have the endpoint:   https://sv443.net/jokeapi/v2
+We have as a the path:       /joke/programming
+We have as parameters:       ?blacklistFlags=nsfw&type=single&contains=debugging
 
 
+AUTHENTICATION & POSTMAN
+
+Now for larger APIs, they'll probably want to monetize their traffic or at least
+limit traffic. Because otherwise they'll just give all their stuff away for free.
+That's where authentication comes into play. Often times, they'll allow free
+usage up to a certain number of requests per minute. Say up to 60 requests per
+minute.
+
+To use an authenticated API, you'll want to create an account and then sign
+up for an API key. This is your unique API key that you can use to identify
+yourself to the API provider, who'll monitor the usage associated with that
+particular key. Then take a look at the API docs to see how to correctly query
+for the API's data. You can look at their sample API calls to get a template for
+your API requests. Generally, your API key will need to be passed in as a
+parameter of your GET request for the request to work. That's how they'll know
+who is requesting the data.
+
+Now, it's really easy to make typos when you're testing different paths and
+parameters for APIs in your browser. So we can use this app called Postman to help us
+keep track of the different endpoints and paths and parameters we
+are using to interact with APIs. You can dynamically toggle different parameters
+etc. and send the requests directly from the app. It'll return the data in a
+'prettified' format too, so it's easier to read, instead of in a raw JSON
+format that you'd get directly using the endpoint with paths/parameters.
+
+JSON
+
+Stands for javaScript Object Notation. It isn't the only data format that you
+will get from APIs. You can also get XML or HTML. But JSON is the most popular
+and is still growing in popularity.
+
+JSON objects aren't exactly the same as JS objects. There is no `let` or `var`
+in front. The name of the object is in quotation marks, and the keys of the values
+are also in quotation marks.
+
+There's a Chrome tool called JSON Viewer Awesome, that allows us to prettify
+JSON output directly on the browser and allows us to view it in a tree structure
+or a chart structure, etc. We can also use it to click into the JSON objects
+on the browser to copy their paths. In really long JSONs it can be hard to figure
+out the path to select the exact data you want, so this can help out.
 
 
+PRACTICE SITE 11 (WEATHER API)
+We can use the HTTP module (which is a native module in Node) to send get requests
+to external servers (APIs in this case). Because it's native, we don't have to install
+it using npm. It's already included in the node bundle.
+
+Remember that when you console log something to the terminal in a web server you
+made, it'll log to your terminal, not the browser. Because your terminal is acting
+as the console. It is the interface etc.
 
 
+PARSING JSON
+If something isn't getting loaded as you'd expect, you can return the status code
+of the callback function in the get request to see what code is returned to help
+diagnose what you could be doing wrong.
+
+We use the `.on()` method to tap into the data returned in the get request. But
+we need to parse it into a javaScript object from the default Hexidecimal to actually
+be able to understand it.
+
+Examples of both seen in the app.js file in Practice Site 11. (The opposite of
+JSON.parse() is JSON.stringify()).
 
 
+RENDERING API DATA ON BROWSER
+Remember that we can only `res.send` one thing for each get request. So if you
+want to render multiple items on the browser, we use `res.write` for each item
+and then call `res.send()`. Also remember that we can type html directly
+within the `res.send()` methods themselves. (Shown in app.js of practice site
+11.)
+
+BODY-PARSER is an npm package that we can use to look through the bodies of post
+requests and fetch the data based on the name of the input (that we assign in
+our html forms). We've done this before in our calculator website.
+
+See app.js for code that takes user input to make a unique request to an API,
+then returns unique data to the rendered webpage based on the data retrieved
+from said API.
+
+When you serve a website from a server using express.js, you have to specify
+`app.use(express.static("public"));` in order to display static HTML/images etc.
+"public" is the name of the folder in which all static material must be saved.
+(We've done this in our practice site 12 - newsletter). Static material is
+anything that will always be the same. Non-dynamic code, something like locally
+stored CSS files or images.
 
 
+PRACTICE SITE 12 - NEWSLETTER
+
+We're going to build a visually basic website that requests someone's first and
+last name through a basic form, along with their email. We're going to route
+that info to our mailchimp account so that we can have easier control over our
+mailing lists in a GUI. We'll be doing all this through the back-end, using the
+Mailchimp API. Like a real developer lol.
+
+Mailchimp is an email marketing PaaS & SaaS company that enables us to manage email
+mailing lists, dynamically send out emails, and track the entire process through a GUI.
+There's definitely more functionality, I just don't know a ton about it.
+
+Mailchimp will provide you with an API key after you register, which is a regular
+API authentication token. You can also find an "audience" or "list" id, which is
+an ID that's used to specify which mailing list you're adding a subscriber to.
+
+With APIs, including Mailchimp's, there's usually a whole section of the site
+dedicated for developers. That's where you'll find all the info for API keys
+and list IDs and how exactly to request data from their API and the data format
+they are expecting if we request to SEND data through their API. There should be
+examples of get and send request code snippets to base your own off of. For
+example, to create a new mailing list, Mailchip requires that we provide the list
+ID parameter as a string, and the member data as a flat-pack JSON array. Each element of the
+members array also can have properties such as: "email_address", "status", "merge_fields",
+etc. Merge_fileds are data columns that are used to dynamically add data into an
+email. In this case, we can add the user's first and last name into the header
+of the email to make it more personal. You can see all this information on
+mailchimp.com/developers or by navigating your site settings etc.
+
+In the last site (site 11) we used the https module, which is native to node, to
+get data from the weathermap API. Here we'll use the same module but to send
+data to mailchimp.
+
+You can see in app.js (Site 12) the completed code that successfully takes in
+user input on our HTML form, and adds that user to our mailchimp mailing list
+through the API. It's a bit complicated, but not really once you understand what
+each part is doing and how to find help when things aren't working. You need to
+know how to navigate the API documentation to be able to implement these APIs.
+There are also probably things that we still haven't implented, especialyl in a
+QA/bug sense. Like if a user types in an email that's already on the account,
+mailchimp doesn't add that user to our mailing list. It sends back an error that
+says that the user is already in our list and if we want to overwrite that data,
+then we'll have to specify that in our post request. But we can only see this if
+we console.log(response) the response to the post request (as shown in app.js).
+Still lot's to learn.
 
 
+ADDING SUCCESS AND FAILURE PAGES
+So we can send a user an HTML page for success if their form is submitted successfully.
+And we can create another page for failure, if something went wrong. On the failure
+page, we've provided a way for the user to try again by sending them back to the
+input page through a button. There are two ways of doing this. Either we redirect:
+
+`app.post("/failure", function(req,res){
+  res.redirect("/")
+})`
+
+or we just render the page again:
+
+`app.post("/failure", function(req,res){
+  res.sendFile(__dirname + "/signup.html")
+})`
 
 
+HEROKU
+How do we actually host our website live on the internet?
 
+We could buy our own server, and figure it out. But that's expensive and takes
+space and money and creates noise and heat.
 
+Github pages, which we used super early on, is a way to have our websites be live
+on the web. It's a really easy way to deploy a website. However, You can only
+have 1 Github page per account, and you can only serve static websites, i.e.
+websites without any functionality.
 
+Heroku is a company that can host our websites live on the internet. It's a
+freemium model, so we can use their service to host up to 5 relatively low traffic
+websites.
 
+To use Heroku, we can follow the step by step instructions on their website for
+whatever language we aim to develop in. In this case node.js:
+https://devcenter.heroku.com/articles/getting-started-with-nodejs
 
+The first step to using Heroku, is to download the Heroku command line interface:
+`brew install heroku/brew/heroku`
 
+Now we can use the `heroku` command to from our terminal and `heroku login` to
+log in to the Heroku CLI. You'll have to input your user and password that you
+used to sign up for Heroku with. You can check which version of heroku you have
+by doing `heroku --version`. You can also do this for node, git, npm: `node --version` etc.
 
+Then they ask us to clone an example app that heroku made and committed to their
+own Github. But we're not going to do that. We're going to create our own app
+and deploy our newsletter website that we just created.
 
+To make our app.js file able to work on heroku, we have to change the port we
+are listening on from 3000 to `process.env.PORT`. This is a port that Heroku will
+define on-the-go. We can still add 3000 as a secondary port in the case we still
+want to run our site locally. (Shown in app.js)
 
+We also have to create a `Procfile`. This is the file that tells Heroku how to
+start our application (website, they're using app and website interchangeably now
+because our site has some actual application functionality). Up to now we've been
+doing `npx nodemon app.js`. But noramlly we'd have nodemon downloaded globally
+so we coudl just do `nodemon app.js`. However, we're only using nodemon to keep
+our webserver constantly reloaded so we can continue editing our file and the
+web page rendered will dynamically reload to reflect the changes. In a world
+where our file is complete, we would just do `node app.js`. So that is what we
+write in our Procfile. And it is imperative that the file is named exactly
+'Procfile' and that it is in our root directory. Heroku will look for this file
+and run the instructions we write in it.
 
+This is how things actually work in the
+automated world. Always wondered about this stuff. It's so simply, but so
+important to understand, and yet no one ever teaches you about it for some
+reason. The hardest part about learning computer science, for me, has always been
+understanding the meta things, never that actual code. That shit makes sense. Still
+have to learn it but make sense. But how you actually link all the components together,
+how you actually write a script that runs without you, how you actually create a database,
+not understanding that shit makes me unable to actually put any of my coding knowledge
+to use. It's like learning how to mix together ingredients but not knowing how to
+use or even turn on the stove. Like where do I start, how does it all actually work?
+I need to understand the infrastructure. I need to understand the terminal, Github,
+how `eventListener` actually works. These things are important.
 
+Anyways. After creating the Procfile, we need to initialize a new git repository
+in our directory. We don't need to set up a GitHub remote repo, just a local one.
+It'll help Heroku load up our files and help us with version control etc. So:
+`git init`
+`git add .`
+`git commit -m "First Commit"`
 
---
+Now we do `heroku create` in our directory. This will create your app and will actually give it a random name. In our case
+it gave us: fathomless-wildwood-23092. It'll also give us a website that's already
+live for us to use. It just won't have any actual content yet, bc we haven't yet
+put up our files: https://fathomless-wildwood-23092.herokuapp.com/. (We can also pass
+a parameter to the command to give the app our own name.)
+
+To deploy our files we do: `git push heroku master`. After this, our site should be
+live! But give heroku a few minutes to load everything up correctly. It might
+not load immediately.
+
+And voila, you have your first live web application!
+
+If somehting isn't working, then you can do `heroku logs` to see where the process
+failed etc. Say if we forgot to specify `process.env.PORT` as the Heroku port
+or we messed up the Procfile in some way etc.
+
+Wow that was a super intense chapter. but rewarding.

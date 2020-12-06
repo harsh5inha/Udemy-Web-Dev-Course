@@ -50,7 +50,7 @@ This is a package manager for external node modules. Using npm, you can use all
 these other packages that other people wrote (outside the native node APIs). To
 use, navigate to your desired directory and type:
 
-`npm init`:     Create a package -> give name, version, description, entry point (main JS file), Author, etc.
+`npm init`:     Create a project -> give project name, version, description, entry point (main JS file), Author, etc.
 
 Doing this initializes a `package.json` file in your directory. This is a description
 of all the npm packages we have so far. As we install external modules, they'll

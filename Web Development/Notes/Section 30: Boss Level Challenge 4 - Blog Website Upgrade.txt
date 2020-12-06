@@ -1,0 +1,29 @@
+We're going to upgrade our blog website (Practice Site 14), to be a real website.
+We're going to store all our data so that when we restart our server, we won't
+lose the content that's already been written etc. The site will still have all the
+same functionality: a home page that has some default text along with the truncated
+first lines of your blog entries. Those truncated entries will have links to
+see the entire entry at each's own respective URL route using the Mongo `_id` of
+each post as the route path following `/posts`. We'll also have a "Contact
+Us" and an "About Us" page. And we'll still have the `/compose` route to create new
+posts.
+
+All the above functionality is accomplished.
+
+Our DB on Mongo Atlas is called blogDB, with a collection called `posts`.
+
+It's important to note that when we pass data from our server to our ejs templates,
+we're actually querying the data from our DB cloud server and then sending that
+to the templates. So when we do that, that data includes the `_id` field that
+Mongo assigns all incoming data. That's why we're able to select for specific
+data when creating the custom routes based on a particular posts `_id` value.
+
+Remember that mongo "mongodb+srv://cluster0.ldyey.mongodb.net/test" --username admin-harsh
+is the command we used to connect to our cloud DB from the mongo shell. We add in
+the name of the DB we want default access to via the shell (though ofc we can
+query any one of our collections in the cluster once we've set up the connection),
+and we give the name of user who is requesting access, in this case admin-harsh.
+We can find this connection link again if we forget just by going to the MongoDB
+website and clicking to connect to their cloud server using the GUI. No need to
+alias. Honestly Mongo's documentation on everything is second to none so should be
+pretty easy to figure anything out via their website.

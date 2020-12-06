@@ -1,0 +1,82 @@
+PRACTICE SITE 14 (BLOG)
+We’re building a personal blog site using all the technologies we’ve learned
+about: node, EJS, Express, JS, HTML, CSS, bootstrap probably, etc. All the basic
+templates and file structures and boilerplate code is already given by Angela in
+the directory. We’ll have a few pages, and the ability to add new entries and see
+the full entry etc.
+
+Typically, you’ll include `node-modules` as part of your .git-ignore file. To
+prevent yourself from having to upload a giant file to the internet and from
+others having to download it if they clone you’re repo. So when you download a
+repo from GitHub, it’ll probably have a `package.json` file which will list out
+the dependencies for the project, but it probably won’t have the actual
+`node-modules` folder. So what you have to do is: `npm install` from your
+directory. That’ll look through your dependencies and download what’s needed
+locally so the project will run on your local machine. You won’t have to go
+through  the whole `npm init` process though.
+
+Update: actually you'll typically see a `partials` folder within the `views`
+folder, where the `header` and `footer` layouts should be kept.
+
+When we use scriplet tags (<% %>), as we know, we can type javaScript into our .ejs
+files. But inside of scriptlet tags, we don't need to also include output tags (<%= %>)
+to receive data from our server. That functionality should work within the JavaScript.
+(Shown in app.js & home.ejs).
+
+Another, faster way of looping through an iterable is using the `forEach()` method
+shown below:
+
+`let lettersArray = ['a', 'b', 'c'];
+
+lettersArray.forEach(function(ele){
+  console.log(letter);
+})`
+
+It's beneficial because it's faster (better code) and it's fewer lines of code.
+(We used this in home.ejs.)
+
+Sidenote: nodemon only updates your changes when you make changes to the app.js
+file, or whatever file the server is on. It won't restart the server if you save
+changes to some HTML file etc.
+
+
+EXPRESS() ROUTE PARAMETERS
+Okay so in some websites, we might need several different custom pages. The
+brute force way of solving this problem is to just create a custom page for each
+of these use cases. However, express has this functionality called route parameters.
+Which are named URL segments that are used to capture the values specified at
+their position in the URL. So basically we can extract the name of an extension
+for a page using a route parameter. The extracted values are stored in the
+req.params object. All we have to do is specify a colon `:` before a placeholder
+extension. So basically:
+
+`app.get("/news/:topic", function(req, res) {
+  console.log(req.params.topic);
+})`
+
+will console log the name of the parameter we specified in the place of 'topic'.
+So if a `get` request was made for `/news/movies` then the word 'movies' would
+be printed to the console.
+
+Example of this type of code is in the app.js file for rendering the different blog
+post pages.
+
+Note that this is a functionality of express(). That is, you can use it without
+using bodyParser or ejs. Just node.js with express tagged on.
+
+Sidenote: you can do `rs` while your server is running via nodemon for a manual
+server restart fromt eh terminal. Opposed to having to resave your server.js file.
+
+
+LO DASH
+Lo Dash is a utility library that makes it easier to work with JavaScript inside
+of our node.js apps. We use it here to achieve lower case functionality and
+kebab-case functionality in our route parameters. The name 'lodash' actually
+refers to the convention of using the character `_` (a lowdash) to refer to the
+module. Like so: `const _ = require("lodash")`. Then when we use the module all
+we need to do is type '_'. We're using it here to make sure that a user can
+request a URL in all lower case even though the name of the page they're requesting
+is upper case etc.
+
+Completed website in `Practice Site 14`. But not really completed I suspect bc
+we still have to learn databases and I think we will re-do the site later on.

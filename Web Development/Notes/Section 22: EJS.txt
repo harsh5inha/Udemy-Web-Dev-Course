@@ -1,0 +1,187 @@
+We're building a to-do list website. We'll learn about templating, modules, etc.
+
+PRACTICE SITE 13 (TO-DO LIST)
+In prior websites we've seen how we can serve various HTML pages based on different
+conditions or different get requests from the browser. But what if there are several
+different possible pages that we'd like to be able to serve to the browser? Would we create
+a separate HTML page for each of those use cases? No. That's way too much copy and
+pasting and way too rigid and brute forcey. It's not scalable.
+
+Instead we need to make HTML templates where we can change certain parts of the
+code on our HTML files depending on the logic from our server.
+
+
+EJS
+EJS stands for Embedded javaScript templating. It's a popular tool for templating.
+So `npm install ejs`. Info on using EJS with Express: https://github.com/mde/ejs/wiki/Using-EJS-with-Express
+To use EJS, we do: `app.set('view engine', "ejs");` in our app.js file AFTER we
+initialize app as the express call (`const app = express()`).
+
+See in app.js how the server is set up, but basically, we're using `res.render()`
+now instead of `res.sendFile()`. And the render() method is using the `view engine`
+we set up to dynamically render an HTML page to the browser. Now the `render()`
+method is assuming that there exists a directory called `views` that contains a
+file called `list.ejs`. Or whatever file name you specify as the first input for
+the method (the name "views" is related to the `view engine`). An .ejs file
+seems to be pretty much the same thing as an HTML page, except with the capability
+for dynamic code.
+
+Let's back up. The whole point of using EJS is so that we can have an HTML template
+that changes in certain areas depending on particular conditions or user input.
+So in our app.js, we are specifying that one of those conditions is the day of
+the week. We pass this information to our list.ejs file using a key:value pairing
+in our `res.render()` method (as seen in file). We add a marker in our .ejs file
+to receive this data by doing `<%= variable_name %>`.
+
+You'll notice in app.js that we used a switch statement to determine the day of
+the week opposed to an if-else statement. In general, Angela recommends we use a
+switch if there are greater than 5 if-else conditions, if there are fewer than 5,
+then go with an if-else statement. (Actually this code was deprecated and is
+included at the bottom of the file in a block comment.)
+
+
+RUNNING CODE INSIDE THE EJS TEMPLATE
+Now there are different types of markers we can use, as explained in the documentation:
+https://ejs.co/. The one we used above `<%= %>` is used to output values into
+our template. There's also a scriplet tag: `<% %>` which we can use to apply some basic
+control flow inside our template. That is, we can actually type up some basic javaScript
+control flow to use inside of the otherwise HTML only .ejs template. (Example shown below).
+In our example, we are iterating through each item in our array of things to-do.
+Scriplet tags are used line by line for every line that isn't HTML, so you have
+to wrap each individual line independently for it to work. Scriplet tags are
+only used for control flow (if-else, else-if, switch, while, etc.) statements.
+
+Now the reason these tags are so specific on the use case is that you still
+want to keep your logic on your server. You only want to use these tags
+when the logic you want to apply would be difficult to do in the server or if it'd
+just be a lot quicker to do it within the template. Try to keep your HTML files
+only about content, not styling or functionality. So try to only use these
+scriplet tags if it alters the content of what is rendered.
+
+Sidenote: When we use scriplet tags (<% %>), as we know, we can type javaScript into our .ejs
+files. But inside of scriptlet tags, we don't need to also include output tags (<%= %>)
+to receive data from our server. That functionality should work within the JavaScript.
+(Shown in app.js & home.ejs in Practice SITE 14 (BLOG)).
+
+PASSING DATA FROM WEBPAGE TO SERVER
+Here, we're trying to get a user to input some data into a form, and then receive
+that data on our server, and then serve back a new webpage to the user with that
+data included. We're doing this in the form of a To-do list. So a user types in a
+new thing to-do in a form, and then we add it to a list which we display on the
+webpage.
+
+The complete code can be seen in app.js and list.ejs. But basically:
+
+When we first load up our home page, we go through the home route
+and we render our list.ejs file passing in two variables: one called kindOfDay and
+another called newListItems. Now newListItems is set to equal the items array
+which starts off containing three strings, "buy food, cook food, eat food". And
+this gets passed into the list.ejs under this variable name newListItems. And
+in list.ejs we have a for loop that loops through the entire length of the
+newListItems array and it renders a new <p> for each item inside the array.
+
+Now when a user adds a new item through the text input in our HTML form, then that gets saved under
+the variable name newItem and we trigger a post request to the home route where
+we grab hold of the value of the newItem and we add that item
+to our array called items. And then we redirect to the home route. So now we basically start
+over, but the items array has now increased by a size of one and our new
+item get pushed onto the end of the array. And now we're able to go ahead and
+render list.ejs again and pass over the now updated array with all of our list items.
+
+
+SCOPE
+In javaScript, like other languages, we have Local variables and Global variables.
+
+However, unlike other languages, there are 3 ways to create a variable:
+- const:  These variables cannot be changed. So they're not actually variables. They're constants
+- let:    Similar to var, except local when used in bracket code
+- var:    Similar to let, except global when used in bracket code
+
+1. If you create any of them inside a function, then they are all local variables.
+2. If you create any of them outside a function, then they are all global variables.
+3. If you create them inside of a block of code, i.e. anything with curly braces
+   (if-else statements, for, while, etc.) then var is a global variable, but let
+   and const are local variables and can only be accessed from inside that block.
+
+So from now on, we're going to try and avoid using the keyword `var`, and instead
+use the word `let`. There are very few scenarios in which we'd need to use the
+word `var`.
+
+
+STYLING AND STATIC FILES
+A quick note that in the past, we used to be able to just copy and paste the
+file path of our local html files to view them on the browser. And any CSS etc.
+would be linked up as a stylesheet. Actually any static file would be able to be
+loaded up if everything was liked up properly. But we can't do that if we're using
+a server. We can't just do `localhost:3000/file_path`. We have to explicitly
+"serve" our static files if we want CSS formatting etc.
+
+So normally developers will create a folder called `public` and then include all
+the static files that they want loaded up inside there: CSS, JS on the browser,
+images, etc. These will all be "compromised", I think, in the sense that they
+will all be viewable by the client. One thing to note though, is that once you
+do this, you don't have to write out the entire filepath of the static files to
+link them together. You can just write the file path as if you're already in the
+"public" folder. Example in list.ejs (Practice Site 13) when using `css/styles.css`.
+
+To load these files, we have to do: `app.use(express.static("public"))`
+
+
+TEMPLATES VS. LAYOUTS
+So, we added a `/work` route as well. So now we have two different to-do lists
+that we can add to. Check app.js and list.ejs for details. We also added an
+`/about` route, but there's no functionality there, it's just for example's sake.
+
+Templates work really well in cases like this website because all the pages that
+we are serving are really similar. But they work really poorly when we want to
+display pages that are super different. Say we wanted an about page or a contact
+me page. They'd look super different and have vastly different functionality
+but we'd still want them to have similar formats etc.
+
+So EJS allows us to create these things called layouts, or partials. Basically,
+there's probably some common opening and closing HTML code that we want all of
+our web pages to have. So we can create a `header.ejs` and a `footer.ejs` file in
+our views folder. Then we can implement these files in our other .ejs files by
+doing `<%- include(header) -%>` etc. Note that both the header/footer files AND
+the other .ejs files (such as the about.ejs file in this case) will be stored in
+the views folder. `app.js` does not have these headers/footers because it is a
+JavaScript file that has our server code, it's not HTML.
+
+So remember, EJS helps us make templates and layouts. Templates enable us to
+dynamically update our HTML pages using in-file javaScript. This way, we can
+utilize conditions (like the date, API data, etc.) and/or user input (from html
+forms etc.) to dynamically alter the web pages that we serve to the browser.
+Layouts are common chunks of HTML code like headers/footers that we want to be
+included in multiple pages of our website. We have one file that has the actual
+code, and then we can include that code chuck in other files by simply including
+the respective one-liner of code.
+
+
+CREATING AND USING OUR OWN MODULES
+How do our node modules like EJS, Express, body-parser actually work? Let's create
+a module of our own to find out.
+
+The `module` object is a free variable that is a reference to the object representing
+the current module. `module` is not actually global but rather local to each module.
+Whenever you `require` a module, it'll go into a module, and try to run all of
+that code. So basically we can include `console.log(module)` from within a module we create,
+and then `require(__dirname + "file_name")` in an app.js file, and then when we
+launch our server, we should see the module ojcet we just created printed to our
+console. (we use filepath bc it's a local module, not one downloaded via npm).
+You'll also be able to see the parent module (the module that actually launched it,
+the one that required it), which in this case is app.js. You'll see that it also
+has a property called 'exports', which is what the module is exporting. When we
+require a module like so: `const bodyParser = require("body-parser")`, we are binding
+all the exports of that module to the variable named bodyParser. Exports are just
+JS objects, so you can assign methods to them as well. (We've done all this in
+a module called `date.js`). Basically, in line 19 of app.js, if you change
+`let day = date.getDay()` to `let day = date.getDate()`, you'll see different
+functionality in the header of the to-do list.
+
+Sidenote: when we declare something a `const` it doesn't mean that we can't change
+what's inside it. We're not protecting what's inside the object, we're just
+protecting the object as a whole. So we can't reassign the obejct, but we can
+.push into it.
+
+Again, wow. These modules are getting harder, but yes more rewarding. Definitely
+feel like I'm really getting into the meat of this stuff now.

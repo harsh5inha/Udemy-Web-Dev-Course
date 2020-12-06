@@ -1,0 +1,81 @@
+MONGOOSE
+mongoose is an Object-Document mapper. It'll allows our node.js app to map the
+JS objects in our files with the mongo documents in MongoDB. It's supposed
+to make our code shorter and easier to work with compared to the MongoDB driver
+from the last section. We're going to recreate practice site 15 using mongoose in
+Practice Site 16 (FruitsDB via mongoose). This is a new node project. We did
+`npm init` and then installed `mongoose` as a dependency.
+
+To drop a database, we do `use db_name` and then `db.dropDatabase()`. We deleted
+the FruitsDB database we made in the last section so we could start over.
+
+
+CREATING AND WRITING TO A DATABASE
+In app.js you can see that we connected to a local server, created a new database,
+created two new collections, and inserted multiple documents into each. We can
+run our app.js file, using `node app.js` and see that all of the above is executed
+by exploring the newly created fruitsDB database in our mongo server. Some of the
+important nuances to grasp are:
+1. the fact that mongoose will create the collections according to the lowercase,
+  plural form of the name you input.
+2. You have to make sure that you are running your `mongod` server though before
+  you run the file, or else you won't be able to connect to it.
+3. Every time you re-run your file for testing, etc. it re-runs the entire file,
+  thus writes to the existing database. That is, if your file has static data,
+  they will be added over and over again to your database as multiple documents
+  in the same collection.
+4. One other thing is that for some reason our `mongoose.connection.close()` function
+  isn't working. We've included it at the end of the file in the `Fruits.find()`
+  callback function to put our cursor back on the command line after running our app.js
+  file, but it's saying we can't use a session that has ended. So now after we run
+  app.js we'll just have to do `CTRL + C` to get our cursor back to the command line.
+  Not a huge deal. I think there's some complication with the new version of mongoose
+  that's getting confused. idk. This is just trying to disconnect from the
+  mongo server from within our file.
+
+
+READING FROM OUR DATABASE
+Here we are querying for the data we stored in our fruits collection. We're
+console logging the entire array of JS objects returned and also looping through the
+array and printing out only the names of each object.
+
+We are also closing off our connection to the MongoDB server after we're done
+using it at the end of our file. This is good practice and allows us to go back
+to the command line after running our application, opposed to maintaining a
+continuing connection to the the MongoDB server. Example show in the app.js file.
+
+
+DATA VALIDATION
+One of the benefits of using mongoose vs the MongoDB Driver, is that we no longer
+have to use all the assert statements to validate our data like we used to. For
+example, we can see in our app.js that we are requiring the rating inputted for
+new fruit to be between 1 and 10. If a fruit is inputted without meeting this
+requirement, then the server will send an error and the data will not be added.
+It's a fatal error, in other words. Similarly, we mandated that any document
+added to has a name specified, that field can't be blank.
+
+
+UPDATE AND DELETE DATA
+We can see at the bottom of our app.js file, commented out, how we can update and
+delete one or several documents in our database collections.
+
+
+ESTABLISHING RELATIONSHIPS AND EMBEDDING DOCUMENTS
+It is possible to embed one type of document inside of another document of a
+different type.
+
+So as a refresher, documents have schemas. And each new document of a particular
+type must follow that schema. Collections are a collection of documents. All the
+documents inside a collection must follow the same schema. But of course, you
+can have multiple collections that have documents which follow the same schema.
+
+Okay. Now. We can add the schema of one document type as the required data type
+of a field of another type of document. For example, we now have "favouriteFruit"
+as a field in our `personSchema` which has the required datatype of  `fruitSchema`.
+Make sense? So now we can add new people to our `people` collection that have a
+favorite fruit as a field in their entry. This favorite fruit data will follow
+the schema we set up in our `fruitSchema`. That means our new person will have an
+id number, and his/her favorite fruit will also have its own id number. And we
+are able to draw the link between the two documents.
+
+Embedding documents like this creates relationships amoung our data.

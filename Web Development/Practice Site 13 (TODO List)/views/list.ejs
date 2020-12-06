@@ -1,0 +1,23 @@
+<%- include("header") -%>
+
+  <div class="box" id="heading">
+    <!-- Add date to top of page -->
+    <h1> <%= listTitle %> </h1>
+  </div>
+
+  <div class="box">
+    <!-- Loop through each item in the array received from the server to print each as a new list item/paragraph-->
+    <% for (var i =0; i<newListItems.length; i++){ %>       <!-- Use Scriplet markers to add some JS functionality on an HTML page -->
+    <div class="item">
+      <input type="checkbox">
+      <p> <%= newListItems[i] %> </p> <!-- Use Output markers to receive data passed from server -->
+    </div>
+    <% } %>
+    <form class="item" action="/" method="post">
+      <input type="text" name="newItem" placeholder="New Item" autocomplete="Off">
+      <button type="submit" name="list" value= <%= listTitle  %> >+</button>
+    </form>
+
+  </div>
+
+<%- include("footer") -%>

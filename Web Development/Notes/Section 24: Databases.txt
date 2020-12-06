@@ -1,0 +1,54 @@
+SQL: Structured Query Language
+- MySQL
+-PostgreSQL
+
+SQL databases are tabular, that is, they're based on tables. Structured rows for
+observations, and structured columns for data fields. All the data in a given
+table is in the same grain. You can join different tables together to form a
+relational database.
+
+But if one observation decides to have one additional field of data that the
+other observations don't, then you'll have to add an entire field to your table
+and fill in 'NULL' to all the other observations. Which might not be something
+you want to do. So SQL is not very dynamic to change. It's very structured, as
+is in the name.
+
+Works best when you have a structured schema.
+
+
+NoSQL: Not only Structured Query Language
+- mongoDB
+- redis
+
+These databases are more dynamic and individualized. Data in these databases are
+represented by JSON objects. No two records have to have the same shape or follow
+the same structure.
+
+But NoSQL databases are bad at inter-table relationships. For example, if your
+data were tracking orders, then each additional order in a SQL database would
+just be an additional row in the Orders table. And you could join that information
+to a customers table or products table easily. But in a NoSQL database, each
+additional order might end up being a JSON object with multiple embedded JSON
+objects inside of it. In this example, our main object would be the order data,
+but within that object we'd have an embedded object for the customer information,
+and another for the product data.
+
+Alternatively, you could create a NoSQL structure such that it models a SQL
+structure: a bunch of objects for each of the customers, a bunch for all the products,
+and one for each additional order, with data inside that specifies the corresponding
+customer and product objects. But these types of databases might not be as fast
+or efficient as regular SQL queries.
+
+So you choose a database based on the type of data you wish to store and the
+type of data you forsee yourself storing going forwards. If there are lots of
+relationships, then SQL might be better. But if you have more 'one-to-many'
+data relationships, then mongoDB might be better. These are data types that
+have several data points but few relations. For example, an instagram user: they'd
+have several posts and so several data points but they all map back to one user_id.
+
+However, NoSQL databases are very scalable. The more rows you have in a SQL database,
+the longer it takes to query it. So you could buy a stronger computer etc. But
+eventually, especially once you get to the realm of big data, if your data pile
+gets too tall it can become unstable. It's also really expensive to scale this
+way. This is vertical scaling. mongoDB allows for a distributed system. Several
+data stacks, all of them less tall than a vertically scaled system.

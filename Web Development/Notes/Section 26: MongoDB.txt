@@ -1,0 +1,260 @@
+DOWNLOADING AND INSTALLING MONGO DB
+MongoDB atlas is MongoDB on the cloud. We'll use that eventually, but for now,
+we're just going to download the software and use it on our local machine.
+We're downloading the Community server, which is just their less intense version
+of their enterprise server. This link has the getting started instructions MongdoDB:
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x-tarball/
+
+To be clear, we're downloading the actual file, which is the tarbell thing. We
+could alternatively use homebrew or their cloud app, but we're doing it this way
+on the course.
+
+Okay so actually the process of downloading and installing on the course is a bit
+outdated bc in Mac Catalina we no longer have write access to the root folder.
+Info: https://support.apple.com/en-us/HT210650. Here's a StackOverflow thread
+about it: https://stackoverflow.com/questions/58034955/read-only-file-system-when-attempting-mkdir-data-db-on-mac
+So here's the real summary:
+
+1. Download the file and extract it onto your desktop
+2. Make sure that the binaries in the file are in a directory listed in your PATH
+  environment variable. For example: `/usr/local/bin`. To do this we'll move the
+  `/bin` part of the file (the binaries) to that directory by doing:
+  `sudo cp /Users/hsinha/Desktop/mongodb-macos-x86_64-4.4.2/bin/* /usr/local/bin/``
+  Doing this allows us to use commands like `mongo` and `mongod` in the command line because
+  now the executables for these commands are stored in a directory that the terminal
+  will search for when we run something from the terminal.
+3. Create the data directory. This is where the data will be stored. We chose
+  `~/data/mongodb`. To create the directory we did: `sudo mkdir -p ~/data/mongodb`
+  This is where the error was coming up before. We were trying to create a directory
+  for data in `/data/db` but we no longer have write access to the root directory
+  after the Catalina update. This talks about it: https://stackoverflow.com/questions/58283257/mongodb-cant-find-data-directory-after-upgrading-to-mac-os-10-15-catalina
+  We won't be able to actually view the data that's stored in a normal way. It's
+  all stored as .wt files or .bson files, etc.
+4. Create the log directory. This is where the log statements will be printed. It'll
+  be useful for debugging purposes. We chose `~/data/log/mongodb`. So the command
+  was `sudo mkdir -p ~/data/log/mongodb`.
+5. Set permissions for these directories (the data and log directories you just
+  made). You probably already have ownership. To check do `ls -l`. If root has
+  ownership, then do `sudo chown hsinha ~/data/mongodb` and/or `sudo chown hsinha ~/data/log`
+  Or whatever your user name is lol.
+6. Run MongoDB: `mongod --dbpath ~/data/mongodb --logpath ~/data/log/mongodb/mongo.log --fork`
+  The --dbpath flag tells Mongo where to store the data. The --logpath flag tells
+  it where to store the console logs. The --fork flag tells it to run `mongod` in
+  the background (as a daemon).
+7. Verify that MongoDB has started successfully: `ps aux | grep -v grep | grep mongod`
+8. Initialize the Mongo shell by doing `mongo`. And now. Finally. You're in.
+9. Make an alias so that this command is easier to run:
+  `alias mongod="mongod --dbpath ~/data/mongodb --logpath ~/data/log/mongodb/mongo.log --fork"`
+10. Now, we can just do: `mongod` to run our MongoDB server, and then `mongo` to run the shell.
+
+
+Troubleshooting.
+- If you try to start a server, but it exits with error code 48, you probably left
+  your last server open. So you can either close it, or just re-enter it with  `mongo`
+- If Mac prevents mongo from running, then go to system preferences and allow it in
+  the security and privacy pane.
+- To close mongod: run mongo, then do `use admin`, then do `db.shutdownServer()`,
+  and then do `exit` to get out of the mongo shell.
+- If something goes wrong with an error code, look into it. Also check the `mongo.log`
+  file in the `~/data/log/mongodb` directory.
+
+- Sometimes there are complications with the mongod.lock file if your server didn't
+  shut down correctly. And also the mongodb-27017.sock might have root ownership,
+  so you might have to change that to your username for mongo to work: `sudo chown hsinha /tmp/mongodb-27017.sock`
+  https://stackoverflow.com/questions/30476447/mongodb-error-child-process-failed-exited-with-error-number-14
+
+This blog was pretty helpful:
+https://zellwk.com/blog/install-mongodb/
+
+But really the MongoDB documentation is pretty stellar:
+- https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x-tarball/
+- https://docs.mongodb.com/guides/server/install/
+
+Another kinda useful but outdated doc:
+https://treehouse.github.io/installation-guides/mac/mongo-mac.html
+
+To download MongoDB using a package manager (homebrew), we can do:
+
+1. install homebrew if you haven't already: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+- Details on "brew.sh/#install" (homebrew is a package manager for MacOS)
+2. brew tap mongodb/brew
+3. brew install mongodb-community@4.4
+4. brew services start mondodb-community@4.4
+5. close terminal and open a new one
+5. mongo (and you should be in the shell and good to go!)
+
+When we download via homebrew, it will also download the Mongodb-tools. You can
+use these as command-line utilities to help restore data, import/export,
+summarize, etc. These tools release independently from MongoDB Server. And you
+can dowload them manually if you want as well. The point is that it automatically
+via homebrew. Not a huge deal.
+
+And as mentioned, besides local installation via download or homebrew, there's
+also the cloud option, which I think we'll start using later on?
+
+Remember that all these files are loaded in different directories. Some are executable,
+some are files, some are directories themselves, some are aliases or pointers to
+other directories or executables or files etc. You have to know how the $PATH
+variable works. You have to know how to read the error logs and where to look
+for the error logs in the first place. For example, at first the installation wasn't
+working when I downloaded it manually so I did it via home brew. But then later
+on I figured out how to do it manually and everything was working. So I went back
+and deleted the files that were downloaded via homebrew. However, now the manually
+downloaded MongoDB wasn't working. It's because it couldn't find the `mongo` or
+`mongod` commands in my $PATH variable. even though my .bash_profile and .bashrc
+files were set up correctly and I could see both commands' executables in an appropriate
+directory. The problem was that they weren't executables. They were pointer to the
+executables in the homebrew downloaded folders that I had just deleted. So I had
+to manually re-upload the executables to the folder. Now they weren't pointers,
+they were the actual binaries.
+
+
+CREATE
+Now that we're set up, we do `mongod` to run our mongo server, and once that's
+successfully up and running we do `mongo` to run our mongo shell. The mongo shell
+is a way for us to interact with our Mongo Databases on our local system.
+
+Within the shell, we can do `help`, and it'll show us a few helpful commands
+that we can run from the shell. We can do `show dbs` to list out all the databases
+we currently have in our system. By default, mongoDB comes with `admin`, `config`,
+and `local`, all taking up 0 gigabytes of space.
+
+To create a database, we do `use database_name`, so `use shopDB`. Now we will have
+"switched" to shopDB, that is we can perform operations on the database. However,
+it won't show up in `show dbs` until there's some actual data in there. To know
+which database we're currently in, we can just do `db`.
+
+In NoSQL databases, "collections" are kind of similar to "tables" in SQL. Collections
+are comprised of "documents". Documents are singular data records, so the equivalent
+of a data row in SQL.
+
+Database -> Collection -> Document
+
+To create a new document (data point) in a database, we make sure we're in the database we
+want to be inside, then we do `db.collection_name.insertOne({_id: 1, name: "Pen", price: 1.20})`
+If the collection (table) doesn't yet exist, it'll be created. So to create
+a collection called "products" and insert a data point into it, we'd do
+`db.products.insertOne({_id: 1, name: "Pen", price: 1.20})`. You can do `show collections`
+to list out all the collections that currently exist in the current database. Let's
+also input "Pencil" : `db.products.insertOne({_id: 2, name: "Pencil", price: 0.80})`
+
+We can also insert more than one item at a time using `db.collection_name.insertMany()`.
+There's a lot of great documentation for MongoDB on their documentation site, so
+look there if any questions. To see the documents we've input, we can do `db.products.find()`.
+
+Sidenote: MongoDB Compass is a GUI for interacting with MongoDB databases.
+
+
+READ
+db.products.find({name: "Pencil"})    -> This will return all documents (observations) that have the name "Pencil".
+db.products.find({price: {$gt: 1}})   -> This will return all documents (observations in SQL) that have a price greater than 1
+
+There are also these things called projections, which you can use to specify which
+exact fields you want returned (by using binary flags of 1 or 0) in addition to
+any filters you want to apply. Filters come first, projections after:
+db.products.find({_id: 1}, {name:1})            -> This will return the ID & name of the document that has the `_id` of 1
+db.products.find({_id: 1}, {name: 1, _id: 0})   -> This will return the name of the document that has the `_id` of 1
+
+(ID always gets returned unless you specify it to be off with a value of 0). All
+this documentation can be found in the MongoDB documentation: https://docs.mongodb.com/manual/tutorial/query-documents/
+
+
+UPDATE
+db.products.updateOne({_id: 1}, {$set: {stock: 32}})      -> This updates the document with an `_id` of 1 with a new field (we do this by doing `$set:`) called stock, with a value of 32
+db.products.updateOne({_id: 2}, {$set: {stock: 12}})      -> Same functionality as above
+
+There's also .updateMany() functionality.
+
+DELETE
+db.products.deleteOne({_id: 2})         -> Deletes the document with an `_id` of 2
+
+There is also .deleteMany() functionality.
+
+
+RELATIONSHIPS
+We could also have documents with documents contained inside:
+
+db.products.insert(
+  {
+  _id: 3,
+  name: "Eraser",
+  price: 1.30,
+  stock: 43,
+  reviews: [
+    {
+      authorName: "Sally",
+      rating: 5,
+      review: "Best rubber ever!"
+    },
+    {
+      authorName: "Jhn",
+      rating: 5,
+      review: "Awesome rubber!"
+    }
+  ]
+  }
+)
+
+
+These types of data are really well suited for NoSQL structures because there is
+a one-to-many mapping here. One product with several reviews. There are different
+ways you can structure a NoSQL database though. As discussed, you could have some
+system where each document is an item you sell, and then you have one document
+for each order, and inside of those orders, there's a field for the item
+number they ordered, which corresponds to a document for an item.
+
+
+NATIVE MONGO DB DRIVER
+Thus far we have learned how to use MongoDB through the Mongo shell. Which is
+MongoDB at its purest form. But what we need to do is integrate our database with our
+application. When we create a node app that needs to connect to a MongoDB
+database, we have two options:
+1. Use the MongoDB Native Driver
+2. Use an ODM - Object Document Mapper, like mongoose. This cuts down on the
+  amount of code needed to use MongoDB
+
+We'll use mongoose in real life, but first let's learn how to use MongoDB driver.
+
+To get set up, we go to the drivers section of the documentation, and navigate to
+the section for the language we're using. In this case, node. The "driver" is what
+enables MongoDB to interact with our application. Documentation: https://mongodb.github.io/node-mongodb-native/3.6/quick-start/quick-start/
+
+Steps to link up an application w MongoDB Driver, create a database & collection, insert a few documents, and query for them:
+1. Create directory
+2. Create app.js file
+3. `npm init`
+4. `npm install mongodb`
+5. Start your MongoDB server: `mongod`
+6. Copy boilerplate server code to app.js
+7. Change the name of your database to what you want
+8. Add {useNewUrlParser: true} to your client
+9. Run `node app.js` and look for "Connected successfully to server"
+10. Copy the 'insertDocuments' function to app.js
+11. Change the name of your collection in the function to what you want it to be
+12. Change the default data to your data
+13. Change the boilerplate code to include a call to the function
+14. Copy the 'findDocuments' function to app.js
+15. Specify the collection where you want to query data from
+16. Change the boilerplate to include a call to the function
+17. Re-run `node app.js` and hopefully you'll see
+  - "Connected successfully to the server"
+  - "Inserted 3 documents into the collection"
+  - A printout of the 3 JS objects you just queried for. (The data returned here
+  via the `findDocuments` function are JS objects. Opposed to the mongo document
+  objects returned when we query using the mongo shell. Thus, now we're able to
+  work with and manipulate our data in our app.js using node.js etc.)
+
+And now if you search your databases, you should see one named 'FruitsDB'. Hooray!
+
+All this can bee seen in the app.js file in Practice site 15 (FruitsDB). You'll
+see in that file a package called 'assert', which is used for testing. It just makes
+sure that everything is lined up and working correctly. Also, the base port to
+connect to Mongo is port 27017 (arbitrary number). The whole point of this application
+is to run a singular app.js file, and have create, insert, and query data from a
+MongoDB server without you having to do each step from the mongo shell.
+
+To do this relatively simple operation of creating a new database called 'FruitsDB',
+creating a collection called 'fruits', inserting 3 data points of fruits and
+their characteristics into it, and then querying for those data points to be
+displayed, it took 70 lines of code and multiple functions. So we use mongoose
+to help speed things up.

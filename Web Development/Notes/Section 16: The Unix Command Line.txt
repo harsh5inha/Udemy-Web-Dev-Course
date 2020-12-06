@@ -180,3 +180,271 @@ package manager.
 An environment is a defined set of packages and dependencies that you are using
 for a file. Basically, you need to specify the exact versions of packages to
 avoid the packages clashing with one another etc.
+
+
+TWO MONTHS LATER, ANOTHER FORAY BACK INTO THE WORLD OF THE COMMAND LINE AND FILE SYSTEM COMPUTER SCIENCE
+This is the master resource for most of what's below: https://linuxize.com/post/bashrc-vs-bash-profile/
+- As we know `ls` will list all the files in a directory
+- And `ls -a` lists all the files including the hidden files.
+- But what we haven't learned yet is `ls -l`. This lists out the long names
+  of all the files in our directory, that is, it lists out our files in  7 columns:
+    1st column:
+      - If the first letter is a 'd', it means the content is a directory or file.
+        If it begins with `-` (minus sign) it means that the content is a file. If
+        it equals an 'l' (small L character), it means the content is link file.
+      - The next 9 characters is about file permissions. The first 3 'rwx'
+        characters are for Owner of the file, the second 3 characters are for
+        Group owner of the file and the last 3 characters are for worldwide
+        access to the file.
+    2nd column:
+      - This tells us about how many links there are to this file
+    3rd column
+      - This tells us who the owner of the file/directory is
+    4th column
+      - This tells us who the group owner of the file/directory is
+    5th column
+      - This tells us the size of the file/directory in bytes.
+    6th column
+      - This tells us the last modification time/date
+    7th column
+      - This tells us the filename or directory name
+- And `ls -la` does the same as above, except it also includes the hidden files.
+
+Every time you open up a new terminal, it runs the `.bash_profile` file. So we
+could put something like "echo 'FROM BASH_PROFILE'" in our .bash_profile file
+and see that the terminal outputs that text every time we open up a new terminal.
+This is because the terminal is a login shell for the mac, and .bash_profile is
+run every time we open up a new terminal. These login shells are also run every
+time we SSH into a machine, etc. We could also put "ECHO 'FROM BASHRC'" in our
+`.bashrc` file and see that nothing is outputted in the terminal upon loading it
+up, because this file is only run for non-login shells or sub-shells.
+
+If, in terminal, we do `bash`, this will take us into a new bash
+process. Bash is a program that reads command and executes them. It can read them
+from a file, or you can type them from an interactive prompt. When you run a
+terminal, it's simply a window that runs bash in interactive mode, possibly
+reading some initialization code first. When you type "bash" at one of these
+prompts it simply starts another instance of the bash program (ie: another
+process), running "inside" the original bash program (process) running in the
+window. When you exit this new bash program, you will be returned to the original
+bash program where you can type more commands. The prompt in the internal bash
+process may or may not be different from your default terminal prompt based on a
+whole bunch of reasons, many of which can be fine-tuned with bash command line
+options. For example, when we type `bash` our prompt switches to `bash-3.2$`. But
+even if the prompt is the same, you are operating in a different process from
+the original bash.
+
+The point is, though, that if we do `bash`, we will see that the terminal now
+outputs `FROM BASHRC`. The echo code we put in the .bashrc file. This is because
+we opened a non-login shell. The code in the .bashrc file - which stands for
+“bash run commands”, and is the code that is run anytime you create a new shell
+in bash - updates something called the path variable. The path variable is a list
+of directories that are searched anytime you run a command; you can see this list
+of directories by typing echo $PATH. Notice that there are several absolute paths
+pointing to different directories, with the colon acting as a separator between
+paths. When you type a command and press enter, the shell looks for that command
+within each directory in your path. If it’s not there, it returns an error saying
+that the command is not found.
+
+
+.BASH_PROFILE AND .BASHRC
+When you open terminal, Bash reads and executes commands from a set of startup files. What
+files are read depends upon whether the shell is invoked as an interactive login
+or non-login shell. A login shell is invoked when a user logs in to the terminal
+either remotely via ssh or locally, or when Bash is launched with the --login
+option. An interactive non-login shell is invoked from the login shell, such as
+when typing `bash` in the shell prompt or when opening a new Gnome terminal tab.
+
+When invoked as a login shell, Bash looks for the /etc/profile file, and if the
+file exists, it runs the commands listed in the file. Then Bash searches for
+~/.bash_profile, ~/.bash_login, and ~/.profile files, in that order, and executes
+commands from the first readable file found. When Bash is invoked as a non-login
+shell, it reads and executes commands from ~/.bashrc.
+
+We should use .bash_profile to run commands that should run only once, such as
+customizing the $PATH environment variable. Put the commands that should run
+every time you launch a new shell in the .bashrc file. This include your aliases
+and functions, custom prompts, history customizations, and so on.
+
+Note: Most Linux distributions use ~/.profile instead of ~/.bash_profile. The
+~/.profile file is read by all shells, while ~/.bash_profile only by Bash.
+
+
+$PATH ENVIRONMENT VARIABLE
+When you type a command on the command line, you’re basically telling the shell
+to run an executable file (a binary) with the given name. In Linux, these executable programs
+like ls, find, file and others, usually live inside several different directories
+on your system. Any file with executable permissions stored in these directories
+can be run from any location. The most common directories that hold executable
+programs are /bin, /sbin, /usr/sbin, /usr/local/bin and /usr/local/sbin.
+
+But how does the shell know what directories to search for executable programs?
+Does the shell search through the whole filesystem? The answer is simple: when
+you type a command, the shell searches through all directories specified in the
+user $PATH variable for an executable file of that name.
+
+The $PATH environmental variable is a colon-delimited list of directories that
+tells the shell which directories to search for executable files. To check what
+directories are in your $PATH, you can use either the printenv or echo command:
+`echo $PATH`. If you have two executable files sharing the same name located in
+two different directories, the shell will run the file that is in the directory
+that comes first in the $PATH.
+
+There are situations where you may want to add other directories to the $PATH
+variable. For example, some programs may be installed in different locations,
+or you may want to have a dedicated directory for your personal scrips, but be
+able to run them without specifying the absolute path to the executable files.
+To do this, you simply need to add the directory to your $PATH.
+
+Let’s say you have a directory called 'bin' located in your Home directory in which
+you keep your shell scripts. (Remember that your home directory "~" is different
+from your root "/" directory.) To add the directory to your $PATH, type in:
+`export PATH="$HOME/bin:$PATH"`. The export command will export the modified
+variable to the shell child process environments.
+
+You can now run your scripts by typing the executable script name without needing
+to specify the full path to the file. However, this change is only temporary and
+valid only in the current shell session. To make the change permanent, you need
+to define the $PATH variable in the shell configuration files. In most Linux
+distributions when you start a new session, environment variables are read from
+the following files:
+- Global shell specific configuration files such as /etc/environment and
+  /etc/profile. Use this file if you want the new directory to be added to all
+  system users $PATH.
+- Per-user shell specific configuration files. For example, if you are using Bash,
+  you can set the $PATH variable in the ~/.bashrc file. If you are using Zsh the
+  file name is ~/.zshrc.
+
+In this example, we’ll set the variable in the ~/.bashrc file:
+'export PATH="$HOME/bin:$PATH"`. Now you can start a new terminal, and on load up,
+as discussed, this file will be executed and the directory will now be part of your
+$PATH variable. Confirm using `echo $PATH`.
+
+
+THE /bin DIRECTORY
+In general '/bin' stands for 'binary' in software. It's generally a place in
+Unix-like operating systems where the executable programs are stored. These are
+the files needed for booting and repairing a system.
+
+The root directory, which is designated by a forward slash ( / ), is the top-level
+directory in the hierarchy of directories (also referred to as the directory tree)
+on Unix-like operating systems. That is, it is the directory that contains all other
+directories and their subdirectories as well as all files on the system.
+
+The full names (also referred to as the absolute pathnames) of all of the
+subdirectories in the root directory begin with a forward slash, which shows
+their position in the filesystem hierarchy. In addition to /bin, some of the
+other standard subdirectories in the root directory include /boot, /dev, /etc,
+/home, /mnt, /usr, /proc and /var.
+
+Among the contents of /bin are the shells (e.g., bash and csh), ls, grep, tar,
+kill, echo, ps, cp, mv, rm, cat, gzip, ping, su and the vi text editor. These
+programs can be used by both the root user (i.e., the administrative user) and
+ordinary users. A list of all the programs in /bin can be viewed by using the
+ls command, which is commonly used to view the contents of directories: `ls /bin`
+
+/bin is by default in PATH, which is the list of directories that the system
+searches for the corresponding program when a command is issued. This means that
+any executable file (i.e., runnable program) in /bin can be run just by entering
+the file name at the command line and then pressing the ENTER key.
+
+There are several other directories on Unix-like systems that also contain the
+string (i.e., sequence of characters) bin in their names, including /sbin and
+/usr/bin. The former contains additional programs that are used to boot the system
+as well as administrative and system maintenance programs that are only available
+to the root user. The latter contains executable programs that are not required
+for booting or repairing the system. (/sbin stands for system binary.)
+
+A binary is something that causes a computer "to perform indicated tasks according
+to encoded instructions", as opposed to a data file that must be parsed by a
+program to be meaningful. Basically, it's an executable. Something that performs
+its operations immediately upon being called. Machine code. Like a compiled C
+program. All you have to do is write the name of the program for it to run.
+
+More information on the Filesystem Hierarchy Standard is here: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+
+
+ALIASES & FUNCTIONS
+Bash aliases allow you to set a memorable shortcut command for a longer command.
+Creating aliases in bash is very straight forward. The syntax is as follows:
+`alias alias_name="command_to_run"`. For example, if we do: `alias ll="ls -la"`,
+we can type `ll` into the terminal and get the same output as you would by typing
+`ls -la.` The `ll` alias will be available only in the current shell session. If
+you exit the session or open a new session from another terminal, the alias will
+not be available. To make the alias persistent you need to declare it in the
+~/.bash_profile or ~/.bashrc file. Like so:
+
+`# Long format list
+alias ll="ls -la"`
+
+Similar to the environment PATH example from above, because this file (.bashrc)
+will be run every time we open up terminal, our alias will be initialized every
+time we open up terminal. Really cool and powerful stuff. Learning how to truly
+handle the filesystem has been a really cool experience honestly.
+
+
+CHANGING OUR TERMINAL SETTINGS
+Let's try and update our terminal settings. So, one thing we can do is, put a program inside
+our .bash_profile file that actually runs the .bashrc file. This way, when we
+start up terminal, it'll run the .bash_profile file, which will in turn run the
+.bashrc file. So this way, we only have to edit one file to make changes to all
+our shells, login or non-login. The code to do this is:
+
+`if [ -f ~/.bashrc ]; then
+      source ~/.bashrc
+fi`
+
+Now that we've done that, let's customize our terminal via `.bashrc` as follows:
+`orange=$(tput setaf 14);
+yellow=$(tput setaf 71);
+green=$(tput setaf 228);
+white=$(tput setaf 15);
+bold=$(tput bold);
+reset=$(tput sgr0);
+
+PS1="\[${bold}\]\n";
+PS1+="\[${orange}\]\u";   		#username
+PS1+="\[${white}\] at ";
+PS1+="\[${yellow}\]\h";			#host
+PS1+="\[${white}\] in ";
+PS1+="\[${green}\]\W ";			#working directory
+PS1+="\[${white}\]\$ \[${reset}\]";	# '$' prompt (and reset color)
+Export PS1;`
+
+This adds some colors to our prompt, and tells us who is using the computer,
+which host, and in what directory The '\[' things are to prevent escape characters.
+There's all sort of other things you can do to customize your terminal. A ton of
+files on GitHub for this stuff. You could add something to let you know what
+branch you're on in a Git repo etc. Example: https://github.com/mathiasbynens/dotfiles
+
+Also sidenote: if we do `source file_name` it'll reload whatever file_name we specify.
+
+
+SHELL
+A shell is a computer program which exposes an operating system's services to a
+human user or other program. In general, operating system shells use either a
+command-line interface (CLI) or graphical user interface (GUI), depending on a
+computer's role and particular operation. It is named a shell because it is the
+outermost layer around the operating system.
+
+Sidenote: A dollar sign in bash indicates that what comes immediately after it is a variable.
+
+Resource: https://andysbrainbook.readthedocs.io/en/latest/unix/Unix_04_ShellsVariables.html
+
+
+
+CURL
+cURL, often just “curl,” is a free command line tool. It uses URL syntax to transfer
+data to and from servers. curl is a widely used because of its ability to be
+flexible and complete complex tasks. For example, you can use curl for things
+like user authentication, HTTP post, SSL connections, proxy support, FTP uploads,
+etc.
+
+
+
+
+I didn't realize that when you start a computer or open a terminal etc. It's really
+just a bunch of computer programs running and then the action is the output of that
+program. Like obviously that's how it works, I've just never thought about it like
+that I guess. The more you understand, the less magical it all seems, but also
+the more magical it seems.

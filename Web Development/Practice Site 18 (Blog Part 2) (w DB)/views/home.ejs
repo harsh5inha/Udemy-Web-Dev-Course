@@ -1,0 +1,19 @@
+<%- include("partials/header"); -%>
+<h1>Home</h1>
+<p> <%= startingContent %> </p>
+
+<!-- Receive posts data passed from the MongoDB server -->
+<%  posts.forEach(function(ele){ %>
+
+<h1><%=ele.title%></h1>
+<p>
+  <%=ele.post.substring(0, 100) + " ..."%>
+  <!-- Create a path based on the unique mongo _id of the post -->
+  <a href="/posts/<%= ele._id %>">Read More</a>
+</p>
+
+
+<% }) %>
+
+
+<%- include("partials/footer"); -%>

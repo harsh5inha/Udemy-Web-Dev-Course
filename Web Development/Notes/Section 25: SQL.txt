@@ -1,0 +1,87 @@
+Four main commands to know in SQL (CRUD):
+CREATE
+READ
+UPDATE
+DESTROY
+
+
+CREATE
+In the example below, we specify a primary key to make sure that each value
+given for that field must be unique. We also specify NOT NULL to make sure that
+the id must have an input. If we try to input data with id missing, it will refuse
+to update the table. It'll force us to put in a value for id.
+
+CREATE TABLE products (
+  id INT NOT NULL,
+  name STRING,
+  price MONEY,
+  PRIMARY KEY (id)
+)
+
+
+INSERT
+There are two ways to insert data into a table. If we want to specify the fields
+we're inputting:
+
+INSERT INTO products (id, name, price)
+VALUES (1, Harsh, 1.20)
+
+If we're inputting all fields, it's simply:
+
+INSERT INTO products
+VALUES (1, "Harsh", 1.20)
+
+If we specify some but not all fields for a new observation, then NULL values
+will be inputted for the un-specified fields.
+
+
+READ
+Most often we use the SELECT keyword.
+
+SELECT * FROM products
+
+You know this shit.
+
+
+UPDATE
+You want to make sure that you correctly specify the WHERE clause otherwise you
+can wipe a field of an entire dataset on aaccident.
+
+UPDATE products
+SET price = 0.8
+WHERE id = 2
+
+To change the table itself, to add a field etc. we do:
+ALTER TABLE products
+ADD stock INT
+
+This will add a column named "stock" filled with NULL values. To add data, we'd
+use the UPDATE command as shown.
+
+
+DELETE
+Again, make sure to specify your WHERE clause carefully or else you can wipe an
+entire table.
+
+DELETE FROM products
+WHERE id = 2
+
+
+JOINS
+doop loop moop.
+
+
+FOREIGN KEYS
+Foreign keys are fields in your table that can link the table to another table.
+For example, below we're creating an orders table that links to our products
+table and to a customer table that we haven't yet created.
+
+CREATE TABLE orders (
+  id INT NOT NULL
+  order_number INT,
+  customer_id INT,
+  product_id INT,
+  PRIMARY KEY (id),
+  FOREIGN KEY (customer_id) REFERENCES customer(id),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+)
