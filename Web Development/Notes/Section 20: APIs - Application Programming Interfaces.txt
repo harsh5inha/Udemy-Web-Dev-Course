@@ -283,4 +283,20 @@ If somehting isn't working, then you can do `heroku logs` to see where the proce
 failed etc. Say if we forgot to specify `process.env.PORT` as the Heroku port
 or we messed up the Procfile in some way etc.
 
+NOTE
+Github and Heroku are never really talking to each other. We talk to each
+individually. Changes made to one don't affect changes to the other. Even though both
+take Git repositories as input. Make sense? Like they both take local git repos
+as input.
+
+Now, if we try and push nested Git repositories to Github, we won't be able to
+open them as folders on the website. We'll just get a "gitlink" or something which
+is effectively useless. So we can either delete the .git files in the nested
+repos to get them to be part of the main repo, or we could leave it as is, and
+commit those nested repos as separate repos on Github.
+
+This way, if we want to change something and push to Heroku, we'll still have the
+git logic that Heroku needs. And we'll be able to still see these directories on
+Github, just as separate repositories from the maseter one.
+
 Wow that was a super intense chapter. but rewarding.

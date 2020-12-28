@@ -1,0 +1,607 @@
+AUTHENTICATION & CYBER SECURITY
+Authentication is used for things like making sure only you and the other person
+can see your private messages on FB, and also so that only premium accounts are
+allowed to access the premium content on Spotify etc.
+
+We're going to be building a really simple website that allows people to post
+secrets anonymously. It'll have a Home page with two buttons: "Register" and
+"Log In". From there they'll be able to access the Secrets page. Really basic
+web-flow design.
+
+
+APPENDED: SUMMARY OF FINISHED SITE
+The final website we made has:
+- A home page (login/register page).
+- A login page
+- A register page
+- A secrets page, with anonymously posted secrets (one per user)
+- A submit page where you can submit new secrets. (Only logged in users can access the submit page.)
+
+Notes:
+- Users can use Facebook or Google to register or Log-in (Actulaly Facebook isn't working right now bc of a bug on the developers platform, but in the future it wouldn't be hard to add in functionality.)
+- Users can each have one secret at a given point in time, but they can change by just submitting a new one.
+- The secrets page displays all secrets submitted. (Though as stated above, only one per user.)
+- If a user logs in natively (using username/password) they are stored in our DB with our Mongo ID, their username, the salt & hash of their password, and their secret if they submit one.
+- If a user uses Google to log in, they are stored in our DB with our Mongo ID, their Google ID ( which is provided via Google), and their secret if they submit one. Note that when we store these users in our database, we don't have a password, that's all handled via Google. So we have no responsibility if their account is hacked. That's all on Google.
+- If a user uses Facebook to log in, I assume that they're stored in our DB with our Mongo ID, their fbid (provided via Facebook), and their secret if they submit one. Similar to above, I'm assuming that we aren't storing a password for these users. I'm not sure bc as mentioned, Facebook authentication has a bug, so I haven't been able to test.
+- If a user registers/signs in via OAuth, then logs out on our site, they do not have to re-authenticate themselves with Google/FB to view our secrets. They still have to click the sign in via Google/FB button, but they aren't re-directed to Google/FB, they're allowed straight in. This is because they are not logged out of Google/FB, just our site.
+- The userSchema defined in our MondoDB database has several fields: email, password, id, GoogleID, fbid, secret, but not all of them are used in the creation of every user. It's a dynamic schema.
+- We declare and "un-declare" authentication status as a means to tie actions to particular users (defining a session).
+
+Flow of 3rd party Authentication:
+Let's use Google Authentication as an example. Basically, we set up how we want to
+make a request from Google in our "Google Strategy". We make the actual request
+when users send a GET request to the "/auth/google" route. They do this by clicking
+on the "Register/Sign in via Google buttons". Then Google does it's bit, and once
+it authenticates a user on their platform, they make a GET request to
+auth/google/secrets. But this isn't a web page, it's just a route that, once requested,
+tells us to authenticate those users locally, which we do and then send them to
+the secrets page.
+
+Okay, now let's get back to it.
+
+
+AUTHENTICATION & CYBER SECURITY
+There are different levels of security. Angela is going to talk us through
+6 levels. Our website has level 6 security, but if you want to see the code for
+steps 1 - 5, then just `git clone` the repository: https://github.com/londonappbrewery/Authentication-Secrets.
+Use `git log` to see the 7 commits (1 for each level and one for adding env variables).
+For example, if we wanted to see the code after Level 1 (Username and Password Only)
+we'd type: `git checkout 7078af837299a4ff50121d67afe17d9fa522ec68 .` In each of the
+levels below it might say that certain things are implemented in the code, but
+most of this was deprecated in favor of the final version of security, level 6.
+
+
+LEVEL 1 USERNAME AND PASSWORD
+Intuitive. What you think it is. You create a form on the front-end that has a
+'username' entry box and a 'password' entry box. You store newly registered accounts
+in a database, and when someone tries to log in, you check their credentials
+against the list of usernames and passwords you have registered in your DB. If found,
+then you enable access to the requested pages etc. In this level, usernames and
+passwords are stored in plain text in the DB. Which is bad bc employees may have
+access to the DB, but also if the DB is hacked, then the hacker would have all
+the information in plain text.
+
+
+LEVEL 2 DATABASE ENCRYPTION
+Scrambling information so that only people with the key can read it. One basic
+way of doing this is the caesar cipher, where you'd shift all the letters
+by some number of digits. We use the `mongoose-encryption` package. It uses
+AES encryption, which is super strong, developed in 2003-ish?
+
+Now, when users register for our site, their usernames are stored in our DB in
+plain text (bc we specified it so) but their passwords are encrypted and make no
+sense. They are encrypted automatically into our database when we call the .save()
+method, and they are decrypted automatically when we call the .findOne() or
+.findMany() method when trying to retrieve their data from the database. We do
+this encryption by using a secret encryption key in our app.js file.
+
+But hackers can still manage to access our app.js file. It's not that hard apparently? And
+once they're in, they'll be able to see both the package we're using to encrypt
+our users' data and the secret key we're using for that encryption. So they'll be
+able to decrypt all the passwords in our DB, etc.
+
+
+ENVIRONMENT VARIABLES
+Now, every time we commit code to our repo and then push it on to Github, that
+information is on the internet and is available to be scraped by Google, etc.
+So if we push code that includes passwords or API keys, they'll be exposed even
+if we push new code that removes those few lines. (You'll still be able to see
+that original code as part of the earlier commit.)
+
+If you leave your info unsecured like this, people will be able to crawl GitHub
+and find your AWS keys etc. and then they can use them for various things and you'll
+prob end up with a large bill bc they spent a lot of computing power mining
+Bitcoin or whatever.
+
+So we can use a package called `DOTENV` to set up environment variables, which are
+variables whose value is set outside the program, typically through functionality
+built into the operating system or microservice. An environment variable is made
+up of a name/value pair. We require and config the dotenv package as early as we
+can in our app.js file so that our environment variables will be configured
+as soon as our server is launched. This way, we'll be able to use our env variables
+right away in the app since they'll be configured first thing. (Opposed to trying
+to use an env variable before configuring them.)
+
+To create env variables we create a `.env` file in our directory (hidden file).
+By convention, we create variables in this file using SNAKE_CASE, without any
+spaces between key and value. (Shown in the .env file of this program.) We
+can tap into these variables by doing `process.env.KEY_NAME` where KEY_NAME is the
+name of the env variable in question. (Also shown in our file.) (Although now
+commented out in favor of more secure approaches discussed below.)
+
+Now if you commit your code, without hiding your .env file, then it'll defeat the
+purpose of creating that file to begin with. So you need to include it in your
+.gitignore file. There are useful template .gitignore files on Github that we
+can use to make sure we've hidden all the common files that ought to be hidden.
+For example, it's common to ignore the `.env` file and the `node_modules` file
+since it's so large and the `DS_Store` file. We've copied one such template for
+this app in our .gitignore file.
+
+Remember though that even though we're now using a .env file, previous commits
+of our code are still in our repo, so we'll still have to change our keys to make
+sure that those publicly viewable keys are obsolete. This is why it's so important
+that one of the first things we do in a new project is create our .env file,
+include any sensitive data as environment variables, and include the file in our
+.gitignore file before we push to Github.
+
+NOTE: when we deploy to Heroku, we'll have to have a way to tell Heroku what these
+environment variables are, otherwise the site won't be able to be live on the
+internet. There's a pane on Heroku where we're able to specify all of our
+env variables (or config variables).
+
+It's obvious that you shouldn't store API keys, etc on public Github repos. But
+Private Git repositories hosted on services such as GitHub, GitLab, and Bitbucket
+are exposed to a different type of risk. When you integrate a third-party
+application with one of the services mentioned, you may be opening your private
+repositories to those third parties. Those applications will be able to access
+your private repositories and read the information contained within.
+
+While that alone doesn’t create a risk, imagine if one of those applications
+becomes vulnerable to attackers. By getting unauthorized access to one of those
+third-party applications, attackers might gain access to your sensitive data,
+including API keys and secrets.
+
+One solution I've found is to use the Github Secrets tab. I created a tab there
+that has all the environment variables used in all of the practice sites (so far
+only 11, 18, and 20) that have env variables. They're stored as their name + the
+name of the practice site they're associated with. There's a way of accessing
+and using them via Github. But really if you wanted to you could always just
+change the API keys etc. to a new version so you can use the site if don't feel
+like locally storing all your environment variables forever lol.
+
+To be honest, I'm still not sure what the actual solution is. Like if you have a
+deployed site on Heroku or something, then you'll be able to input your env variables
+on their platform securely so it won't be an issue. But if you're just storing your
+code remotely, i don't know. There doesn't seem to be a go-to way of storing
+your confidential information anywhere really. So I guess just use the Github
+secrets pane, encrypt your vars independently and store them, or just create new
+tokens and keys etc. whenever you actually clone the repo from Github and try
+to run it locally again.
+
+
+LEVEL 3 HASHING PASSWORDS
+We use a hash function to turn a password into a hash. Hashes are really easy to
+create but rather difficult to turn back into the original password. It's possible
+but not realistic. We studied this in CS50, may be time for a review?
+
+Anyways, in using a hash function, we get rid of the need to have a encryption key, which
+was less safe if someone were to find that key. Now, we never store the user's data
+in plain text. We hash the password, and then when a user re-types in their password,
+we re-hash that input and compare it to the hashed version we have stored. This
+leads to one key property of hash functions: identical input must equal identical
+output. Also that it should be difficult to find multiple inputs that route to the
+same hashed valued.
+
+MD and SHA are two popular hash algorithms. In this project we're using md5, and
+have commented out the earlier encryption key method. This type of basic HASHING
+can also be insecure though, as explained below. (Actually later on we switch
+to bcrypt, a more secure hashing alogrithm.)
+
+
+HASH TABLES AND HACKERS
+So if you request to change your password for some website, and the website sends
+you an email to the address you have on file with your password in plain text,
+then you know that the website was not storing your password securely. Well they
+definitely weren't hashing your password, because then they wouldn't be able to
+send you your password even if they wanted to, because they wouldn't know it. But
+perhaps they were using an encryption key and just reversed the function to
+deliver your password in plain text. There's a website called plaintextoffenders.com
+that shows all these companies that have poor cyber-security. If you're getting
+your password as plaintext, they're probably a company that's prone to being
+hacked.
+
+If someone were to get access to a DB that has user names and hashed passwords,
+they may not be able to see the passwords, but remember that hash functions
+always route identical inputs to identical outputs. So you'll be able to know
+not necessarily what the passwords are, but which users have the same password.
+
+So hackers are able to create a "hash table", of all the most commonly used passwords
+and their hashed equivalents. Then all you have to do is look for these hashed
+values in the list of the hashed user passwords and hope you can find a match.
+Of course you'll have to guess the hashing algorithm the company used as well.
+
+Hackers can create a hash table that includes every word in the dictionary (~150,000
+words), every number in a phone book (~5,000,000 numbers), and every combination
+of 6 characters (~19.77 billion combinations). Altogether this is
+roughly 19.78 billion hashes. Which is a lot, but with one of the more advanced
+GPUs, you can calculate about 20 billion MD5 hashes per second. Also, lots of hash
+tables have already been created so you wouldn't even need to calculate all of it out.
+
+Now, not every password's hash in a database will be able to be found through your hash table,
+only the ones that fit one of those 3 requirements (number in phonebook, word in dictionary,
+or 6 character combination). You'll need to calculate hashes for more elaborate
+passwords to be able to crack the more secure passwords: i.e. longer than 6 characters,
+etc.
+
+In terms of password security, one of the best things you can do to make it
+really difficult for a hacker to de-crypt your password is just to make it longer.
+Each additional character exponentially increases the computational power required
+to create a hash table for every possible combination of that many characters.
+
+There are online password checkers that can tell you how long it'd take a desktop
+computer to crack your password, and also some more powerful parallel GPUs, etc.
+
+Sidenote: a dictionary attack is one in which the hacker creates a hash table
+using every word in the dictionary (~150,000 words).
+
+
+LEVEL 4 - SALTING AND HASHING WITH BCRYPT
+Salting is the process of adding a random string of characters on to the end of a
+user's password before then hashing it. Now, two people who both have `qwerty` as
+their password would have different hashed values stored in the database, because
+the salt is different for each user. (We store the salt value in plain text in
+our DB in addition to the final, hashed password.)
+
+For further security we can use bcrypt, which is a more secure cryptography
+algorithm than md5. A GPU that could calculate 20 billion hashes per second against
+the md5 algorithm, can only calculate 17,000 hashes against the bcrypt algorithm.
+
+Salt rounds: you add salt to a plaintext password and then hash it using bcrypt. Like normal.
+Then you add another round of the same salt to your hashed password, and re-hash
+it using bcrypt again. And you do this over and over for a specific number of rounds
+so that it's harder and harder for a computer to crack through all the rounds.
+(There's an option in bcrypt to specify the number of rounds you want to salt.)
+Now, every year, you can increase the number of rounds you want to salt by, and
+for every additional round of salting, the amount of time it takes to hash your
+password doubles. But computing power roughly doubles every year, so you're effectively
+keeping up with the times. Both in terms of your own computing power but also the
+hackers' computing power. We're salting in our app 10 times, which is a rate of
+about 10 passwords hashed per second.
+
+To do this via Node we use the `bcrypt` package. bcrypt is super particular about
+which version of node you're using for compatibility. You need to be using a
+stable version (even number). If you're using an odd number version then use the `nvm`
+package to revert to an earlier version. Anyways, we're now using the bcrypt
+algorithm in our app, with 10 rounds of salting, and we've commented out the
+original md5 code.
+
+
+    SIDENOTE: XSS, COOKIES, LOCAL STORAGE, AND SESSIONS
+    The main problem with HTTP as the transport layer of the Web is that it is
+    stateless. This means that when you use a web application and then close it,
+    its state will be reset the next time you open it. So like, it's impossible
+    to tell, natively, whether the client making a GET request to your site today,
+    is the same client that requested your site yesterday. This is why, as a developer,
+    you need to store the state of your interface somewhere. Normally, this is done
+    server-side via authentication of accounts, and you would check the username
+    inputted to know which state to load up. But what if you don’t want to force
+    people to sign up? This is where client-side storage comes in. You would keep data on
+    the user’s computer and then use it when the user returns to your site as a form
+    of identification.
+
+    The classic way to do this is by using a cookie. A cookie is a small text file hosted
+    on the user’s browser. Cookies have a few limitations though: They add to the
+    load of every HTTP request, so they can only be up to 4 KB of storage. Also,
+    because cookies have been used to spy on people’s surfing behavior in the past,
+    security-conscious people and companies turn them off or request to be asked
+    every time whether a cookie should be set.
+
+    Cookies work as follows: Whenever you make an HTTP request to a website,
+    the server responds with some appropriate data, including a cookie, which gets
+    stored on your browser. There are two types of cookies: persistent cookies and
+    session cookies.
+
+    1. SESSIONS
+    Session cookies do not contain an expiration date. Instead, they are stored
+    only as long as the browser or tab is open. As soon as the browser is closed,
+    they are permanently lost. Many secure websites employ cookies like these to
+    validate their users’ identities after they’ve logged in to prevent them
+    from having to re-enter their credentials on every page. For example,
+    session cookies might be used to store a banking user’s credentials while
+    they are navigating within their bank’s website. This way, the user wouldn't
+    have to log in over and over again to access each page, and their information
+    would be forgotten as soon as the tab is closed.
+
+    2. COOKIES
+    Persistent cookies, on the other hand, do have an expiration date. These
+    cookies are sent to the user's browser when the server receives a request from
+    the client, and they are stored there until the expiration, when they are
+    permanently deleted. They can be used to record a user’s habits on a particular
+    website in order to customize their experience every time they visit.
+
+    For example, Amazon will know what, if anything, you added to your cart
+    but did not check out the last time you visited the site. So when you come back,
+    Amazon will know to load up your webpage with those things already added to your
+    cart. That way, it'll be easier for you to purchase what you wanted to,
+    opposed to having to go search for everything and add to them to your cart a
+    second time.
+
+    Also, if you make a GET request to another website like Facebook, then your
+    persistent cookies from Amazon get sent along with that request. So now
+    Facebook knows what you added to your cart on Amazon and advertisers are
+    able to "re-target" you to buy said product on Facebook. This is called
+    cross-site tracking.
+
+    Sidenote: we can't just use a client's IP address isntead of cookies/sessions
+    to identify web traffic for several reasons: https://softwareengineering.stackexchange.com/questions/253327/why-cant-we-use-ip-address-instead-of-cookies-in-identifying-the-client-in-serv
+
+    3. LOCAL STORAGE
+    After HTML5 came out, many uses of cookies were replaced by the use of
+    LocalStorage. LocalStorage allows browsers to locally store up to 5MB of data
+    per web domain. Thus, data does not have to be sent back and forth with
+    every HTTP request. This gives LocalStorage an advantage because it reduces
+    the overall traffic between the client and the server and the amount
+    of wasted bandwidth. Also, as mentioned, LocalStorage can hold up to 5MB of
+    data. This is a whole lot more than the 4KB that cookies hold. This has
+    enabled many interesting applications of local storage, such as managing
+    content to reduce the need to request content from a server, speeding load
+    times, using localStorage as a cache etc.
+
+    Also, LocalStorage data does not have an expiration date. Data is not destroyed unless
+    it is cleared through Javascript code via the server. (However, the user can
+    always manually empty their localStorage data, just like with cookies.) This
+    can be good for larger bits of data that need to be stored for longer periods
+    of time.
+
+    4. XSS
+    Cross-site scripting is a website attack method that utilizes a type of injection
+    to implant malicious scripts into websites that would otherwise be trusted.
+    Generally, the process consists of sending a malicious, browser-side script
+    to another user. This is a common security flaw in web applications and can
+    occur at any point in an application where input is received from the browser
+    and used to create output without first validating or encoding the data.
+    These attacks are surprisingly similar to SQL injection attacks.
+
+    Attackers exploit XSS by crafting malicious code that can be routed to another
+    user and is then executed by the unsuspecting browser. Since the script is most
+    often included in the content of the web application’s response, it is executed
+    and has the same access as if the script is legitimate. Access may be allowed
+    to session tokens, cookies, and data in localStorage that the site has stored
+    locally on the browser, or confidential/sensitive information the browser
+    has access to on the site. It could even re-write the HTML page content.
+
+    From here, the attacker's script could use your browser to route the information
+    elsewhere or it could enact actions on the site  using the information directly.
+    This is why client side data storage is so risky. Or, well, this is why we
+    should be wary of XSS attacks, and in general assume that anything stored
+    client-side is compromised.
+
+    One way of finding insecure websites is just by inspecting the JS scripts that
+    run on the browser upon loading up the site and looking for vulnerabilities.
+    The end result of XSS attacks is that hackers might be able to scrape all of
+    the sessions, cookies, and localStorage data for a particular web domain
+    stored locally on a browser and then either re-route that information to
+    their own DB or interact with that data directly. Basically, if it were a
+    banking site that had insecure code, they'd be able to write a script that
+    interacted with your banking information using any session data stored on
+    your browser, so the bank would never know anything was wrong since in the
+    bank's eyes, it can't distinguish between the script and you.
+
+    (Note that one of localStorage's core principle's is that a domain
+    cannot access localStorage data that was created under a different domain,
+    which is essentially the same security policy as cookies. (barring cross-site
+    tracking.) So there is no chance that a website could steal data from a
+    different website.)
+
+    (Also note that there are three main ways for data to be stored locally on a
+    browser: cookies, localStorage, and SessionStorage. Session storage is unique
+    to the browsing session, and will be erased once the tab is closed, etc.
+    However, that doesn't mean it's safe from XSS. An XSS script will still have
+    access to the sessionStorage data for the duration of the session. It just
+    won't have previous session data like it could find in the localStorage or
+    cookies files.)
+
+    Now the main issue here is XSS, and protecting against such attacks. But the
+    secondary lesson is to in general try to avoid storing session data or
+    cookie data or any type of sensitive data locally on the browser. Even if
+    you write super tight code, it's possible that a third party library or script
+    which you have embedded in your app is less secure. There are things you can
+    do, like making sure your session IDs time out after 10 minutes etc. But it's
+    always possible that someone is good enough to get in quickly enough. Try to
+    have all this logic done on the server/encrypted DB side.
+
+    5. TYPES OF XSS ATTACK TYPES
+    A. Reflected XSS Attacks - Basically, we find a security flaw in a website
+          that's based on URL parameters, so we try to get users to click on
+          fake URLs that mimic real URL parameters for said website but instead
+          inject our script. For example: `https://example.com/profile?user<script>some_malicious_code</script>`
+          Now, when a user clicks on this link, our script code is injected into
+          the site and is able to do whatever it's supposed to do (scrape locally
+          stored data, etc.) The normal use case of the parameter of this URL
+          would have been to identify the user's name and then print "Hello ___".
+          But here, we're able to inject in our own script code.
+    B. Persistent XSS Attacks - In what is known as a "stored" or persistent XSS
+          attack, malicious content is delivered directly to a web server. Thus
+          the content is stored in the website’s database (hence the name).
+          Users then simply enter the hacked web page and fall victim to such
+          attacks. Every single user who opens such a compromised website is
+          thus at risk of having their personal data stolen, and so this could
+          be considered the most dangerous type of XSS attack. But how does the
+          malicious content get into the database to begin with? In most cases,
+          it is introduced through unprotected web page forms in which user input
+          is not properly validated and sanitized. If the data entered by a hacker
+          is not validated on both the client and server sides, it will be saved
+          in the database. For example, such input might include a comment text
+          area, post text editor, personal data editor, or others forms. Then,
+          whenever a user makes a request to this site, personal information can
+          be scraped from the client's browser and then re-routed to the attackers
+          database.
+    C. DOM-Based XSS Attacks - Document Object Model (DOM) is an interface that
+          enables applications to read and manipulate the structure of a web
+          page, its content, and style. In a DOM-based XSS attack, the
+          vulnerability lies in the browser-side script code and can be
+          exploited without any server interaction at all, modifying the
+          environment in the unsuspecting victim’s browser. Sometimes, DOM-based
+          XSS attacks are similar to reflected attacks. The above example of a
+          reflected XSS attack can be applied in this case with a single
+          assumption: The web application reads data directly from a query
+          string. Let’s say the application uses the query parameter “name” in
+          order to instantly display the user’s name on the screen while waiting
+          for the rest of a page to load. Without proper validation, this can
+          yield the same result as with a reflected attack, if the hacker is
+          successful in making the victim open a suspicious link. As with stored
+          XSS, to prevent reflected and DOM-based attacks, developers should
+          implement data validation and avoid displaying raw user input, despite
+          the presence or absence of communication with the server.
+
+    6. XSS ATTACK VECTORS
+    There are several attack vectors commonly utilized in XSS attacks:
+        <script> tag: A script tag can be used to reference external
+              JavaScript code, making this the most straightforward XSS
+              point. Attackers can also embed the malicious code within
+              the script tag.
+        JavaScript events: Another popular XSS vector used by attackers,
+              event attributes, can be applied in a variety of tags. Such
+              attributes as “onerror” and “onload” are examples.
+        <body> tag: Event attributes can also be the source of the script
+            when provided through the “body” tag.
+        <img> tag: Depending on the browser in use, this attribute may be
+              useful by attackers to execute the JavaScript code.
+        <iframe> tag: Especially effective for phishing attacks, this vector
+              allows the XSS attack to embed another HTML page into the
+              current page.
+        <input> tag: Some browsers allow manipulation through this vector,
+              which can be used to embed a script.
+        <link> tag: This tag can contain a script, instead of the normal
+              use of linking to external style sheets.
+        <table> tag: Where the background attribute normally refers to an
+              image, this could be compromised to refer to the offending
+              script.
+        <div> tag: This tag also contains a background reference and can
+              be used in the same way as <table> to refer to a script.
+        <object> tag: Scripts from an external site can be included using
+              this tag.
+
+    While there are other vectors XSS attackers use in their efforts to steal
+    information and compromise websites, these are some of the most commonly used
+    methods. Developers must adhere to proper escaping and sanitizing practices
+    to guard against such attacks.
+
+    7. FINALLY
+    Most advanced browsers have built in methods to try to defend against XSS
+    attacks. But there are always ways to get in, particularly through
+    third party scripts. There are also packages available for node to protect
+    against things like this by fist vetting all incoming requests to make sure
+    they aren't malicious. Thus, assume that everything stored on the client
+    side is compromised. So we should not use LocalStorage or persistent cookies
+    to store sensitive data, though the main issue is of course having secure
+    code to being with.
+
+    Summary of this content: https://dev.to/rdegges/please-stop-using-local-storage-1i04 (Check the comments for dissenting opinions.)
+    Other things to note:
+    - https://blog.codinghorror.com/protecting-your-cookies-httponly/
+    - https://blog.jscrambler.com/best-practices-for-secure-session-management-in-node/
+    - https://www.youtube.com/watch?v=M6N7gEZ-IUQ
+
+
+LEVEL 5 - COOKIES AND SESSIONS
+As discussed in depth in the sidenote above, there different types of cookies.
+We're most interested in sessions. A session is what you think it is. One usage
+"sitting" between a browser and a server. Cookies are used to define sessions.
+They're session_ids essentially.
+
+Passport:
+Passport is a way to manage authentication on our express websites. Passport
+enables us to authenticate our users either through a local strategy via username
+& password, a single sign-on strategy via Facebook, Google, Twitter, etc., and
+even tokens for API based services. First we need to do:
+`npm install passport passport-local passport-local-mongoose express-session`
+And then require them all in our app.js file. Well we don't need to explicitly
+require `passport-local` because it's a dependency of `passport-local-mongoose`.
+
+(We deprecated and therefore commented out the bcrypt code used earlier (level 4)
+which provided the Hashing & Salting functionality. Passport & these other packages
+can do all the salting/hashing/authentication/log-in status for us.)
+
+Serialization and deserialization:
+In a typical web application, the credentials used to authenticate a user will
+only be transmitted during the login request. If authentication succeeds, a
+session will be established and maintained via a cookie set in the user's browser.
+Each subsequent request will not contain credentials, but rather the unique
+cookie that identifies the session. In order to support login sessions, Passport
+will serialize and deserialize user instances to and from the session.
+
+.serializeUser() is the method that is called on the login request (during the
+authentication) and if login is successful then it decides what user information
+should get stored in the session and a cookie is sent to the browser to maintain
+the session.
+
+.deserializeUser() is the method that is called on all subsequent requests and is
+called by the passport.session middleware. It enables us to load additional user
+information on every request. This user object is attached to the request as
+req.user making it accessible in our request handling.
+
+These two methods are only necessary when we're using sessions. See here for
+more info: http://toon.io/understanding-passportjs-authentication-flow/
+
+Note that every time you restart your server, your site's cookies get deleted
+and your users' sessions get restarted.
+
+
+LEVEL 6 - GOOGLE OAuth 2.0 & AUTHENTICATION
+OAuth - Open standard for token based Authorization.
+
+Facebook, Google, Twitter, etc. all have really valuable data about people who
+use the internet. Who our friends are, what we browse, how long we browse, how
+we shop online, what we buy, what videos we watch, etc. It's a long list. Say
+we're starting a new company that's network based. One thing we could do to
+speed up the process of building the network is ask new users to sign in via Facebook.
+Then, we could make a request to Facebook for that user's friends, and then compare
+this list against our set of users to see if there's anyone we could recommend to
+add as a friend. LinkedIn uses this approach when it asks us to sign in via Google.
+It'll then search through all of our contacts and compare them to the list of users
+on LinkedIn and then suggest people for us to add to our network.
+
+A side effect of this phenomenon is that all these sites all have really good
+cybersecurity and authentication infrastructures. So it has become common practice
+to actually use these 3rd party sites to authenticate users for other websites. That
+is, we can have people sign-in to Facebook or Google or Github, and have them
+authenticate that this person is a real person, so that now we can allow them
+into our own site. We use OAuth to serve as the bridge between these 3rd party
+sites and our own.
+
+OAuth is special from other services which offer this bridge in a few ways:
+1. Granular access to data: You can get particular pieces of data that are of
+    interest to your service.
+2. Read/Read + Write Access: You can ask to only read their FB data or you could
+    ask to be able to post to their FB account as well
+3. Revoke Access: Users can revoke 3rd party access from their Facebook/Google
+    accounts. They don't have to go into the 3rd party to do so. For example, you
+    can revoke Tinder's access to your Facebook friends from Facebook itself, you
+    don't have to log in to Tinder to change your settings etc.
+
+We will be using OAuth for the authentication use case mentioned earlier.
+- Users will log in to Facebook/Google/etc. via those companies' sites, not our own.
+- That way users won't have to type their passwords into our website, rather the familiar and trusted 3rd party services they already use.
+- After this, users will review the permissions we are asking for
+- After acceptance, we will get the Authorization code from Facebook/Google/etc. This code confirms that they were in fact authorized on the 3rd party website.
+- We can then exchange this auth code for an Access Token.
+- The access token is what allows us to query the 3rd party sites for other data we're interested in: friends, emails, usage patterns, etc.
+
+To get started, we have to set up our app in the developer console of whichever
+service we're interested in, and in return we'll get an App ID/client ID.
+
+GOOGLE
+1. We do `npm install passport-google-oauth20`
+2. We set up an application on the Google developer's console
+3. Create a new project, and name it
+4. Go to the credentials tab, and configure your OAuth consent screen
+5. Specify internal or external, name your App, add a logo, a support email
+6. Add your domain name and your privacy policy and terms of service etc.
+7. Then set the scopes for Google APIs (what data you want from Google). Typically you'll only want the email and profile for authentication purposes. But you could also get other scopes if you enable those APIs. For example their Youtube browsing history, Maps API, contacts, etc. Depending on your usage, you'll have to pay for some of that data.
+8. Add some test users and then confirm
+9. Now set up your credentials in the Credentials tab. Click "Create Credentials" and then we want the "OAuth Client ID". This is the ID that Google uses to identify your web app when it makes a request for Google APIs.
+10. Select "Web Application" and then name your app
+11. Now add your Authorize JavaScript origin and your Authorized redirect URI. These are the origin of the authentication request and the desired redirect route after being authenticated. In this case: "http://localhost:3000" and "http://localhost:3000/auth/google/secrets" respectively
+12. After creation we get a Client ID and a Client secret. Put these into your .env file
+13. Now we've set up an application on the Google development console, and we have a client ID and a client secret
+14. Now we have to configure our strategy (shown in app.js): http://www.passportjs.org/packages/passport-google-oauth20/
+
+FACEBOOK
+1. We do `npm install passport-facebook`
+2. We set up an application with Facebook Developers: Going through the "Quick Start" walk through makes things easy. There are a ton of Youtube vids that walkthrough it. It's easy.
+3. Create a new project, and name it, etc.
+4. Add in you APP_SECRET and your APP_ID to your .env files
+5. Add in your authorized redirect URI
+6. etc: http://www.passportjs.org/docs/facebook/
+
+
+NOTE
+There's currently an open bug on the Facebook developers platform and the App
+development page isn't loading so I wasn't able to link up Facebook log in
+authentication. But it should be pretty easy to do so in the future. (The code
+is still there, though, in app.js).
+
+
+Wow, this was the most intense module so far.

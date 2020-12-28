@@ -1,7 +1,9 @@
-//require express, https, and body-parser
+//require dotenv, express, https, and body-parser
+require('dotenv').config();
 const express = require('express');
 const https = require('https');
 const bodyParser = require('body-parser')
+
 
 //init express
 const app = express();
@@ -24,7 +26,7 @@ app.post("/", function(req, res){
 
     //get parameters for api request
     const query = req.body.cityName; //query = name of the city inputted to the index.html file rendered on browser
-    const apiKey = "9678af753eb6c6c50db8ba80b5a4d599" //my unique api key
+    const apiKey = process.env.API_KEY  //my unique api key (using Environment Variable to hide key - in .env file)
     const unit = "metric" //units for temperature
 
     // make request for data from api using parameters

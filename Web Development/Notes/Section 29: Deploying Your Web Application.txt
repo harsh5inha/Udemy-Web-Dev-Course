@@ -29,7 +29,7 @@ SETTING UP MongoDB ATLAS AND SUCCESSFULLY CONNECTING IT TO YOUR APPLICATION
 4. Decide on a cluster name - we went with the default of cluster0 (this can't be changed after the fact)
 5. It'll take a few minutes for them to get everything set up on the backend with AWS. It's great because we don't have to go in and set up our own server on AWS, Mongo does it for us.
 6. Go to 'Database Access' and add a new user
-7. Select Password as the Authentication method, and then create a new user and password. We went with admin-harsh and test123
+7. Select Password as the Authentication method, and then create a new user and password. We went with admin-harsh and (a value stored in our .env file). Not typing it here bc uploading to a public Github repo.
 8. Change the Database User Privileges to Atlas Admin, to make the account an admin, and then add the user
 9. Now we can see this account in the list of users who have access to our MongoDB database
 10. Now go to Network Access and Add your IP address to whitelist your IP address. Click on "Allow access from anywhere" and then click confirm.

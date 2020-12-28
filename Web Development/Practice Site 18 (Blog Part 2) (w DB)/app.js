@@ -1,4 +1,5 @@
 //require modules
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -11,7 +12,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 // connect to our cloud DB named blogDB
-mongoose.connect("mongodb+srv://admin-harsh:test123@cluster0.ldyey.mongodb.net/blogDB", {useNewUrlParser: true,useUnifiedTopology: true})
+// we're using an environment variable to hide our DB password
+mongoose.connect("mongodb+srv://admin-harsh:" + process.env.MDB_PASS + "@cluster0.ldyey.mongodb.net/blogDB", {useNewUrlParser: true,useUnifiedTopology: true})
 
 // create schema for Posts
 const postsSchema = {

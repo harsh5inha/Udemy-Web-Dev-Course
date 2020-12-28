@@ -1,0 +1,80 @@
+REST stands for Representational State Transfer API.
+
+When we build an API, it's kind of like we're building the menu of things that
+our server can respond to when a client makes a request. (If we're using the
+restaurant analogy: the client is the customer, the server is the waiter/kitchen,
+and the API is the menu.)
+
+The idea for REST APIs actually came about from this one guys PhD at Berkeley. He
+said it'd be good and convenient if all web servers followed the same architecture.
+There are other API structures: soap, GraphQl, etc. But REST is the most popular
+for web interfaces. There are really only two requirements for REST APIs:
+1. They have to follow the HTTP protocol (opposed to FTP or something else that
+  the server wouldn't know how to reply to.)
+  - GET
+  - POST
+  - PUT/PATCH (PUT replaces data with a brand new entry. PATCH updates the
+    existing entry)
+  - DELETE
+2. They have to use a specific pattern of routes and endpoints
+  - A GET request for all of a database
+  - A GET request for specific documents in that database
+  - A DELETE request for all of the database
+  - A DELETE request for specific documents in that database
+  - A POST request for a new entry to that database
+  - A PUT request for specific documents in that database
+  - A PATCH request for specific documents in that database
+
+
+ROBO 3T
+Robo 3T is a GUI that is commonly used with MongoDB: Robomongo.org. Once you download
+it and open up, you'll create a new MongoDB connection. We'll leave it as the
+default settings: `localhost: 27017` etc. To connect to the server, you'll have
+to initialize your server using the `mongod` command on your terminal and all
+that. We can create new databases etc. though this GUI. You can also do it through the
+command line, of course, but it may be easier to just do it via Robo 3T if you're
+just doing something quickly etc.
+
+We created a new DB called WikiDB, (we're creating a wikipedia-esque API) added
+a collection called articles, and inserted some documents. We did all this
+manually through the GUI.
+
+
+PRACTICE SITE 19 (WIKI API)
+Made a practice site that has some test data. We experimented with the Robo 3T
+GUI, and used PostMan to teset out adding and deleting etc. data to our DB. We
+set up infrastructure to hanlde PUT and PATCH requests as well.
+
+POSTMAN
+We've already seen this, but if you want to test out post requests, but don't
+want to create a front end with a form and all that to submit content via the
+browser, then you can just use the PostMan app for testing. Just make
+sure to switch the request type from `GET` to `POST`, specify the URL (in this
+case it's localhost:3000/articles), then go to the body tab and specify the
+encoding as form-urlencoded (which is what the body-parser in our app.js is
+specified to handle), then to actually post some data, we have to make sure that
+we label it correctly: the keys have to be named according to the schema of the
+data we're posting. In this case: "title" and "content". You can also use Postman
+to test "GET" requests and "DELETE" requests, etc. The browser is only able to
+do GET requests natively.
+
+
+CHAINED ROUTE HANDLERS
+So if we have multiple requests (GET, POST, DELETE, etc.) all to the same route,
+then we can chain them all together, so that we don't have to write `app.get("/route")`
+for each one. We just do `app.route("/route")` and then do .get, .post, etc. from
+within. (Shown in app.js).
+
+Sidenote: When a user includes a space in a request, it's filled in as `%20` when
+          the browser sends the actual request to the server.
+
+
+PUT REQUEST
+If you don't specify all the fields when using a PUT request, then the new data
+point will not include those fields. That's the point of a PUT request vs. a PATCH
+request. PUT completely updates the data, whereas PATCH updates only the parts
+you specify, the rest can stay as is.
+
+
+PATCH REQUEST
+Like a PUT request except only fields you specify are updated in the document.
