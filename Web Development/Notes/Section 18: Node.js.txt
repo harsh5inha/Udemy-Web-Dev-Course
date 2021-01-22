@@ -66,3 +66,8 @@ into your `node_modules` folder so it's kind of like package inception lol.
 To use a package, as mentioned with the file system module, we do:
 
 `var package_name = require('package_name');`:    Use the module
+
+
+When creating a new node project, remember first to:
+- Create a .env file
+- Use the template .gitignore file to not include environment variables or node_modules in your repositories

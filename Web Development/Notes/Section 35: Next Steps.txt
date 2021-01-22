@@ -1,11 +1,2 @@
-
-
-
-
-
-
-
-
-TODO
-- Update your Readme.md file for completeness
-- Add a table of contents to the Readme that lists out the main themes of each section.
+This was just a survey that asked for feedback and what else we'd like to see in
+the future. I said a Python based algorithms and data structures course.

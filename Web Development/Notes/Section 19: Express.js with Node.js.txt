@@ -77,7 +77,7 @@ So in this case we can download the module locally in our directory without the
 `-g` flag, and when we want to launch our server we do: `npx nodemon server.js`.
 
 
-CALCULATOR WEBSITE SERVER - (Practice Site 10)
+PRACTICE SITE 10 (CALCULATOR WEBSITE SERVER)
 We're going to try and build a web server that acts as a calculator.
 
 STEPS TO INITIALIZE A WEB SERVER

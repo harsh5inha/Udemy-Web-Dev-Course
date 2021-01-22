@@ -1,0 +1,426 @@
+REACT.JS
+A JavaScript library for building user interfaces. A front-end library. It basically splits up a user interface structure into a component tree. It can
+make our code cleaner, with fewer lines. Like instead of 50 lines to create a nav bar, react will be able to make one using a react component. It kind of
+combines bits of HTML, CSS, and JS all into one component to achieve functionality all within one unit, if that makes sense. This is what enables Twitter to update
+our feed only once we've scrolled to the bottom of the existing feed. And the new feed is rendered WITHOUT affecting the feed we've already scrolled through. Same
+thing with enabling Facebook to increment our notifications widget dynamically without affecting the rest of the page. Basically, it's what takes websites into
+the modern world in terms of front-end functionality. It helps by creating individual components that can function within their own vacuum and without affecting
+the display or functionality of other components. This is what's so powerful about react. You can define all these different components and then you can 
+render them easily wherever you want you to. 
+
+React is fb in-house btw, one of our own. Hype.
+
+
+SETTING UP A LOCAL ENVIRONMENT (for a single-page application)
+1. Check that you have the latest version of Node.
+2. Install VSCode
+    - VSCode has a lot of extensions that make it easier to work with React Apps
+3. Install syntax highlighter to help you work w React.
+    - Different packages for different editors. We went with babel-javascript in VSCode
+4. Install file icon display system: helps us easily see file type.
+    - We went with vscode-icons
+5. Create a React App
+    - We can do `npx create-react-app my-app` from the terminal to create an app
+    - This is a global command so we don't need to be inside any particular directory
+    - It will go ahead and install `react`, `react-dom`, and `react-scripts`.
+        - `react-scripts` will help us to run our react app locally and then serve it up in our browser
+    - This will take between 2-10 minutes
+    - Once completed, it'll tell you where it created the app 
+6. Run the App
+    - Then we can run the app by going to that directory and doing `npm start`
+    - It'll display a default app on the browser
+    - If we want it to look like something else, then we'll have to edit our src/App.js file
+7. Edit the App
+    - So go and empty out the "public" folder of everything except your idex.html file, and your src folder of everything except the 
+        index.js file
+    - Now go into your index.html file, and remove everything except the title from the <head> tag, and everything except the "root" div 
+        from the <body> tag.
+    - Now link up the JS file by including: `<script src="./src/index.js" type = "text/jsx></script>` at the end of the <body> tag
+    - Now go into your index.js file and remove everything except for the imports of `react` and `react-dom`
+    - Now include: `ReactDOM.render(<h1>Hello, world!</h1>, document.getElementById("root"))` in the file and re-run your App 
+    
+This is only one way of setting up an App. It's best for learning React or setting up a new single-page application. If we were building a 
+server-rendered website with Node.js, we'd probably use Next.js. If we were building a static content oriented website, we'd use Gatsby. 
+And there are even more toolchains for building component libraries, etc. All this can be seen here: https://reactjs.org/docs/create-a-new-react-app.html
+
+(A single-page application is an application that loads a single HTML page and all the necessary assets (such as JavaScript and CSS) 
+required for the application to run. Any interactions with the page or subsequent pages do not require a round trip to the server which 
+means the page is not reloaded.)
+
+Another way to set up a new React App is to just make sure that:
+- `react`, `react-dom`, and `react-scripts` are npm installed within our directory
+- Your index.html file links to your JS script
+- Make sure your package.json includes the necessary "start" script
+- And then do `npm i` and then `npm start` from inside your directory
+- This'll spin up a localhost server that restarts dynamically, similar to nodemon
+
+Okay so now we're using VSCode, not Atom. We'll see which one we like better. Although fb does use VSCode so it might be good to get used to this one. 
+And from Youtube it'd seem that most Web Developers use VSCode, so that's something to consider as well.
+
+Sidenote: Just got a 4K, 32" monitor, so I'm just a really happy boy today.
+
+
+PRACTICE SITE 21 (REACT PRACTICE)
+- Okay so we made a practice React App. It's very heavily commented with explanations in index.js and most of the component files, and 
+    it basically functions as a cheat sheet React Application.
+- There are three custom components defined: Heading, List, and Greeting.
+- Well four actually if you include App.jsx, which calls both Heading and Greeting.
+- index.js goes through in-line styling, JS injection into HTML, JSON style blocks, linking between JS, HTML, CSS, .jsx, etc.
+- You can also see how components are defined and utilized in the components folder. In particular, the Greeting.jsx file provides a dynamic 
+    greeting based on hour of the day.
+- The App has all the basic functionality explained via comments and has the file structure set up
+
+
+JSX
+React works by using JSX files. JSX stands for JavaScript XML. It's a separate thing from React itself. It enables HTML to coexist in the 
+same file with JavaScript code. These JSX files are compiled, via compilers like Babel, into vanilla JavaScript code that browsers will be 
+able to interpret. Basically, by using JSX we can write concise HTML in the same file as we write JavaScript code, then Babel will transform
+these expressions into actual JavaScript code. Unlike the past, instead of putting JavaScript into HTML, JSX allows us to put HTML into 
+JavaScript. It's tricky, though, because the HTML code we write into these JSX files is not actually HTML. It's JSX, it just looks exactly 
+like HTML. But it's an important distinction to make, because the HTML we write is not being sent to the browser. It's being compiled by 
+by Babel through functions like `React.createElement()` to become "React elements" (vanilla JS objects), which is what is ultimately 
+interpreted by the browser. We can think of JSX as a shorthand for calling `React.createElement()` and other functions a bunch of times and 
+in the correct patterns to turn JSX code into JS, which is basically what's happening behind the scenes. Think of JSX as a special JS syntax
+that has to be compiled first before being interpretable. It's simply converting HTML-type syntax into JavaScript.
+
+
+BABEL
+Before React code can run in the browser, it must be changed in certain ways. One necessary transformation is compiling JSX into vanilla 
+JavaScript. Babel is a JavaScript compiler. A JS compiler takes JS code, transforms it, and returns it in a different format. Babel takes 
+our JSX and turns it into plain JS. But it also makes sure that our ES6 syntax is transformed into syntax that older browsers are capable of 
+interpreting. For example, Internet Explorer 5 may not be able to handle ES6 bc it hasn't been equipped with that functionality yet. So we 
+don't need to worry about our JS code being too advanced for some browsers. Babel takes care of this for us. Actually, if you go to 
+Babel's website, you can experiment by typing in JSX code and seeing how it gets compiled into more browser-accessible syntax.
+
+
+ROOT DIV
+One convention of react is that within the body tag of our index.html file, we insert a div with the id of "root". Within this div is where 
+we put all of our React code. We do that in our apps as well. Well at least for Practice Sites 21 and 22, but I'm pretty sure we'll do it 
+for the React Apps following as well.
+
+
+EXPRESSIONS
+An expression is a piece of code that evaluates to a value. However, a statement is an instruction, an action. When we inject JavaScript 
+inside HTML elements in our JSX files, we can only use expressions, not statements. You cannot put statements where expressions are expected.
+For example: `console.log(const x)` doesn't make sense. Nor does:
+`const b = if (x > 10) {
+        return 100
+        }`
+
+
+STYLING REACT ELEMENTS
+Now remember that the HTML code inside our JSX file ends up getting compiled into JavaScript. So when we're labelling those HTML tags to be 
+picked up and styled by our CSS selectors, we have to use the className attribute, not the class attribute as we would with normal HTML. 
+So they'll be in camelCase, not lowercase. Otherwise they won't work.
+
+Also, to prevent superfluous warnings in the console, we need to change the script type of our JS file in index.html from "text/javascript"
+to "text/JSX". This way the browser will know we're using a JSX script, not vanilla JS.
+
+We can use inline styling in our HTML tags in JSX, but the styling has to be specified as a JavaScript Object: style = {key: value}. But 
+also remember that in order to inject JavaScript into our HTML in our JSX Files, we need to include it inside of curly braces. So in this 
+case, it'd look like style = {{key: "value"}}.
+
+Now, we generally wouldn't want to do this for the same reason that we don't use in-line styling for normal HTML files: we want to separate 
+out the logic. But inline in this context can be useful to dynamically update styling based on user action or circumstances like the 
+date/time. That is, we define a particular style block in a JSON, then we update that style block dynamically as desired, changing the 
+styling of particular HTML elements accordingly. (Shown in Practice Site 21)
+
+
+COMPONENTS
+We can break down a React website into individual, compact, reusable components. It helps us break down a large or compmlex site 
+structure into smaller, reusable components. It's convention to name components in PascalCase. This is helpful when we use these components 
+in our React code, because it'll allow React to be able to tell the difference between HTML elements and the custom components we've 
+created. For example: `<heading>` vs. `<Heading>`. We've created a few components in our Practice Site 21.
+
+
+REACT APP FILE ORGANIZATION
+What we'll often see in the index.js of a lot of React apps (the file that renders content into the index.html file) is that they don't
+actually have a lot of HTML elements or React components. Rather, they'll just call one custom component named `<App />`. Like other custom 
+components, they'll import it at the top of the file. And within that App.jsx file, where they define the component, they'll render all the
+actual components that comprise the functionality of the page. So index.js will end up having no custom code other than just 
+importing modules and then rendering the App.jsx component. We didn't do this in Practice Site 21, but we do for 23, 24, etc.
+
+So a common organizational structure for a React App is:
+- index.html, which has boilerplate HTML, and then a div with the name of `root`, which is where all the React code is rendered 
+- index.js, which has the React code to be rendered to index.html: typically just a single call to `<App />`
+- styles.css, which is a basic style sheet for the HTML elements rendered into index.html
+- A components folder, and even subfolders, which store all custom defined components, including App.jsx
+- Within the App.jsx file, the actual functionality of the website, often via calls to other, more explicit custom components 
+- The other custom components: little snippets of code that can be called multiple times to achieve the same functionality
+
+For styling best practices in React/JSX, check out Airbnb's JSX guide. They use React heavily. 
+
+
+PRACTICE SITE 22 (REACT CALCULATOR)
+- We created another React App that serves as a super basic calculator.
+- The main point is just to show how modules and import/export of default/non-defualt items works
+
+
+IMPORTING AND EXPORTING MODULES
+Thus far, when we've created components in .jsx files, we've ended the files by doing `export default some_name`. The 'default' label means 
+that, when imported into another file, this module can be given any arbitrary name while still importing the default functionality of the 
+component. For example, we'd do `import arb_name from "./directory.js"` to import whatever the default export was in the directory.jsx file.
+This only makes sense once you know that you can specify additional, "non-default" items to export from a component as well. To specify 
+additional items we'd do: `export {item1, item2}` in addition to the `export default some_name` code at the end of the file. 
+Sidenote: There can be only one default export per file.
+
+When importing non-default items from a module into a separate file, we have to specify their names exactly as they were named in the 
+component, otherwise React won't be able to recognize which items we're specifying. For example, we'd do: 
+`import arb_name, {item1, item2} from "./directory.js"`. This would import the default functionality as "arb_name", and the other two's 
+functionalities as "item1" and "item2".
+
+You can also just do `import * as arb_name from "./directory.js"` and then specify arb_name.default(), arb_name.item1(), arb_name.iten2() to 
+use the functionality. But this wildcard method is discouraged because it's less clear and bloaty.
+
+
+REACT PROPS
+React properties are to React components what attributes are to HTML tags. That is, we can define custom properties that apply to particular 
+components, just like we can specify particular attributes for particular HTML tags. (As a reminder attributes for HTML tags include things 
+like "class = " or "src = "). One difference is that we can name properties whatever we like, opposed to HTML attributes, which have
+predetermined types.
+
+To use these properties in our components, we:
+1. Specify what the properties should equal inside the call to the component (shown in App.jsx and Card.jsx)
+2. We pass in the word "props" as the input in the component's definition function (shown in all sub-component jsx files) 
+3. And we render the data of these properties in the appropriate locations in the sub-component definitions (shown in all sub-component jsx files)
+
+
+PRACTICE SITE 23 (CONTACTS)
+- This is a super basic React site
+- It uses components named "Card", "Avatar", and "Detail" to display the Contact Cards of three people
+- The actual data for these contacts is stored in `contacts.js`
+- Very basic. The site is meant only to demonstrate how React Properties work 
+- That is, we see in App.jsx that each time we call the "Card" component, we specify 6 properties and assign data to them: key, key2, name, img, phone, and email
+- And we see in Card.jsx that we enable these properties to be taken as input for the component and outputted in their respective places within the HTML by calling the respective properties at the correct locations in the code.
+
+Summary, in words, of site 23:
+So index.html is what is actually being rendered on screen. The content is being sent over from index.js. The content on 
+index.js itself is coming from the App component. App.js has some of its own content, but it also draws upon content 
+from the Card component and the Avatar component. In making the request for content from Card.jsx/Avatar.jsx it specifies particular
+properties for each and assigns them values. Then, the Card/Avatar components render these properties in the correct places with 
+the values as specified. Further, within the Card component, it makes its own request for the Avatar and Detail components,
+specifying properties and assigning them values as well. Then the Avatar/Detail components render as specified, taking in the 
+data sent from Card.jsx, and the images/contact details are loaded correctly. What's important to understand, is that the values for
+the properties are actually set within the component that calls the sub-components. The sub-components are the ones receiving the input
+and remdering it. As in, the Card component is taking in the contact names from the App component, and then the card component is being 
+rendered.
+
+
+REACT DEVELOPER TOOLS
+We've added the React Developer Tools Chrome extension to our Chrome browser. The extension will be colored red on our site because our React 
+site is in development mode, whereas on a React site like Airbnb, it'll be colored blue because that site is in production mode. Using this extension we can
+now inspect our site and see the "Components" tab. This is a React specific tab. It allows us to view our components in a tree model and it
+makes it easier for us to interact with those components and to figure out what the different properties of each component are, which
+components render which sub-components, etc. You can also click the `<>` button and you can see the original source code for the different 
+components. 
+
+
+PRACTICE SITE 24 (EMOJIPEDIA)
+- It's a basic site that displays different boxes, each with an emoji and a description of the emoji
+- Pretty much just a repitition of practice site 23 except it's more precise because we're using arrow functions
+- You can add more data into the emojipedia.js file and the site will dynamically display the new box without any additional code
+
+
+MAPP/FILTER/REDUCE
+1. Mapping is where we take an array, perform an operation on the elements, and store the transformations in a new array.
+
+The .foreach function doesn't return an output, unlike the .map function. It just does some operation on an existing array like printing out each 
+element or adding transformed elements to an existing array. Thus the .map function is more precise because we don't need to create an empty array 
+for the function to print into. It just does it on its own. We could use the .forEach() fucntion and achieve the same functinality, though.
+
+2. Filtering is where we take an array, and remove all elements which do not satisfy some boolean test.
+
+Similarly, the filter function returns a new array. We don't need to specify one as we would if we used the .forEach() function to achieve the same 
+functionality.
+
+3. Reducing is where we take an array, perform some operation to the elements, and reduce the array to a single value.
+
+This could be something like a cumulative sum or sum product of the numbers in an array, etc.
+
+4. Find is where we find the first element from an array that matches a condition.
+
+5. FindIndex is where we find the index of the first element that matches a condition
+
+
+ARROW FUNCTION/FAT ARROW `=>`
+This is a shorter way of writing JavaScript functions. 
+
+Note: If you have only one input for the function, you don't need to include the parentheses for the input. 
+Note: And if you only have a single expression for the output of the function, you don't need to include `return` or the angle brackets.
+
+So these are all valid statements:
+`const newNumbers = numbers.map(x => x * x)` 
+`const newNumbers = numbers.filter(x => x < 10)` 
+`const newNumbers = numbers.reduce((accumulator, currentNumber) => accumulator + currentNumber)` 
+`const newNumbers = numbers.find(x => x > 10)` 
+`const newNumbers = numbers.findIndex(x => x > 10)` 
+
+Where `numbers` is an array of numbers. Arrow funcitons are common in Map/filter/reduce functions.
+
+
+PRACTICE SITE 25 (LOGIN)
+- We're creating a simple login flow website
+- It has different displays based on whether a person is registered for the site or not
+- It doesn't actually have the register functionality, it's just meant as an example of a Ternary operator in use to render different states of the UI.
+
+
+CONDITIONAL RENDERING
+Basically, we want to be able to render different components on the screen depending on the status of particular 
+variables/conditions. For example the time of day, or whether the user is logged in.
+
+We can do this using the Ternary operator, which displays certain components if a condition is true, and other 
+components otherwise. If we wanted to display null if false, that is, we only want to render something if true and 
+nothing if false, then we can use the AND operator, which is an operator that only executes the second half of the 
+operation if the first half is true. (Example shown in App.jsx of Practice Site 25). For example:
+
+Ternary Operator -> `CONDITION ? DO IF TRUE : DO IF FALSE`
+AND Operator ->     `CONDITION && DO IF TRUE`
+
+Sidenote: The single-responsibility principle (SRP) is a computer-programming principle that states that every class in a 
+computer program should have responsibility over a single part of that program's functionality, which it should 
+encapsulate. Basically, we want each component to serve one function, not multiple. If a component needs to serve multiple 
+purposes, then just make a new component to split up the functionality.
+
+
+DECLARATIVE PROGRAMMING 
+When we have a UI that is dependent on a state variable. That is, we're declaring, when writing our code, how our User Interface should look under 
+different conditions. A popular analogy for the state of a program is how water is sometimes ice and sometimes liquid depending on the temperature. 
+The fancy definition: Declarative programming is a programming paradigm that expresses the logic of a computation without describing its control
+flow. This is less hands on. More "When conditions are such, do this, else, do this."
+
+
+IMPERITIVE PROGRAMMING 
+When we get hold of an item and set its property when we want a change to happen in the UI. Fancy definition: Imperative programming is a programming paradigm
+that uses statements to change a program’s state. This is more hands on. More actively "do this, but don't do this."
+
+
+PRACTICE SITE 26 (REACT HOOKS)
+- We make a super basic site that has a ticker and two buttons
+- One to increase the count and one to decrease the count
+- The site is supposed to demonstrate how to set up and use the React.useState() function 
+- And how to update the state and UI accordingly through the setCount() functionality
+
+
+REACT HOOKS
+These are functions which allow us to "hook" into the state of our app and read or modify it. The most common such hook is called the 'UseState' Hook. 
+We can use these hooks to change the state of our UI and thus allow our declaratively designed app to update its UI accordingly. These hooks are 
+necessary because we try to change the state of our program imperitively, the UI won't change because we're not actually using HTML, remember? We're 
+using React to render HTML. So when we try to trigger a change of state, the state variable might change, but the UI won't because our 
+code is not being re-rendered. The only way we could get around this would be to structure an imperitive command in a way that actually 
+re-renders our .jsx code. This is inefficient and looks terrible formatically. So we use hooks.
+
+To use a hook, we have to use it inside a functional component. So we have to create a function that renders a component, and 
+inside that function, we can use a hook. We've used a basic hook in Practice Site 26.
+
+
+PRACTICE SITE 27 (TIME)
+- Here we made a very basic React site that has the current time and a button to update the time to the current time 
+- It actually has a self-updating timer that gives the new time every second.
+- The site demonstrates again how to use the React.useState hook functionality. 
+
+
+DESTRUCTURING
+This is where we rename the outputs of certain data structures like arrays or JSONs so that they're easier to interpret 
+and read in our code. For example `const [cat, dog] = animals` would be the same thing as doing: `const cat = animals[0]` 
+and `const dog = animals[1]`. Where `animals` is an array of JSONs. 
+
+Here's the array in question:
+`const animals = [
+  { name: "cat", sound: "meow" },
+  { name: "dog", sound: "woof" }
+]`
+
+When we destructure an array, we can use any arbitrary names we want as variable names. (Here we used "dog" and "cat".) But when we 
+destructure a JSON object itself, we have to use the name of the keys in question. For example, say each of our two objects in this 
+`animals` array has two keys: "name" and "sound", each with their own associated values (key: value pairs). Then we'd deconstruct the 
+cat object by doing:
+`const { name, sound } = cat`
+
+Alternatively, we could rename the objects's keys by doing 
+`const { name: catName, sound: catSound } = cat`
+
+Finally, we could add in a value for a missing key by doing:
+`const { name: "Fluffy", sound = "Purr } = cat` 
+
+This prevents your app from crashing if one of your JSON objects is missing data. This way it has some default value that gets displayed.
+
+If there were a JSON within a JSON, we could destructure by doing: 
+`const { name, sound, feedingRequirements: {food, water} } = cat`
+
+or if we just wanted to extract the internal JSON, we'd do:
+`const { feedingRequirements: {food, water} } = cat`
+
+Destructuring is covered in depth in lesson 422 of section 33. These destructuring techniques are useful for situations in which we are pulling data in 
+from an API and are trying to work with it. She also walks through an example explaining how an imported function like useState() works. Pretty 
+similar to when she explained how callback functions work in section 13 (and how the whole "req res" functionality works). It was a useful
+explanaition then, and this one is too. Basically, you export an array that includes a function as one of its elements from a file, and then you 
+destructure the array into a different file to extract the function. And then you call the extract to execute the functionality of the function.
+
+
+PRACTICE SITE 28 (DESTRUCTURING)
+- This is a simlpe practice React site that shows how we can destructure data from JSON datasets to display it in our apps 
+- It should be a useful format to follow for interacting with API received data
+- Destructuring is important and common, you need to get familar with it
+
+
+PRACTICE SITE 29 (EVENT HANDLING)
+- This is another React Site meant mainly just to demonstrate how EventListeners/event handling works in React
+- We have two text input boxes, and a submit button. 
+- Events are fired when the button is hovered over, de-hovered over, when it is clicked, and when input is typed into the text boxes.
+- The button changes its styling based on its hover status, and the text changes based on the submission status and on the names you input in the boxes
+- One tricky concept here is controlled components. Can read more here: https://reactjs.org/docs/forms.html#controlled-components
+- Also the `prevValue` stuff (maintaining updated state) is pretty important to understand 
+- Lastly, synthetic events can be tricky to understand. 
+- Sidenote: it's common practice to name the function outputted from the useState() function as "set_whatever_the_var_name_is". In this case, "setHeadingText" or "setMouseOver".
+- This stuff is low key harder than expected.
+
+
+HOOKS VS. CLASSES
+There are two ways of creating React components. Hooks and Classes. We've been using Hooks thus far. To use a class, we basically have to "extend" the 
+React.Component object, opposed to calling it as a function as we would if using a hook. We used to have to convert our hook components into class 
+components in order to have state. But not any more. In 2018 it was fixed. We should use Hooks, they're simpler and the React community is gradually 
+shifting over to Hooks. But don't freak out if you see a class being defined in another React app. More on this: 
+- https://reactjs.org/docs/state-and-lifecycle.html
+- https://reactjs.org/docs/hooks-intro.html
+- https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both
+
+
+SPREAD OPERATOR
+Basically, this operator takes an array or object, spreads out all the individual elements, and then adds them all to whatever you're adding them into. 
+Effectively, you're adding the elements of an entire object or array whithout having to index through the whole thing manually and add each element 
+individual. If we tried to add an entire object without spreading it first, we'd end up with a sub-object inside the new object. Opposed to one object 
+with the elements of the first object as its own. We use it by doing: `...` and then the name of the object or array we want to spread.
+
+
+PRACTICE SITE 30 (SPREAD OPERATOR)
+- This is basically the same site as practice Site 29, just simplified using the spread operator
+- Changes can be found in line 37-38 of the App component
+
+
+PRACTICE SITE 31 (TODO LIST PART 3)
+- This is another todo list, this time in React 
+- Heavy use of functional programming, defining and manipulating state, props, hooks, eventHandlers, mapping, child components, plus now we're also using component trees (passing state from child to parent components, etc.)
+- Couple interesting things to note here is that we are using state for both the current item we type into the text box (like normal), but also the overall list of all items (opposed to manually pushing to an array of items)
+- We are passing data in the form of props to the ToDoItem.jsx file, but are also passing information in the form of item ids back to the App.jsx file when we decide to delete an item from our list
+- A pretty end-to-end functional React site that makes use of State
+
+
+PRACTICE SITE 32 (KEEPER APP)
+- We made a React App that is basically a mimic of Google Keep
+- So we can add notes that have a title and content, and we can delete them
+- The notes we've added will show up next to each other on our screen
+- This React App heavily uses state, hooks, props, parent/child components, eventHandlers, mapping, component trees, functional programming
+- We use material-ui dependencies to quickly incorporate some intuitive icons and animations
+- These dependencies are incorporated in the form of React components
+- We used conditional rendering/animation to alter the appearance and animations that appear on screen (icons flash and additional rows become visible once a particular text box is clicked on)
+- We used transparenttextures.com to add a soft background of boxes to the site
+- But there is no backend functionality. Actually, none of our React Apps have back-end functionality. To achieve that, we'll have to use the Node/Mongo stuff we learned earlier.
+
+
+This stuff is low key harder than expected. Everything is brand new mateial, so takes a long time to sink in. Further React classes would help solidify.
+If that's something I want to do. We'll see. Needed to finish this course tho just for the sake of it. Feel like I've run through all the basics of React.
+I get the general concept and advantage of components and props and state, etc.
+
+
+
+
